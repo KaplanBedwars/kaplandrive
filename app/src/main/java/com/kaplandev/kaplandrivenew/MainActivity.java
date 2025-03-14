@@ -248,7 +248,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<UploadResponse> call, Throwable t) {
                         runOnUiThread(() -> {
-                            Toast.makeText(MainActivity.this, "Yükleme başarısız!", Toast.LENGTH_SHORT).show();
+                            NotificationUtils.showNotification(MainActivity.this, "Hata!", "Yükleme başarısız!");
                             hideLoadingPopup(); // Popup'ı kapat
                         });
                     }
@@ -326,12 +326,9 @@ public class MainActivity extends AppCompatActivity {
         DownloadManager manager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
         manager.enqueue(request);
 
-        NotificationUtils.showNotification(MainActivity.this, "Bilgi", "İndirem başladı.");
+        NotificationUtils.showNotification(MainActivity.this, "Bilgi", "İndirme başladı.");
     }
 
-    private void showUploadNotification(int remaining) {
-        // TODO: Bildirim gösterimi için kodu buraya ekle
-    }
 
     // RecyclerView Adapter
     private class FileAdapter extends RecyclerView.Adapter<FileAdapter.FileViewHolder> {
@@ -399,7 +396,7 @@ public class MainActivity extends AppCompatActivity {
                     if (!newName.isEmpty()) {
                         renameFile(filePath, newName);
                     } else {
-                        Toast.makeText(v.getContext(), "Geçersiz isim!", Toast.LENGTH_SHORT).show();
+                        NotificationUtils.showNotification(MainActivity.this, "Hata!", "Geçersiz isim!");
                     }
                 });
 

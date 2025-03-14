@@ -2,5 +2,5 @@
     <string name="app_name">KaplanDrive</string>
     <string name="logo">assets/logo.webp</string>
     <string name="loading">Lütfen Bekleyiniz...</string>
-    <string name="version_info">KaplanDrive 8.9.3 KaplanUI 1.8</string>
+    <string name="version_info">KaplanDrive 8.9.3 KaplanUI 1.9</string>
 </resources>

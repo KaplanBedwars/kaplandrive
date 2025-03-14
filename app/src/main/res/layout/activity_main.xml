@@ -21,29 +21,29 @@
         android:id="@+id/fab_upload"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="24dp"
-        android:src="@drawable/ic_upload"
-        android:contentDescription="Dosya yükleme butonu"
-        android:backgroundTint="@color/primary"
-        android:elevation="8dp"
-        app:rippleColor="@color/primary_light"
-        app:borderWidth="0dp"/>
+        android:layout_gravity="bottom|start"
+    android:layout_margin="24dp"
+    android:src="@drawable/ic_upload"
+    android:contentDescription="Dosya yükleme butonu"
+    android:backgroundTint="@color/primary"
+    android:elevation="8dp"
+    app:rippleColor="@color/primary_light"
+    app:borderWidth="0dp"/>
 
     <!-- Yenileme butonu -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_refresh"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:layout_gravity="bottom|end"
-        android:layout_marginBottom="24dp"
-        android:layout_marginEnd="88dp"
-        android:src="@drawable/ic_yenile"
-        android:contentDescription="Listeyi yenile"
-        android:backgroundTint="@color/secondary"
-        android:elevation="8dp"
-        app:rippleColor="@color/secondary_light"
-        app:borderWidth="0dp"/>
+        android:layout_gravity="bottom|start"
+    android:layout_marginBottom="24dp"
+    android:layout_marginStart="88dp"
+    android:src="@drawable/ic_yenile"
+    android:contentDescription="Listeyi yenile"
+    android:backgroundTint="@color/secondary"
+    android:elevation="8dp"
+    app:rippleColor="@color/secondary_light"
+    app:borderWidth="0dp"/>
 
     <!-- Dosya yükleme ve yeniden adlandırma işlemleri için ilerleme barı -->
     <ProgressBar

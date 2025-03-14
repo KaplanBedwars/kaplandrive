@@ -28,7 +28,7 @@
         android:id="@+id/splash_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="KaplanUI 1.8"
+        android:text="KaplanUI 1.9"
         android:textSize="16sp"
         android:textColor="@color/black"
         android:layout_below="@id/splash_logo"

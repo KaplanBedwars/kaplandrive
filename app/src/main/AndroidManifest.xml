@@ -3,9 +3,12 @@
 
     <!-- İnternet İzni -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Bildirim izinleri-->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <!-- Dosya Okuma/Yazma İzinleri -->
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- Android 11+ için dosya yönetimi izni (isteğe bağlı) -->
