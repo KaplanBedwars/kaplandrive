@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/rounded_square"
+    android:padding="16dp"
+    android:elevation="8dp">
+
+    <!-- Yenile Butonu -->
+    <Button
+        android:id="@+id/btn_refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Yenile"
+        android:backgroundTint="@color/primary"
+        android:textColor="@color/white" />
+
+    <!-- Ekle Butonu -->
+    <Button
+        android:id="@+id/btn_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ekle"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/secondary"
+        android:textColor="@color/white" />
+
+</LinearLayout>

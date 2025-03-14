@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:minWidth="300dp"
+    android:minHeight="200dp"
+    android:background="@android:color/white"
+    android:paddingHorizontal="24dp">
+
+    <!-- Progress Indicator Container -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Circular Progress Indicator -->
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progressIndicator"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            app:indicatorColor="@color/material_dynamic_primary40"
+            app:trackColor="@color/material_dynamic_neutral90"
+            app:trackThickness="4dp"
+            app:indicatorTrackGapSize="3dp"
+            android:indeterminate="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- Loading Text -->
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/loading"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:letterSpacing="0.02"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            app:layout_constraintTop_toBottomOf="@id/progressIndicator"
+            app:layout_constraintStart_toStartOf="@id/progressIndicator"
+            app:layout_constraintEnd_toEndOf="@id/progressIndicator"
+            android:layout_marginTop="16dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Version Info -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/version_info"
+        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+        android:textColor="@color/material_dynamic_neutral30"
+        android:alpha="0.8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="40dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

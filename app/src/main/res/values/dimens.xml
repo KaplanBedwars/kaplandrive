@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="progress_size">64dp</dimen>
+    <dimen name="progress_track_thickness">4dp</dimen>
+    <dimen name="text_spacing">16dp</dimen>
+</resources>
