@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@drawable/splashbacl"
     android:gravity="center">
 
     <!-- Logo arkasındaki kare -->
@@ -28,7 +28,7 @@
         android:id="@+id/splash_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="KaplanUI 1.9"
+        android:text="@string/version_info2"
         android:textSize="16sp"
         android:textColor="@color/black"
         android:layout_below="@id/splash_logo"
