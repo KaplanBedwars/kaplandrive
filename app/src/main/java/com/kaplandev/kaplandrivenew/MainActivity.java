@@ -28,8 +28,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,6 +55,8 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 
+
+
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
@@ -59,10 +68,19 @@ public class MainActivity extends AppCompatActivity {
 
     private AlertDialog loadingDialog;
 
+    private ImageButton btnCheckUpdate;
+    private static final String UPDATE_URL = "https://api.github.com/repos/KaplanBedwars/kaplandrive/releases/latest";
+    private static final String APK_DOWNLOAD_URL = "https://github.com/KaplanBedwars/kaplandrive/releases/download/9.2/kaplandrive.apk";
+    //https://github.com/KaplanBedwars/kaplandrive/releases/download/9.0/kaplandrive.apk
+    private static final String CURRENT_VERSION = "9.1"; // Elle girilen versiyon
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        btnCheckUpdate = findViewById(R.id.btn_check_update);
+        btnCheckUpdate.setOnClickListener(v -> checkForUpdate());
 
         NotificationUtils.createNotificationChannel(this);
 
@@ -139,6 +157,66 @@ public class MainActivity extends AppCompatActivity {
             loadingDialog = null; // REFERANSI SIFIRLA
         }
     }
+
+    private void checkForUpdate() {
+        new Thread(() -> {
+            try {
+                URL url = new URL(UPDATE_URL);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");
+                connection.setRequestProperty("Accept", "application/vnd.github.v3+json");
+                connection.setRequestProperty("User-Agent", "KaplanDrive-App");
+                connection.connect();
+
+                if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    StringBuilder response = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        response.append(line);
+                    }
+                    reader.close();
+
+                    JSONObject jsonResponse = new JSONObject(response.toString());
+                    String latestVersion = jsonResponse.getString("tag_name").replace("kaplandrive", "");
+
+                    String currentVersion = CURRENT_VERSION;
+
+                    if (!currentVersion.equals(latestVersion)) {
+                        runOnUiThread(() -> showUpdateDialog(latestVersion));
+                    } else {
+                        runOnUiThread(() -> Toast.makeText(this, "Uygulamanız güncel!", Toast.LENGTH_SHORT).show());
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                runOnUiThread(() -> Toast.makeText(this, "Güncelleme kontrolü başarısız!", Toast.LENGTH_SHORT).show());
+            }
+        }).start();
+    }
+
+    private void showUpdateDialog(String latestVersion) {
+        new AlertDialog.Builder(this)
+                .setTitle("Güncelleme Mevcut!")
+                .setMessage("Yeni sürüm (" + latestVersion + ") mevcut. İndirmek ister misiniz?")
+                .setPositiveButton("İndir", (dialog, which) -> downloadUpdate())
+                .setNegativeButton("İptal", null)
+                .show();
+    }
+
+    private void downloadUpdate() {
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(APK_DOWNLOAD_URL))
+                .setTitle("KaplanDrive Güncelleme")
+                .setDescription("Yeni sürüm indiriliyor...")
+                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "KaplanDrive.apk");
+
+        DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+        manager.enqueue(request);
+
+        NotificationUtils.showNotification(this, "Bilgi", "İndirme başladı.");
+    }
+
 
     private void hideSystemUI() {
         Window window = getWindow();
