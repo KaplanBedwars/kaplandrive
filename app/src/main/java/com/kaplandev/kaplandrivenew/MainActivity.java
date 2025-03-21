@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -70,9 +71,9 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageButton btnCheckUpdate;
     private static final String UPDATE_URL = "https://api.github.com/repos/KaplanBedwars/kaplandrive/releases/latest";
-    private static final String APK_DOWNLOAD_URL = "https://github.com/KaplanBedwars/kaplandrive/releases/download/9.6/kaplandrive.apk";
+    private static final String APK_DOWNLOAD_URL = "https://github.com/KaplanBedwars/kaplandrive/releases/download/9.8/kaplandrive.apk";
     //https://github.com/KaplanBedwars/kaplandrive/releases/download/9.0/kaplandrive.apk
-    private static final String CURRENT_VERSION = "9.5"; // Elle girilen versiyon
+    private static final String CURRENT_VERSION = "9.7"; // Elle girilen versiyon
 
     //base url
 
@@ -81,7 +82,10 @@ public class MainActivity extends AppCompatActivity {
     private long lastClickTime = 0; // Son tıklama zamanını tutar
     private static final long DOUBLE_CLICK_TIME_DELTA = 1000; //todo: varsayılan 300ms ama ben 1000 yapıcam daha iyi olur
 
-
+    //bugfix zıngırtaları
+    // Sınıf seviyesinde ekleyin
+    private long backPressedTime = 0;
+    private static final int DOUBLE_BACK_PRESS_INTERVAL = 2000; // 2 saniye
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,15 +126,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         //yeni özellik çift tıklama
-        FloatingActionButton fabRefresh = findViewById(R.id.fab_refresh);
-        fabRefresh.setOnClickListener(v -> {
-            long currentTime = System.currentTimeMillis();
-            if (currentTime - lastClickTime < DOUBLE_CLICK_TIME_DELTA) {
-                // Çift tıklama algılandı, diyaloğu göster
-                showUrlChangeDialog();
-            }
-            lastClickTime = currentTime;
-        });
+
+
 
 
     //tudey yurugit
@@ -214,6 +211,31 @@ public class MainActivity extends AppCompatActivity {
             loadingDialog.show();
         }
     }
+
+
+    @Override
+    public void onBackPressed() {
+        long currentTime = System.currentTimeMillis();
+
+        if (backPressedTime != 0 && currentTime - backPressedTime <= DOUBLE_BACK_PRESS_INTERVAL) {
+            // Çift tıklama algılandı → Dialog göster
+            showUrlChangeDialog();
+            backPressedTime = 0; // Zamanı sıfırla
+        } else {
+            // İlk tıklama → Toast göster ve zamanı kaydet
+            Toast.makeText(this, "Tekrar geri basarak URL'yi değiştirin", Toast.LENGTH_SHORT).show();
+            backPressedTime = currentTime;
+
+            // 2 saniye sonra otomatik çıkış için Handler
+            new Handler().postDelayed(() -> {
+                if (backPressedTime != 0) { // Hâlâ çift tıklama yapılmadıysa
+                    super.onBackPressed(); // Uygulamadan çık
+                    backPressedTime = 0; // Resetle
+                }
+            }, DOUBLE_BACK_PRESS_INTERVAL);
+        }
+    }
+
 
     private void hideLoadingPopup() {
         if (loadingDialog != null && loadingDialog.isShowing()) {
@@ -463,7 +485,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void downloadFile(String filePath) {
-        String url = "http://192.168.1.38:8080" + filePath; // IP'Yİ GÜNCELLE!
+        String url = BASE_URL + "/" + filePath; // IP'Yİ GÜNCELLE!  //string url = "http://192.168.1.38:8080" + filePath;
         String fileName = filePath.substring(filePath.lastIndexOf("/") + 1);
 
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url))

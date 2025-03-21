@@ -2,6 +2,6 @@
     <string name="app_name">KaplanDrive</string>
     <string name="logo">assets/logo.webp</string>
     <string name="loading">Lütfen Bekleyiniz...</string>
-    <string name="version_info">KaplanDrive 9.6 BETA KaplanUI 2.2</string>
+    <string name="version_info">KaplanDrive 9.7  KaplanUI 2.2</string>
     <string name="version_info2">KaplanUI 2.2</string>
 </resources>
