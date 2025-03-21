@@ -70,9 +70,14 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageButton btnCheckUpdate;
     private static final String UPDATE_URL = "https://api.github.com/repos/KaplanBedwars/kaplandrive/releases/latest";
-    private static final String APK_DOWNLOAD_URL = "https://github.com/KaplanBedwars/kaplandrive/releases/download/9.5/kaplandrive.apk";
+    private static final String APK_DOWNLOAD_URL = "https://github.com/KaplanBedwars/kaplandrive/releases/download/9.6/kaplandrive.apk";
     //https://github.com/KaplanBedwars/kaplandrive/releases/download/9.0/kaplandrive.apk
-    private static final String CURRENT_VERSION = "9.4"; // Elle girilen versiyon
+    private static final String CURRENT_VERSION = "9.5"; // Elle girilen versiyon
+
+    //base url
+
+    private static String BASE_URL = "http://192.168.1.38:8080/";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,12 +94,17 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         }
 
-        // Retrofit Initialization
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.38:8080/") // IP'Yİ GÜNCELLE!
-                .addConverterFactory(MoshiConverterFactory.create())
-                .build();
-        fileApi = retrofit.create(FileApi.class);
+
+
+
+        //todo: sıkıkntı çıkarsa bu eski retrofit
+        // eski retrıfit bb ):
+       // Retrofit retrofit = new Retrofit.Builder()
+                //.baseUrl("http://192.168.1.38:8080/") // IP'Yİ GÜNCELLE!
+                //.addConverterFactory(MoshiConverterFactory.create())
+                //.build();
+      //  fileApi = retrofitInstance().create(FileApi.class);
+
 
         // UI Elements
         recyclerView = findViewById(R.id.recycler_files);
@@ -107,14 +117,20 @@ public class MainActivity extends AppCompatActivity {
         fileAdapter = new FileAdapter(new ArrayList<>());
         recyclerView.setAdapter(fileAdapter);
 
-
+        View rootView = findViewById(android.R.id.content);
+        rootView.setOnLongClickListener(v -> {
+            showUrlChangeDialog();
+            return true;
+        });
         //tudey yurugit
 
+        fileApi = retrofitInstance().create(FileApi.class);
 
 
         // Dosyaları yükle
         loadFiles();
         hideSystemUI();
+
 
         // Yükleme Butonu Tıklama Olayı
         fabUpload.setOnClickListener(v -> {
@@ -130,7 +146,44 @@ public class MainActivity extends AppCompatActivity {
             loadFiles(); // Listeyi yeniden yükle
         });
     }
-    //bildirimler:
+    //retrofit
+
+
+    //gizli özellik
+
+    private Retrofit retrofitInstance() {
+        return new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(MoshiConverterFactory.create())
+                .build();
+    }
+
+
+
+    private void showUrlChangeDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Yeni Server URL Girin");
+
+        // EditText ekleyerek kullanıcıdan URL girmesini iste
+        final EditText input = new EditText(this);
+        input.setText(BASE_URL); // Varsayılan olarak mevcut URL'yi göster
+        builder.setView(input);
+
+        builder.setPositiveButton("Kaydet", (dialog, which) -> {
+            String newUrl = input.getText().toString().trim();
+            if (!newUrl.isEmpty()) {
+                BASE_URL = newUrl; // Yeni URL'yi güncelle
+                fileApi = retrofitInstance().create(FileApi.class); // Retrofit'i güncelle
+                Toast.makeText(this, "Yeni URL kaydedildi!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        builder.setNegativeButton("İptal", (dialog, which) -> dialog.dismiss());
+
+        builder.show();
+    }
+
+
 
 
     private void showLoadingPopup() {
@@ -280,11 +333,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void processUploadQueue() {
-        if (!uploadQueue.isEmpty()) {
+        while (!uploadQueue.isEmpty()) {
             Uri uri = uploadQueue.remove(0);
             uploadFile(uri);
         }
     }
+
 
     @Override
     protected void onDestroy() {
@@ -293,7 +347,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void uploadFile(Uri uri) {
-        showLoadingPopup(); // Yükleme başlarken popup göster
+        showLoadingPopup();
         new Thread(() -> {
             try {
                 InputStream inputStream = getContentResolver().openInputStream(uri);
@@ -316,10 +370,13 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(Call<UploadResponse> call, Response<UploadResponse> response) {
                         try {
                             if (response.isSuccessful()) {
-                                loadFiles(); // Dosyaları yeniden yükle
+                                loadFiles();
                             }
                         } finally {
-                            runOnUiThread(() -> hideLoadingPopup()); // Popup'ı kapat
+                            runOnUiThread(() -> {
+                                hideLoadingPopup();
+                                processUploadQueue(); // Sonraki dosyayı sıraya al
+                            });
                         }
                     }
 
@@ -327,16 +384,19 @@ public class MainActivity extends AppCompatActivity {
                     public void onFailure(Call<UploadResponse> call, Throwable t) {
                         runOnUiThread(() -> {
                             NotificationUtils.showNotification(MainActivity.this, "Hata!", "Yükleme başarısız!");
-                            hideLoadingPopup(); // Popup'ı kapat
+                            hideLoadingPopup();
+                            processUploadQueue(); // Başarısız olsa bile sıradaki dosyaya geç
                         });
                     }
                 });
             } catch (Exception e) {
                 Log.e("UploadError", e.getMessage());
-                runOnUiThread(() -> hideLoadingPopup()); // Hata durumunda popup'ı kapat
+                runOnUiThread(() -> hideLoadingPopup());
+                processUploadQueue(); // Hata olsa bile sıradaki dosyaya geç
             }
         }).start();
     }
+
 
     private String getFileName(Uri uri) {
         String result = null;
