@@ -71,9 +71,9 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageButton btnCheckUpdate;
     private static final String UPDATE_URL = "https://api.github.com/repos/KaplanBedwars/kaplandrive/releases/latest";
-    private static final String APK_DOWNLOAD_URL = "https://github.com/KaplanBedwars/kaplandrive/releases/download/9.8/kaplandrive.apk";
+    private static final String APK_DOWNLOAD_URL = "https://github.com/KaplanBedwars/kaplandrive/releases/download/9.9/kaplandrive.apk";
     //https://github.com/KaplanBedwars/kaplandrive/releases/download/9.0/kaplandrive.apk
-    private static final String CURRENT_VERSION = "9.7"; // Elle girilen versiyon
+    private static final String CURRENT_VERSION = "9.8"; // Elle girilen versiyon
 
     //base url
 
@@ -485,7 +485,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void downloadFile(String filePath) {
-        String url = BASE_URL + "/" + filePath; // IP'Yİ GÜNCELLE!  //string url = "http://192.168.1.38:8080" + filePath;
+        String url = BASE_URL + filePath; // IP'Yİ GÜNCELLE!  //string url = "http://192.168.1.38:8080" + filePath;
         String fileName = filePath.substring(filePath.lastIndexOf("/") + 1);
 
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url))
