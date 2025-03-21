@@ -78,6 +78,9 @@ public class MainActivity extends AppCompatActivity {
 
     private static String BASE_URL = "http://192.168.1.38:8080/";
 
+    private long lastClickTime = 0; // Son tıklama zamanını tutar
+    private static final long DOUBLE_CLICK_TIME_DELTA = 1000; //todo: varsayılan 300ms ama ben 1000 yapıcam daha iyi olur
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,12 +120,20 @@ public class MainActivity extends AppCompatActivity {
         fileAdapter = new FileAdapter(new ArrayList<>());
         recyclerView.setAdapter(fileAdapter);
 
-        View rootView = findViewById(android.R.id.content);
-        rootView.setOnLongClickListener(v -> {
-            showUrlChangeDialog();
-            return true;
+
+        //yeni özellik çift tıklama
+        FloatingActionButton fabRefresh = findViewById(R.id.fab_refresh);
+        fabRefresh.setOnClickListener(v -> {
+            long currentTime = System.currentTimeMillis();
+            if (currentTime - lastClickTime < DOUBLE_CLICK_TIME_DELTA) {
+                // Çift tıklama algılandı, diyaloğu göster
+                showUrlChangeDialog();
+            }
+            lastClickTime = currentTime;
         });
-        //tudey yurugit
+
+
+    //tudey yurugit
 
         fileApi = retrofitInstance().create(FileApi.class);
 
@@ -466,6 +477,9 @@ public class MainActivity extends AppCompatActivity {
 
         NotificationUtils.showNotification(MainActivity.this, "Bilgi", "İndirme başladı.");
     }
+
+
+    //TODO: Navigasyon çubuğu kodları burada olacak
 
 
     // RecyclerView Adapter
