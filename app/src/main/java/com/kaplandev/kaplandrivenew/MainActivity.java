@@ -75,11 +75,11 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageButton btnCheckUpdate;
     private static final String UPDATE_URL = "https://api.github.com/repos/KaplanBedwars/kaplandrive/releases/latest";
-    private static final String APK_DOWNLOAD_URL = "https://github.com/KaplanBedwars/kaplandrive/releases/download/11/kaplandrive.apk";
+    private static final String APK_DOWNLOAD_URL = "https://github.com/KaplanBedwars/kaplandrive/releases/download/12/kaplandrive.apk";
     //https://github.com/KaplanBedwars/kaplandrive/releases/download/9.0/kaplandrive.apk
-    private static final String CURRENT_VERSION = "10"; // Elle girilen versiyon
+    private static final String CURRENT_VERSION = "11"; // Elle girilen versiyon
 
-    private static final String CURTESTV = "11";
+    private static final String CURTESTV = "12";
     //base url
 
     private static String BASE_URL = "http://192.168.1.38:8080";
@@ -131,7 +131,8 @@ public class MainActivity extends AppCompatActivity {
         fileAdapter = new FileAdapter(new ArrayList<>());
         recyclerView.setAdapter(fileAdapter);
 
-
+       //uygulama açıldığında güncellemeleri kontrol et:
+        checkForUpdate();
 
 
 
@@ -188,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
             String newUrl = input.getText().toString().trim();
 
             if (newUrl.isEmpty()) {
-                Toast.makeText(this, "URL boş olamaz!", Toast.LENGTH_SHORT).show();
+                tips.show(findViewById(android.R.id.content), "Uyarı", "URL Boş olamaz!");
                 return;
             }
 
@@ -348,6 +349,7 @@ public class MainActivity extends AppCompatActivity {
         manager.enqueue(request);
 
         tips.show(findViewById(android.R.id.content), "Bilgi!", "Yeni sürüm indiriliyor!");
+        //tips.show(findViewById(android.R.id.content), "", "");
     }
 
 
@@ -388,7 +390,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<FilesResponse> call, Throwable t) {
                 NotificationUtils.showNotification(MainActivity.this, "Hata!", "Dosyalar yüklenirken bir hata oluştu..");
-                tips.show(findViewById(android.R.id.content), "İpucu!", "2 Kere geriye basark Sunucu ip'nizi değiştirin!");
+                tips.show(findViewById(android.R.id.content), "İpucu!", "2 Kere geriye basarak Sunucu ip'nizi değiştirin!");
 
 
                 hideLoadingPopup();
