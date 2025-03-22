@@ -3,7 +3,9 @@ package com.kaplandev.kaplandrivenew;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.provider.OpenableColumns;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +32,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONObject;
 
@@ -71,17 +75,20 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageButton btnCheckUpdate;
     private static final String UPDATE_URL = "https://api.github.com/repos/KaplanBedwars/kaplandrive/releases/latest";
-    private static final String APK_DOWNLOAD_URL = "https://github.com/KaplanBedwars/kaplandrive/releases/download/10/kaplandrive.apk";
+    private static final String APK_DOWNLOAD_URL = "https://github.com/KaplanBedwars/kaplandrive/releases/download/11/kaplandrive.apk";
     //https://github.com/KaplanBedwars/kaplandrive/releases/download/9.0/kaplandrive.apk
-    private static final String CURRENT_VERSION = "9.9"; // Elle girilen versiyon
+    private static final String CURRENT_VERSION = "10"; // Elle girilen versiyon
 
+    private static final String CURTESTV = "11";
     //base url
 
     private static String BASE_URL = "http://192.168.1.38:8080";
 
-    private long lastClickTime = 0; // Son tıklama zamanını tutar
+   /* private long lastClickTime = 0; // Son tıklama zamanını tutar
     private static final long DOUBLE_CLICK_TIME_DELTA = 1000; //todo: varsayılan 300ms ama ben 1000 yapıcam daha iyi olur
 
+    */
+    //FIXME:
     //bugfix zıngırtaları
     // Sınıf seviyesinde ekleyin
     private long backPressedTime = 0;
@@ -125,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(fileAdapter);
 
 
-        //yeni özellik çift tıklama
+
 
 
 
@@ -174,22 +181,34 @@ public class MainActivity extends AppCompatActivity {
 
         // EditText ekleyerek kullanıcıdan URL girmesini iste
         final EditText input = new EditText(this);
-        input.setText(BASE_URL); // Varsayılan olarak mevcut URL'yi göster
+        input.setText(BASE_URL);
         builder.setView(input);
 
         builder.setPositiveButton("Kaydet", (dialog, which) -> {
             String newUrl = input.getText().toString().trim();
-            if (!newUrl.isEmpty()) {
-                BASE_URL = newUrl; // Yeni URL'yi güncelle
-                fileApi = retrofitInstance().create(FileApi.class); // Retrofit'i güncelle
-                Toast.makeText(this, "Yeni URL kaydedildi!", Toast.LENGTH_SHORT).show();
+
+            if (newUrl.isEmpty()) {
+                Toast.makeText(this, "URL boş olamaz!", Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            // Eğer URL "http://" veya "https://" ile başlamıyorsa, başına "https://" ekle
+            if (!newUrl.startsWith("http://") && !newUrl.startsWith("https://")) {
+                newUrl = "https://" + newUrl;
+            }
+
+            BASE_URL = newUrl; // Yeni URL'yi güncelle
+            fileApi = retrofitInstance().create(FileApi.class); // Retrofit'i güncelle
+            tips.show(findViewById(android.R.id.content), "Bilgi", "Sunucu ip'niz değişti!");
+            fileAdapter.clearFiles(); // Listeyi temizle
+            loadFiles(); // Listeyi yeniden yükle
         });
 
         builder.setNegativeButton("İptal", (dialog, which) -> dialog.dismiss());
 
         builder.show();
     }
+
 
 
 
@@ -223,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
             backPressedTime = 0; // Zamanı sıfırla
         } else {
             // İlk tıklama → Toast göster ve zamanı kaydet
-            Toast.makeText(this, "Tekrar geri basarak URL'yi değiştirin", Toast.LENGTH_SHORT).show();
+            tips.show(findViewById(android.R.id.content), "Bilgi!", "Bir kez daha basarak Sunucu ip'nizi değiştirin. 2 sn içinde basmazsınız uygulama kapanacak!");
             backPressedTime = currentTime;
 
             // 2 saniye sonra otomatik çıkış için Handler
@@ -269,27 +288,55 @@ public class MainActivity extends AppCompatActivity {
                     String currentVersion = CURRENT_VERSION;
 
                     if (!currentVersion.equals(latestVersion)) {
-                        runOnUiThread(() -> showUpdateDialog(latestVersion));
+                        runOnUiThread(() -> showUpdateSnackbar(findViewById(android.R.id.content), CURTESTV));
+
                     } else {
-                        runOnUiThread(() -> Toast.makeText(this, "Uygulamanız güncel!", Toast.LENGTH_SHORT).show());
+                        runOnUiThread(() -> tips.show(findViewById(android.R.id.content), "Bilgi!", "Sürümünüz güncel! YEHUUUUU"));
                     }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                runOnUiThread(() -> Toast.makeText(this, "Güncelleme kontrolü başarısız!", Toast.LENGTH_SHORT).show());
+                runOnUiThread(() -> tips.show(findViewById(android.R.id.content), "İpucu!", "İnternet bağlantınızı kontrol edin!"));
             }
         }).start();
     }
 
-    private void showUpdateDialog(String latestVersion) {
-        new AlertDialog.Builder(this)
-                .setTitle("Güncelleme Mevcut!")
-                .setMessage("Yeni sürüm (" + latestVersion + ") mevcut. İndirmek ister misiniz?")
-                .setPositiveButton("İndir", (dialog, which) -> downloadUpdate())
-                .setNegativeButton("İptal", null)
-                .show();
-    }
+    public void showUpdateSnackbar(View view, String latestVersion) {
+        if (view == null) return;
 
+        // Snackbar oluştur
+        Snackbar snackbar = Snackbar.make(view, "📢 Yeni sürüm (" + latestVersion + ") mevcut. İndirmek ister misiniz?", Snackbar.LENGTH_INDEFINITE);
+
+        // Snackbar görünümünü al
+        View snackbarView = snackbar.getView();
+        snackbarView.setPadding(40, 30, 40, 30); // Kenar boşlukları artır
+        snackbarView.setMinimumHeight(200); // Yüksekliği artır
+
+        // Snackbar'daki metni büyüt
+        TextView snackbarText = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+        snackbarText.setTextSize(18);
+        snackbarText.setGravity(Gravity.CENTER_VERTICAL);
+        snackbarText.setMaxLines(3);
+
+        // Karanlık/Açık tema uyarlaması
+        int nightModeFlags = view.getContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
+            snackbarView.setBackgroundColor(Color.DKGRAY);
+            snackbarText.setTextColor(Color.WHITE);
+        } else {
+            snackbarView.setBackgroundColor(Color.WHITE);
+            snackbarText.setTextColor(Color.BLACK);
+        }
+
+        // "İndir" butonunu ekle ve MAVİ renkte yap
+        snackbar.setAction("📥 İndir", v -> downloadUpdate());
+        snackbar.setActionTextColor(Color.BLUE); // MAVİ Renk
+
+        // Snackbar'ın otomatik kapanma süresini ayarla (örneğin 10 saniye)
+        snackbar.setDuration(10000); // 10 saniye sonra otomatik kapanır
+
+        snackbar.show(); // Snackbar'ı göster
+    }
     private void downloadUpdate() {
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(APK_DOWNLOAD_URL))
                 .setTitle("KaplanDrive Güncelleme")
@@ -300,7 +347,7 @@ public class MainActivity extends AppCompatActivity {
         DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
         manager.enqueue(request);
 
-        NotificationUtils.showNotification(this, "Bilgi", "İndirme başladı.");
+        tips.show(findViewById(android.R.id.content), "Bilgi!", "Yeni sürüm indiriliyor!");
     }
 
 
@@ -341,6 +388,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<FilesResponse> call, Throwable t) {
                 NotificationUtils.showNotification(MainActivity.this, "Hata!", "Dosyalar yüklenirken bir hata oluştu..");
+                tips.show(findViewById(android.R.id.content), "İpucu!", "2 Kere geriye basark Sunucu ip'nizi değiştirin!");
+
+
                 hideLoadingPopup();
             }
         });
@@ -417,6 +467,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onFailure(Call<UploadResponse> call, Throwable t) {
                         runOnUiThread(() -> {
                             NotificationUtils.showNotification(MainActivity.this, "Hata!", "Yükleme başarısız!");
+                            tips.show(findViewById(android.R.id.content), "Hata!", "Yükleme başarısız!");
                             hideLoadingPopup();
                             processUploadQueue(); // Başarısız olsa bile sıradaki dosyaya geç
                         });
@@ -480,6 +531,7 @@ public class MainActivity extends AppCompatActivity {
             public void onFailure(Call<ResponseBody> call, Throwable t) {
               //  Toast.makeText(MainActivity.this, "Hata: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 NotificationUtils.showNotification(MainActivity.this, "HATA!", "Bilinmeyen hata oluştu.");
+                tips.show(findViewById(android.R.id.content), "HATA!", "Bilinmeyen hata oluştu");
             }
         });
     }
@@ -497,7 +549,7 @@ public class MainActivity extends AppCompatActivity {
         DownloadManager manager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
         manager.enqueue(request);
 
-        NotificationUtils.showNotification(MainActivity.this, "Bilgi", "İndirme başladı.");
+        tips.show(findViewById(android.R.id.content), "Bilgi!", "İndrime başladı!");
     }
 
 
@@ -570,7 +622,8 @@ public class MainActivity extends AppCompatActivity {
                     if (!newName.isEmpty()) {
                         renameFile(filePath, newName);
                     } else {
-                        NotificationUtils.showNotification(MainActivity.this, "Hata!", "Geçersiz isim!");
+
+                        tips.show(findViewById(android.R.id.content), "Hata!", "Geçersiz isim!");
                     }
                 });
 

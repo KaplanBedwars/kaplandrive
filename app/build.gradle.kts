@@ -8,10 +8,10 @@ android {
 
     defaultConfig {
         applicationId = "com.kaplandev.kaplandrivenew"
-        minSdk = 24
+        minSdk = 29
         targetSdk = 34
-        versionCode = 9
-        versionName = "9.9"
+        versionCode = 10
+        versionName = "10"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
