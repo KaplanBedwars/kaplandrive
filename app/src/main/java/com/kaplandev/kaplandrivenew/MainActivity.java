@@ -3,6 +3,7 @@ package com.kaplandev.kaplandrivenew;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -75,11 +76,11 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageButton btnCheckUpdate;
     private static final String UPDATE_URL = "https://api.github.com/repos/KaplanBedwars/kaplandrive/releases/latest";
-    private static final String APK_DOWNLOAD_URL = "https://github.com/KaplanBedwars/kaplandrive/releases/download/12/kaplandrive.apk";
+    private static final String APK_DOWNLOAD_URL = "https://github.com/KaplanBedwars/kaplandrive/releases/download/13/kaplandrive.apk";
     //https://github.com/KaplanBedwars/kaplandrive/releases/download/9.0/kaplandrive.apk
-    private static final String CURRENT_VERSION = "11"; // Elle girilen versiyon
+    private static final String CURRENT_VERSION = "12"; // Elle girilen versiyon
 
-    private static final String CURTESTV = "12";
+    private static final String CURTESTV = "13";
     //base url
 
     private static String BASE_URL = "http://192.168.1.38:8080";
@@ -107,6 +108,10 @@ public class MainActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
+
+        ErrorNotificationUtils.initialize(this);
+
+
 
 
 
@@ -257,6 +262,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+
     private void hideLoadingPopup() {
         if (loadingDialog != null && loadingDialog.isShowing()) {
             loadingDialog.dismiss();
@@ -389,7 +396,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<FilesResponse> call, Throwable t) {
-                NotificationUtils.showNotification(MainActivity.this, "Hata!", "Dosyalar yüklenirken bir hata oluştu..");
+                ErrorNotificationUtils.showErrorNotification( "Hata!", "Dosyalar yüklenirken bir hata oluştu..");
                 tips.show(findViewById(android.R.id.content), "İpucu!", "2 Kere geriye basarak Sunucu ip'nizi değiştirin!");
 
 

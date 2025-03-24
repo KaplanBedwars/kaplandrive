@@ -1,6 +1,7 @@
 package com.kaplandev.kaplandrivenew;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.animation.Animation;
@@ -21,7 +22,7 @@ public class SplashActivity extends AppCompatActivity {
         hideActionBar();
 
         startAnimations();
-        navigateToMainAfterDelay();
+        checkAndroidVersion();
     }
 
     private void hideActionBar() {
@@ -42,9 +43,13 @@ public class SplashActivity extends AppCompatActivity {
         return AnimationUtils.loadAnimation(this, animationResId);
     }
 
-    private void navigateToMainAfterDelay() {
+    private void checkAndroidVersion() {
         new Handler().postDelayed(() -> {
-            startActivity(new Intent(this, MainActivity.class));
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) { // Android 12 (API 31) altı kontrolü
+                startActivity(new Intent(this, UnsupportedVersionActivity.class));
+            } else {
+                startActivity(new Intent(this, MainActivity.class));
+            }
             finish();
         }, SPLASH_DURATION);
     }
