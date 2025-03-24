@@ -1,0 +1,23 @@
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:ordering="together">
+
+    <objectAnimator
+        android:propertyName="fillColor"
+        android:valueFrom="#FFFF4444"
+        android:valueTo="#FFFF0000"
+        android:duration="800"
+        android:repeatCount="infinite"
+        android:repeatMode="reverse"
+        android:interpolator="@android:interpolator/fast_out_slow_in"
+        android:valueType="colorType"/>
+
+    <objectAnimator
+        android:propertyName="strokeColor"
+        android:valueFrom="#00FFFFFF"
+        android:valueTo="#40FFFFFF"
+        android:duration="600"
+        android:repeatCount="infinite"
+        android:repeatMode="reverse"
+        android:valueType="colorType"/>
+
+</set>

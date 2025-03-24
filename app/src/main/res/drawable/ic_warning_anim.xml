@@ -1,0 +1,14 @@
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/ic_warning_base">
+
+    <!-- Parlama efekti -->
+    <target
+        android:name="warning_path"
+        android:animation="@anim/glow_animation"/>
+
+    <!-- Titreşim efekti -->
+    <target
+        android:name="warning_exclamation"
+        android:animation="@anim/shake_animation"/>
+
+</animated-vector>

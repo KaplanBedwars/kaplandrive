@@ -76,11 +76,11 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageButton btnCheckUpdate;
     private static final String UPDATE_URL = "https://api.github.com/repos/KaplanBedwars/kaplandrive/releases/latest";
-    private static final String APK_DOWNLOAD_URL = "https://github.com/KaplanBedwars/kaplandrive/releases/download/13/kaplandrive.apk";
+    private static final String APK_DOWNLOAD_URL = "https://github.com/KaplanBedwars/kaplandrive/releases/download/14/kaplandrive.apk";
     //https://github.com/KaplanBedwars/kaplandrive/releases/download/9.0/kaplandrive.apk
-    private static final String CURRENT_VERSION = "12"; // Elle girilen versiyon
+    private static final String CURRENT_VERSION = "13"; // Elle girilen versiyon
 
-    private static final String CURTESTV = "13";
+    private static final String CURTESTV = "14";
     //base url
 
     private static String BASE_URL = "http://192.168.1.38:8080";
@@ -475,7 +475,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<UploadResponse> call, Throwable t) {
                         runOnUiThread(() -> {
-                            NotificationUtils.showNotification(MainActivity.this, "Hata!", "Yükleme başarısız!");
+                            ErrorNotificationUtils.showErrorNotification( "Hata!", "Yükleme başarısız!");
                             tips.show(findViewById(android.R.id.content), "Hata!", "Yükleme başarısız!");
                             hideLoadingPopup();
                             processUploadQueue(); // Başarısız olsa bile sıradaki dosyaya geç
@@ -539,7 +539,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
               //  Toast.makeText(MainActivity.this, "Hata: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                NotificationUtils.showNotification(MainActivity.this, "HATA!", "Bilinmeyen hata oluştu.");
+                ErrorNotificationUtils.showErrorNotification( "HATA!", "Bilinmeyen hata oluştu.");
                 tips.show(findViewById(android.R.id.content), "HATA!", "Bilinmeyen hata oluştu");
             }
         });

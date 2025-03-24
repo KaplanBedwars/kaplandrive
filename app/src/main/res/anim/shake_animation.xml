@@ -1,0 +1,29 @@
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:ordering="sequentially">
+
+    <objectAnimator
+        android:propertyName="translateX"
+        android:valueFrom="0"
+        android:valueTo="-2"
+        android:duration="50"
+        android:repeatCount="1"
+        android:repeatMode="reverse"
+        android:interpolator="@android:interpolator/linear"/>
+
+    <objectAnimator
+        android:propertyName="translateX"
+        android:valueFrom="0"
+        android:valueTo="2"
+        android:duration="100"
+        android:repeatCount="1"
+        android:repeatMode="reverse"
+        android:startOffset="150"/>
+
+    <objectAnimator
+        android:propertyName="translateX"
+        android:valueFrom="0"
+        android:valueTo="0"
+        android:duration="50"
+        android:startOffset="300"/>
+
+</set>

@@ -1,0 +1,9 @@
+<animated-selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/normal" android:drawable="@drawable/ic_warning_base"/>
+    <item android:id="@+id/pressed" android:drawable="@drawable/ic_warning_glow"/>
+
+    <transition
+        android:fromId="@+id/normal"
+        android:toId="@+id/pressed"
+        android:drawable="@drawable/ic_warning_anim"/>
+</animated-selector>

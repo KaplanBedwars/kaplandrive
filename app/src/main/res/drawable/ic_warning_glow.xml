@@ -1,0 +1,31 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Üçgen kısım (parlak) -->
+    <path
+        android:name="warning_triangle"
+        android:fillColor="#FFFF0000"
+        android:strokeColor="#20FFFFFF"
+        android:strokeWidth="0.5"
+        android:pathData="M12,2L1,21h22L12,2zm0,3l8.2,14H3.8L12,5z"/>
+
+    <!-- Ünlem işareti (parlak) -->
+    <group
+        android:name="exclamation_mark"
+        android:pivotX="12"
+        android:pivotY="17">
+        <path
+            android:fillColor="#FFFFFFFF"
+            android:strokeColor="#10FFFFFF"
+            android:strokeWidth="0.3"
+            android:pathData="M12,8v6m0,2v1"/>
+    </group>
+
+    <!-- Hafif glow efekti -->
+    <path
+        android:fillColor="#10FFFFFF"
+        android:pathData="M12,0l12,21H0L12,0z"/>
+</vector>
