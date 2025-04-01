@@ -76,14 +76,14 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageButton btnCheckUpdate;
     private static final String UPDATE_URL = "https://api.github.com/repos/KaplanBedwars/kaplandrive/releases/latest";
-    private static final String APK_DOWNLOAD_URL = "https://github.com/KaplanBedwars/kaplandrive/releases/download/14/kaplandrive.apk";
+    private static final String APK_DOWNLOAD_URL = "https://github.com/KaplanBedwars/kaplandrive/releases/download/15/kaplandrive.apk";
     //https://github.com/KaplanBedwars/kaplandrive/releases/download/9.0/kaplandrive.apk
-    private static final String CURRENT_VERSION = "13"; // Elle girilen versiyon
+    private static final String CURRENT_VERSION = "14"; // Elle girilen versiyon
 
-    private static final String CURTESTV = "14";
+    private static final String CURTESTV = "15";
     //base url
 
-    private static String BASE_URL = "http://192.168.1.38:8080";
+   // private static String BASE_URL = "http://192.168.1.38:8080";
 
    /* private long lastClickTime = 0; // Son tıklama zamanını tutar
     private static final long DOUBLE_CLICK_TIME_DELTA = 1000; //todo: varsayılan 300ms ama ben 1000 yapıcam daha iyi olur
@@ -174,20 +174,27 @@ public class MainActivity extends AppCompatActivity {
 
     private Retrofit retrofitInstance() {
         return new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(superman.get(this)) // Superman.get() ile URL'yi al
                 .addConverterFactory(MoshiConverterFactory.create())
                 .build();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // URL değişmiş mi diye kontrol et, Retrofit'i yenile
+        fileApi = retrofitInstance().create(FileApi.class);
+        loadFiles(); // Dosyaları yeniden yükle
     }
 
 
 
     private void showUrlChangeDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        /*AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Yeni Server URL Girin");
 
-        // EditText ekleyerek kullanıcıdan URL girmesini iste
         final EditText input = new EditText(this);
-        input.setText(BASE_URL);
+        input.setText(superman.get(this)); // Superman.get() ile mevcut URL'yi göster
         builder.setView(input);
 
         builder.setPositiveButton("Kaydet", (dialog, which) -> {
@@ -198,25 +205,33 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            // Eğer URL "http://" veya "https://" ile başlamıyorsa, başına "https://" ekle
             if (!newUrl.startsWith("http://") && !newUrl.startsWith("https://")) {
                 newUrl = "https://" + newUrl;
             }
 
-            BASE_URL = newUrl; // Yeni URL'yi güncelle
-            fileApi = retrofitInstance().create(FileApi.class); // Retrofit'i güncelle
+            superman.set(this ,newUrl); // Superman.set() ile yeni URL'yi kaydet
+            fileApi = retrofitInstance().create(FileApi.class);
             tips.show(findViewById(android.R.id.content), "Bilgi", "Sunucu ip'niz değişti!");
-            fileAdapter.clearFiles(); // Listeyi temizle
-            loadFiles(); // Listeyi yeniden yükle
+            fileAdapter.clearFiles();
+            loadFiles();
         });
 
         builder.setNegativeButton("İptal", (dialog, which) -> dialog.dismiss());
-
         builder.show();
+
+         */
+
+        startActivity(new Intent(this, SettingsActivity.class));
     }
 
-
-
+//ne bu yav? yeniomu
+    private FileApi createFileApi() {
+        return new Retrofit.Builder()
+                .baseUrl(superman.get(this)) // Güncel URL'yi al
+                .addConverterFactory(MoshiConverterFactory.create())
+                .build()
+                .create(FileApi.class); // Her çağrıda YENİ bir FileApi oluştur
+    }
 
 
     private void showLoadingPopup() {
@@ -382,7 +397,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadFiles() {
         showLoadingPopup();
-        fileApi.getFiles().enqueue(new Callback<FilesResponse>() {
+
+        // DİKKAT: createFileApi() direkt FileApi döndürür, .fileApi yazmayın!
+        createFileApi().getFiles().enqueue(new Callback<FilesResponse>() {
             @Override
             public void onResponse(Call<FilesResponse> call, Response<FilesResponse> response) {
                 try {
@@ -390,17 +407,18 @@ public class MainActivity extends AppCompatActivity {
                         fileAdapter.updateFiles(response.body().files);
                     }
                 } finally {
-                    hideLoadingPopup(); // HER DURUMDA KAPAT
+                    hideLoadingPopup();
                 }
             }
 
             @Override
             public void onFailure(Call<FilesResponse> call, Throwable t) {
-                ErrorNotificationUtils.showErrorNotification( "Hata!", "Dosyalar yüklenirken bir hata oluştu..");
+                ErrorNotificationUtils.showErrorNotification("Hata!", "Dosyalar yüklenirken bir hata oluştu..");
                 tips.show(findViewById(android.R.id.content), "İpucu!", "2 Kere geriye basarak Sunucu ip'nizi değiştirin!");
-
-
                 hideLoadingPopup();
+
+                // Hata detayını logla (DEBUG için)
+                Log.e("API_HATA", "URL: " + superman.get(MainActivity.this) + ", Hata: " + t.getMessage());
             }
         });
     }
@@ -457,35 +475,32 @@ public class MainActivity extends AppCompatActivity {
                         requestFile
                 );
 
-                fileApi.uploadFile(part).enqueue(new Callback<UploadResponse>() {
+                // Değişiklik burada: createFileApi() doğrudan kullanılıyor
+                createFileApi().uploadFile(part).enqueue(new Callback<UploadResponse>() {
                     @Override
                     public void onResponse(Call<UploadResponse> call, Response<UploadResponse> response) {
-                        try {
+                        runOnUiThread(() -> {
+                            hideLoadingPopup();
                             if (response.isSuccessful()) {
                                 loadFiles();
                             }
-                        } finally {
-                            runOnUiThread(() -> {
-                                hideLoadingPopup();
-                                processUploadQueue(); // Sonraki dosyayı sıraya al
-                            });
-                        }
+                            processUploadQueue();
+                        });
                     }
 
                     @Override
                     public void onFailure(Call<UploadResponse> call, Throwable t) {
                         runOnUiThread(() -> {
-                            ErrorNotificationUtils.showErrorNotification( "Hata!", "Yükleme başarısız!");
+                            ErrorNotificationUtils.showErrorNotification("Hata!", "Yükleme başarısız!");
                             tips.show(findViewById(android.R.id.content), "Hata!", "Yükleme başarısız!");
                             hideLoadingPopup();
-                            processUploadQueue(); // Başarısız olsa bile sıradaki dosyaya geç
+                            processUploadQueue();
                         });
                     }
                 });
             } catch (Exception e) {
-                Log.e("UploadError", e.getMessage());
                 runOnUiThread(() -> hideLoadingPopup());
-                processUploadQueue(); // Hata olsa bile sıradaki dosyaya geç
+                processUploadQueue();
             }
         }).start();
     }
@@ -520,7 +535,7 @@ public class MainActivity extends AppCompatActivity {
         body.put("oldPath", oldPath);
         body.put("newName", newName);
 
-        fileApi.renameFile(body).enqueue(new Callback<ResponseBody>() {
+        createFileApi().renameFile(body).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
@@ -546,21 +561,41 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void downloadFile(String filePath) {
-        String url = BASE_URL + filePath; // IP'Yİ GÜNCELLE!  //string url = "http://192.168.1.38:8080" + filePath;
-        String fileName = filePath.substring(filePath.lastIndexOf("/") + 1);
+        try {
+            // URL'yi düzgün birleştir
+            String baseUrl = superman.get(this).endsWith("/") ? superman.get(this) : superman.get(this) + "/";
+            String file = filePath.startsWith("/") ? filePath.substring(1) : filePath;
+            String url = baseUrl + file;
 
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url))
-                .setTitle(fileName)
-                .setDescription("İndiriliyor...")
-                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
-                .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
+            Log.d("DownloadFile", "Download URL: " + url); // URL'yi logla
 
-        DownloadManager manager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-        manager.enqueue(request);
+            String fileName = filePath.substring(filePath.lastIndexOf("/") + 1);
+            String downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
+            Log.d("DownloadFile", "Dosya yolu: " + downloadsDir + "/" + fileName);
 
-        tips.show(findViewById(android.R.id.content), "Bilgi!", "İndrime başladı!");
+            // DownloadManager isteğini oluştur
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url))
+                    .setTitle(fileName)
+                    .setDescription("İndiriliyor...")
+                    .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                    .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
+
+            // İndirmeyi başlat
+            DownloadManager manager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+            long downloadId = manager.enqueue(request);
+
+            if (downloadId != -1) {
+                tips.show(findViewById(android.R.id.content), "Bilgi", "İndirme başladı!");
+                Log.d("DownloadFile", "İndirme başarılı, ID: " + downloadId);
+            } else {
+                tips.show(findViewById(android.R.id.content), "Hata", "İndirme başlatılamadı!");
+                Log.e("DownloadFile", "İndirme başlatılamadı!");
+            }
+        } catch (Exception e) {
+            tips.show(findViewById(android.R.id.content), "Hata", "Dosya indirilemedi: " + e.getMessage());
+            Log.e("DownloadFile", "Hata: " + e.getMessage(), e);
+        }
     }
-
 
     //TODO: Navigasyon çubuğu kodları burada olacak
 

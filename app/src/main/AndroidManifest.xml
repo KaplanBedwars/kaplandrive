@@ -49,6 +49,10 @@
             android:name=".UnsupportedVersionActivity"
             android:exported="true"
             android:theme="@style/Theme.KaplandriveNEW"/>
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="true"
+            android:theme="@style/Theme.KaplandriveNEW"/>
 
 
 
