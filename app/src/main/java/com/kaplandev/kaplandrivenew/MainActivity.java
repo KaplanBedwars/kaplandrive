@@ -550,7 +550,7 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         String newPath = response.body().string();
                         fileAdapter.updateFilePath(oldPath, newPath);
-                        NotificationUtils.showNotification(MainActivity.this, "Tamamlandı!", "İşlem başarılı.");
+                        Toast.makeText(MainActivity.this, "Başarılı " , Toast.LENGTH_SHORT).show();
                     } catch (IOException e) {
                         Log.e("RenameError", "Yanıt okunamadı", e);
                     }

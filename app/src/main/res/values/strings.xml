@@ -2,10 +2,10 @@
     <string name="app_name">KaplanDrive</string>
     <string name="logo">assets/logo.webp</string>
     <string name="loading">Lütfen Bekleyiniz...</string>
-    <string name="version_info">KaplanDrive 16  KaplanUI 2.2 EASTEREGG</string>
+    <string name="version_info">KaplanDrive 17  KaplanUI 2.2 EASTEREGG</string>
     <string name="version_info2">KaplanUI 2.2 EASTEREGG</string>
     <string name="update_url">https://api.github.com/repos/KaplanBedwars/kaplandrive/releases/latest</string>
-    <string name="apk_download_url">https://github.com/KaplanBedwars/kaplandrive/releases/download/17/kaplandrive.apk</string>
-    <string name="current_version">16</string>
-    <string name="current_test_version">17</string>
+    <string name="apk_download_url">https://github.com/KaplanBedwars/kaplandrive/releases/download/18/kaplandrive.apk</string>
+    <string name="current_version">17</string>
+    <string name="current_test_version">18</string>
 </resources>

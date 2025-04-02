@@ -1,5 +1,9 @@
 package com.kaplandev.kaplandrivenew;
 
+
+
+
+
 import android.Manifest;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -20,6 +24,7 @@ public class NotificationUtils {
 
     private static final String CHANNEL_ID = "kapland";
     private static final String CHANNEL_NAME = "KaplanDrive";
+
     private static final AtomicInteger notificationId = new AtomicInteger(0);
 
     public static void createNotificationChannel(Context context) {
@@ -37,6 +42,9 @@ public class NotificationUtils {
         manager.createNotificationChannel(channel);
     }//
 
+
+
+
     public static boolean isNotificationPermissionGranted(Context context) {
         return Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
                 ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED;
@@ -51,10 +59,8 @@ public class NotificationUtils {
     }
 
     public static void showNotification(Context context, String title, String message) {
-        if (!isNotificationPermissionGranted(context)) {
-            requestNotificationPermission(context);
-            return;
-        }
+
+
 
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (manager == null) return;
