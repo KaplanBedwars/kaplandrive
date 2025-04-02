@@ -3,40 +3,49 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="@color/black">
+    android:background="@drawable/bg_dynamic_gradient">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:paddingVertical="16dp">
 
         <!-- Başlık -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="AYARLAR"
-            android:textColor="#3F51B5"
+            android:text="Ayarlar"
+            android:textColor="#E0E0E0"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:gravity="center"
-            android:layout_marginBottom="24dp"/>
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:paddingBottom="8dp"
+            android:letterSpacing="0.02"/>
 
         <!-- Sunucu URL Alanı -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/bg_edittext"
-            android:padding="8dp">
+            android:background="@drawable/bg_dynamic_gradient"
+            android:padding="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginHorizontal="16dp"
+            android:outlineAmbientShadowColor="#BB86FC30"
+            android:outlineSpotShadowColor="#BB86FC30"
+            android:elevation="1dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sunucu Adresi"
-                android:textColor="@color/white"
-                android:textSize="14sp"/>
+                android:textColor="#BB86FC"
+                android:textSize="12sp"
+                android:textAllCaps="true"
+                android:letterSpacing="0.05"
+                android:layout_marginBottom="4dp"/>
 
             <EditText
                 android:id="@+id/editTextServerUrl"
@@ -44,59 +53,84 @@
                 android:layout_height="48dp"
                 android:inputType="textUri|textNoSuggestions"
                 android:imeOptions="actionDone"
-            android:hint="http://192.168.1.1:8080"
-                android:textColor="@color/white"
-                android:background="@null"
-                android:paddingStart="0dp"/>
+                android:hint="https://ornek.sunucu.com"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#666666"
+
+                android:paddingStart="0dp"
+                android:textSize="16sp"/>
         </LinearLayout>
 
-        <!-- Tema Seçimi -->
-
-        <!-- settings_activity.xml -->
+        <!-- Anahtar Ayarlar Kartı -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginBottom="16dp">
+            android:background="@drawable/bg_dynamic_gradient"
+            android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="16dp"
+            android:elevation="1dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="İpucu Bildirimleri"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                android:layout_marginBottom="8dp"/>
-
-            <Switch
-                android:id="@+id/switchTips"
+            <!-- İpucu Bildirimleri -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="İpuçlarını Göster"
-                android:checked="true"/>
-        </LinearLayout>
+                android:layout_height="56dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="12dp">
 
-        <!-- Hata Bildirimleri Switch'i Eklendi -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="16dp"
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="İpucu Bildirimleri"
+                    android:textColor="#E0E0E0"
+                    android:textSize="16sp"/>
 
-            android:padding="8dp">
+                <Switch
+                    android:id="@+id/switchTips"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:thumbTint="#BB86FC"
+                    android:trackTint="#333333"
+                    android:trackTintMode="multiply"/>
+            </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Hata Bildirimleri"
-                android:textColor="@color/white"
-                android:textSize="14sp"/>
-
-            <Switch
-                android:id="@+id/switchErrorNotifications"
+            <!-- Bölücü Çizgi -->
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:text="Hata bildirimlerini göster"
-                android:checked="true"/>
+                android:layout_height="1dp"
+                android:background="#252525"
+                android:layout_marginStart="16dp"/>
+
+            <!-- Hata Bildirimleri -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="12dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Hata Bildirimleri"
+                    android:textColor="#E0E0E0"
+                    android:textSize="16sp"/>
+
+                <Switch
+                    android:id="@+id/switchErrorNotifications"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:thumbTint="#BB86FC"
+                    android:trackTint="#333333"
+                    android:trackTintMode="multiply"/>
+            </LinearLayout>
         </LinearLayout>
 
         <!-- Kaydet Butonu -->
@@ -104,30 +138,41 @@
             android:id="@+id/buttonSaveSettings"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:text="AYARLARI KAYDET"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#3F51B5"
-            android:layout_marginTop="16dp"
-            android:elevation="2dp"/>
+            android:text="Ayarları Kaydet"
+            android:textColor="#0F0F0F"
+            android:backgroundTint="#BB86FC"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="24dp"
+            android:layout_marginHorizontal="16dp"
+            android:elevation="2dp"
+            android:stateListAnimator="@null"/>
 
-        <!-- Sürüm Bilgisi -->
-        <TextView
-            android:layout_width="wrap_content"
+        <!-- Alt Bilgi -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/version_info"
-            android:textColor="#9E9E9E"
-            android:layout_gravity="center"
-            android:layout_marginTop="32dp"/>
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginTop="32dp">
 
-        <Button
-            android:id="@+id/buttonCheckUpdates"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Güncellemeleri kontrol et"
-            android:textSize="12sp"
-            android:textColor="#3F51B5"
-            android:background="@android:color/transparent"
-            android:layout_marginStart="16dp"
-            android:padding="4dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/version_info"
+                android:textColor="#666666"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@+id/buttonCheckUpdates"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Güncellemeleri Kontrol Et"
+                android:textColor="#BB86FC"
+                android:textSize="14sp"
+                android:layout_marginTop="8dp"
+                android:padding="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"/>
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

@@ -24,11 +24,21 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.splash);
-        hideActionBar();
-        startAnimations();
+        setContentView(R.layout.splash); // splash.xml layout'unuzun doğru olduğundan emin olun
 
-        // Android versiyon kontrolü ve izin kontrolünü birleştir
+        // View'ları doğru ID'lerle bağlıyoruz
+        ImageView logo = findViewById(R.id.splash_logo);
+        TextView versionText = findViewById(R.id.splash_text);
+
+        // Null kontrolü ekliyoruz
+        if (logo != null && versionText != null) {
+            startAnimations(logo, versionText);
+        } else {
+            // Hata durumunda direkt ana ekrana geç
+            proceedToMainActivity();
+            return;
+        }
+
         new Handler().postDelayed(() -> {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
                 startActivity(new Intent(this, UnsupportedVersionActivity.class));
@@ -39,13 +49,23 @@ public class SplashActivity extends AppCompatActivity {
         }, SPLASH_DURATION);
     }
 
+    private void startAnimations(ImageView logo, TextView text) {
+        try {
+            Animation logoAnimation = AnimationUtils.loadAnimation(this, R.anim.logo_fade_in);
+            Animation textAnimation = AnimationUtils.loadAnimation(this, R.anim.text_slide_up);
+
+            logo.startAnimation(logoAnimation);
+            text.startAnimation(textAnimation);
+        } catch (Exception e) {
+            e.printStackTrace();
+            proceedToMainActivity();
+        }
+    }
+
     private void checkNotificationPermission() {
-        // Android 13+ (API 33+) için bildirim izni kontrolü
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
                     != PackageManager.PERMISSION_GRANTED) {
-
-                // İzin isteği göster
                 ActivityCompat.requestPermissions(
                         this,
                         new String[]{Manifest.permission.POST_NOTIFICATIONS},
@@ -55,7 +75,6 @@ public class SplashActivity extends AppCompatActivity {
                 proceedToMainActivity();
             }
         } else {
-            // Android 12 ve altında izin gerekmez
             proceedToMainActivity();
         }
     }
@@ -67,9 +86,8 @@ public class SplashActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 proceedToMainActivity();
             } else {
-                // İzin reddedildi
-                Toast.makeText(this, "Bildirim izni olmadan uygulama çalışamaz!", Toast.LENGTH_LONG).show();
-                finishAffinity(); // Uygulamayı tamamen kapat
+                Toast.makeText(this, "Bildirim izni reddedildi", Toast.LENGTH_SHORT).show();
+                proceedToMainActivity(); // Yine de devam et
             }
         }
     }
@@ -77,22 +95,5 @@ public class SplashActivity extends AppCompatActivity {
     private void proceedToMainActivity() {
         startActivity(new Intent(this, MainActivity.class));
         finish();
-    }
-
-    private void hideActionBar() {
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().hide();
-        }
-    }
-
-    private void startAnimations() {
-        ImageView logo = findViewById(R.id.splash_logo);
-        TextView text = findViewById(R.id.splash_text);
-        logo.startAnimation(loadAnimation(R.anim.logo_fade_in));
-        text.startAnimation(loadAnimation(R.anim.text_slide_up));
-    }
-
-    private Animation loadAnimation(int animationResId) {
-        return AnimationUtils.loadAnimation(this, animationResId);
     }
 }
