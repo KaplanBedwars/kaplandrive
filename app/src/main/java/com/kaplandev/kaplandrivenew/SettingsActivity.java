@@ -34,6 +34,7 @@ public class SettingsActivity extends AppCompatActivity {
     private static String CURRENT_VERSION;
     private static String CURTESTV;
 
+
     public static void init(Context context) {
         UPDATE_URL = context.getString(R.string.update_url);
         APK_DOWNLOAD_URL = context.getString(R.string.apk_download_url);
@@ -48,7 +49,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-
+        hideActionBar();
         // View'leri tanımla
         editTextServerUrl = findViewById(R.id.editTextServerUrl);
         switchTips = findViewById(R.id.switchTips);
@@ -72,6 +73,11 @@ public class SettingsActivity extends AppCompatActivity {
         switchTips.setChecked(superman.isTipsEnabled(this));
         switchErrorNotifications.setChecked(superman.areErrorNotificationsEnabled(this));
     }
+    private void hideActionBar() {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
+    }
 
     private void saveSettings() {
         String newUrl = editTextServerUrl.getText().toString().trim();
@@ -83,7 +89,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         // 2. Geçerli URL formatı kontrolü (Regex ile)
-        String urlRegex = "^(https?://)?([a-z0-9-]+\\.)+[a-z]{2,6}(:[0-9]{1,5})?(/.*)?$";
+        String urlRegex = "^(https?://)?([a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*|\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})(:[0-9]{1,5})?(/.*)?$";
 
         if (!newUrl.matches(urlRegex)) {
             showError("Geçersiz URL formatı!\nÖrnek: http://sunucu.com:8080");
