@@ -75,12 +75,17 @@ public class MainActivity extends AppCompatActivity {
     private AlertDialog loadingDialog;
 
     private ImageButton btnCheckUpdate;
-    private static final String UPDATE_URL = "https://api.github.com/repos/KaplanBedwars/kaplandrive/releases/latest";
-    private static final String APK_DOWNLOAD_URL = "https://github.com/KaplanBedwars/kaplandrive/releases/download/15/kaplandrive.apk";
-    //https://github.com/KaplanBedwars/kaplandrive/releases/download/9.0/kaplandrive.apk
-    private static final String CURRENT_VERSION = "14"; // Elle girilen versiyon
+    private static String UPDATE_URL;
+    private static String APK_DOWNLOAD_URL;
+    private static String CURRENT_VERSION;
+    private static String CURTESTV;
 
-    private static final String CURTESTV = "15";
+    public static void init(Context context) {
+        UPDATE_URL = context.getString(R.string.update_url);
+        APK_DOWNLOAD_URL = context.getString(R.string.apk_download_url);
+        CURRENT_VERSION = context.getString(R.string.current_version);
+        CURTESTV = context.getString(R.string.current_test_version);
+    }
     //base url
 
    // private static String BASE_URL = "http://192.168.1.38:8080";
@@ -98,9 +103,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+         //bu tospikler artık ayarlar butonu
         btnCheckUpdate = findViewById(R.id.btn_check_update);
-        btnCheckUpdate.setOnClickListener(v -> checkForUpdate());
+        btnCheckUpdate.setOnClickListener(v -> showUrlChangeDialog());
+        // --------------------------------------------------------
 
         NotificationUtils.createNotificationChannel(this);
 
@@ -110,7 +116,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         ErrorNotificationUtils.initialize(this);
-
+        // Uygulama başlangıcında (Application sınıfında veya ilk Activity'de):
+        SettingsActivity.init(getApplicationContext());
+        init(getApplicationContext());
 
 
 
@@ -259,7 +267,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (backPressedTime != 0 && currentTime - backPressedTime <= DOUBLE_BACK_PRESS_INTERVAL) {
             // Çift tıklama algılandı → Dialog göster
-            showUrlChangeDialog();
+
             backPressedTime = 0; // Zamanı sıfırla
         } else {
             // İlk tıklama → Toast göster ve zamanı kaydet

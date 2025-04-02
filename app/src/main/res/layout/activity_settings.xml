@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="#F5F5F5">
+    android:background="@color/black">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,21 +35,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sunucu Adresi"
-                android:textColor="#616161"
+                android:textColor="@color/white"
                 android:textSize="14sp"/>
 
             <EditText
                 android:id="@+id/editTextServerUrl"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:hint="http://192.168.1.1:8080"
-                android:inputType="textUri"
-                android:textColor="#212121"
+                android:inputType="textUri|textNoSuggestions"
+                android:imeOptions="actionDone"
+            android:hint="http://192.168.1.1:8080"
+                android:textColor="@color/white"
                 android:background="@null"
                 android:paddingStart="0dp"/>
         </LinearLayout>
 
         <!-- Tema Seçimi -->
+
+        <!-- settings_activity.xml -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -59,32 +62,41 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tema(yakında eklencek)"
-                android:textColor="#616161"
+                android:text="İpucu Bildirimleri"
+                android:textColor="@color/white"
                 android:textSize="14sp"
                 android:layout_marginBottom="8dp"/>
 
-            <RadioGroup
+            <Switch
+                android:id="@+id/switchTips"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:text="İpuçlarını Göster"
+                android:checked="true"/>
+        </LinearLayout>
 
-                <RadioButton
-                    android:id="@+id/radioLight"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Açık"
-                    android:textColor="#424242"/>
+        <!-- Hata Bildirimleri Switch'i Eklendi -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="16dp"
 
-                <RadioButton
-                    android:id="@+id/radioDark"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Koyu"
-                    android:textColor="#424242"/>
-            </RadioGroup>
+            android:padding="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hata Bildirimleri"
+                android:textColor="@color/white"
+                android:textSize="14sp"/>
+
+            <Switch
+                android:id="@+id/switchErrorNotifications"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="Hata bildirimlerini göster"
+                android:checked="true"/>
         </LinearLayout>
 
         <!-- Kaydet Butonu -->
@@ -106,5 +118,16 @@
             android:textColor="#9E9E9E"
             android:layout_gravity="center"
             android:layout_marginTop="32dp"/>
+
+        <Button
+            android:id="@+id/buttonCheckUpdates"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Güncellemeleri kontrol et"
+            android:textSize="12sp"
+            android:textColor="#3F51B5"
+            android:background="@android:color/transparent"
+            android:layout_marginStart="16dp"
+            android:padding="4dp"/>
     </LinearLayout>
 </ScrollView>

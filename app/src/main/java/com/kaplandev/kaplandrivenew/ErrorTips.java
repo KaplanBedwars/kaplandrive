@@ -12,7 +12,9 @@ import com.google.android.material.snackbar.Snackbar;
 public class ErrorTips {
 
     public static void show(View view, String errorTitle, String errorMessage) {
-        if (view == null) return; // Eğer View null ise işlemi iptal et
+        if (view == null || !superman.isTipsEnabled(view.getContext())) {
+            return;
+        }
 
         // Snackbar oluştur
         Snackbar snackbar = Snackbar.make(view, "⚠️ " + errorTitle + "\n" + errorMessage, Snackbar.LENGTH_LONG);

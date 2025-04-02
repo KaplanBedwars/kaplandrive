@@ -52,7 +52,7 @@ public class UnsupportedVersionActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
-    }
+    }//
 
     private void setupAnimatedIcon(ImageView icon) {
         try {

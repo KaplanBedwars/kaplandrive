@@ -68,7 +68,9 @@ public class ErrorNotificationUtils {
 
     // 🔥 **Direkt çağrılabilir hata bildirimi**
     public static void showErrorNotification(String errorTitle, String errorMessage) {
-        if (appContext == null) return; // Eğer initialize edilmemişse işlem yapma
+        if (appContext == null || !superman.areErrorNotificationsEnabled(appContext)) {
+            return; // Eğer kapalıysa veya initialize edilmemişse işlem yapma
+        }
         if (!isNotificationPermissionGranted()) {
             requestNotificationPermission();
             return;

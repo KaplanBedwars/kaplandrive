@@ -84,13 +84,13 @@
             android:indeterminate="true" />
     </FrameLayout>
 
-    <!-- Güncellemeleri Kontrol Et Butonu -->
+    <!-- Ayarlar -->
     <ImageButton
         android:id="@+id/btn_check_update"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:src="@drawable/info_24px"
-        android:contentDescription="Güncellemeleri Kontrol Et"
+        android:src="@drawable/settings"
+        android:contentDescription="Ayarlar"
         android:layout_marginEnd="16dp"
         android:layout_gravity="top|start"
         android:layout_marginTop="16dp"

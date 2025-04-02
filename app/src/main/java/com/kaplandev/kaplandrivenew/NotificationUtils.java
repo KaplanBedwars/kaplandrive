@@ -35,7 +35,7 @@ public class NotificationUtils {
         channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
 
         manager.createNotificationChannel(channel);
-    }
+    }//
 
     public static boolean isNotificationPermissionGranted(Context context) {
         return Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||

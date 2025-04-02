@@ -11,7 +11,11 @@ import com.google.android.material.snackbar.Snackbar;
 public class tips {
 
     public static void show(View view, String tipTitle, String tipMessage) {
-        if (view == null) return; // Eğer View null ise işlemi iptal et
+            // Eğer view null ise veya tips kapalıysa iptal et
+            if (view == null || !superman.isTipsEnabled(view.getContext())) {
+                return;
+            }
+        // Eğer View null ise işlemi iptal et
 
         // Snackbar oluştur
         Snackbar snackbar = Snackbar.make(view, "💡 " + tipTitle + "\n" + tipMessage, Snackbar.LENGTH_LONG);
