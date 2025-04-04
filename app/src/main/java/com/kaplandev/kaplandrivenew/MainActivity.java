@@ -540,27 +540,23 @@ public class MainActivity extends AppCompatActivity {
 
 
     private String getFileName(Uri uri) {
-        String result = null;
+        if (uri == null) return "bilinmeyen_" + System.currentTimeMillis();
 
+        String result = null;
         try {
-            // 1. "content://" URI'ları için
             if ("content".equalsIgnoreCase(uri.getScheme())) {
                 try (Cursor cursor = getContentResolver().query(uri, null, null, null, null)) {
                     if (cursor != null && cursor.moveToFirst()) {
-                        // 2. DISPLAY_NAME için alternatif yaklaşım
                         result = cursor.getString(cursor.getColumnIndexOrThrow(OpenableColumns.DISPLAY_NAME));
                     }
                 } catch (Exception e) {
                     Log.w("FileNameError", "Cursor ile dosya adı alınamadı, alternatif yöntem denenecek", e);
                 }
             }
-
-            // 3. URI'nin path'inden dosya adını al (özel karakterler için decode ederek)
             if (result == null) {
                 String path = uri.getPath();
                 if (path != null) {
                     try {
-                        // URI'yi decode et (özel karakterler için)
                         path = URLDecoder.decode(path, "UTF-8");
                         int cut = path.lastIndexOf('/');
                         result = cut != -1 ? path.substring(cut + 1) : path;
@@ -573,10 +569,9 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             Log.e("FileNameError", "Dosya adı alınamadı", e);
         }
-
-        // 4. Fallback: Rastgele UUID
         return result != null ? result : UUID.randomUUID().toString();
     }
+
 
     private void renameFile(String oldPath, String newName) {
         Map<String, String> body = new HashMap<>();
@@ -666,22 +661,19 @@ public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.Q)
     private void downloadWithMediaStore(String fileName, String url) {
         try {
-            // Çift "//" hatasını düzeltiyoruz
-            url = url.replaceAll("([^:]/)/+", "$1");
+            URL urlObj = new URL(url);
+            String fixedUrl = urlObj.toString();
+            Log.d("DownloadFile", "Düzeltilmiş Download URL: " + fixedUrl);
 
-            Log.d("DownloadFile", "Düzeltilmiş Download URL: " + url);
-
-            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url))
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(fixedUrl))
                     .setTitle(fileName)
                     .setDescription("Dosyanız indiriliyor...")
                     .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-                    .setMimeType("application/octet-stream") // MIME hatalarını önlemek için
+                    .setMimeType("application/octet-stream")
                     .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
 
             DownloadManager manager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
             long downloadId = manager.enqueue(request);
-
-            // İndirme işlemi başlatıldı mı kontrol et
             checkDownloadStatus(downloadId);
 
         } catch (Exception e) {
@@ -697,23 +689,29 @@ public class MainActivity extends AppCompatActivity {
             boolean downloading = true;
 
             while (downloading) {
-                DownloadManager.Query query = new DownloadManager.Query();
-                query.setFilterById(downloadId);
-                Cursor cursor = manager.query(query);
-                if (cursor.moveToFirst()) {
-                    int columnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS);
-                    int status = cursor.getInt(columnIndex);
-                    if (status == DownloadManager.STATUS_SUCCESSFUL) {
-                        downloading = false;
-                        runOnUiThread(() ->
-                                tips.show(findViewById(android.R.id.content), "Başarılı", "Dosya indirildi!"));
-                    } else if (status == DownloadManager.STATUS_FAILED) {
-                        downloading = false;
-                        runOnUiThread(() ->
-                                tips.show(findViewById(android.R.id.content), "Hata", "İndirme başarısız!"));
+                try {
+                    Thread.sleep(2000); // CPU tüketimini azaltmak için bekleme süresi eklendi
+                    DownloadManager.Query query = new DownloadManager.Query();
+                    query.setFilterById(downloadId);
+                    Cursor cursor = manager.query(query);
+                    if (cursor.moveToFirst()) {
+                        int columnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS);
+                        int status = cursor.getInt(columnIndex);
+                        if (status == DownloadManager.STATUS_SUCCESSFUL) {
+                            downloading = false;
+                            runOnUiThread(() ->
+                                    tips.show(findViewById(android.R.id.content), "Başarılı", "Dosya indirildi!"));
+                        } else if (status == DownloadManager.STATUS_FAILED) {
+                            downloading = false;
+                            runOnUiThread(() ->
+                                    tips.show(findViewById(android.R.id.content), "Hata", "İndirme başarısız!"));
+                        }
                     }
+                    cursor.close();
+                } catch (InterruptedException e) {
+                    Log.e("DownloadCheck", "İndirme durumu kontrolü kesildi", e);
+                    Thread.currentThread().interrupt();
                 }
-                cursor.close();
             }
         }).start();
     }
