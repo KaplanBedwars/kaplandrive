@@ -2,6 +2,7 @@ package com.kaplandev.kaplandrivenew;
 
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.net.Uri;
@@ -16,7 +17,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import org.json.JSONObject;
 
@@ -43,20 +46,27 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private EditText editTextServerUrl;
-    private Switch switchTips, switchErrorNotifications;
+    private SwitchMaterial switchTips, switchErrorNotifications;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         hideActionBar();
+
         // View'leri tanımla
         editTextServerUrl = findViewById(R.id.editTextServerUrl);
-        switchTips = findViewById(R.id.switchTips);
+        switchTips = findViewById(R.id.switchTips);  // 🔴 Yerel değişken TANIMLAMADAN kullan!
         switchErrorNotifications = findViewById(R.id.switchErrorNotifications);
+        MaterialToolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setNavigationOnClickListener(view -> finish());
+
         Button buttonSave = findViewById(R.id.buttonSaveSettings);
+        Button doc = findViewById(R.id.docs);
         View btnCheckUpdate2 = findViewById(R.id.buttonCheckUpdates);
+
         btnCheckUpdate2.setOnClickListener(v -> checkForUpdate());
+        doc.setOnClickListener(v -> docs());
 
         // Mevcut ayarları yükle
         loadCurrentSettings();
@@ -65,6 +75,7 @@ public class SettingsActivity extends AppCompatActivity {
         buttonSave.setOnClickListener(v -> saveSettings());
     }
 
+
     private void loadCurrentSettings() {
         // Mevcut URL'yi göster
         editTextServerUrl.setText(superman.get(this));
@@ -72,6 +83,9 @@ public class SettingsActivity extends AppCompatActivity {
         // Diğer ayarları yükle
         switchTips.setChecked(superman.isTipsEnabled(this));
         switchErrorNotifications.setChecked(superman.areErrorNotificationsEnabled(this));
+    }
+    private void docs() {
+        startActivity(new Intent(this, doc.class));
     }
     private void hideActionBar() {
         if (getSupportActionBar() != null) {

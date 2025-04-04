@@ -17,6 +17,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+
+
 public class SplashActivity extends AppCompatActivity {
     private static final int SPLASH_DURATION = 1000;
     private static final int NOTIFICATION_PERMISSION_REQUEST_CODE = 1001;
@@ -39,6 +41,7 @@ public class SplashActivity extends AppCompatActivity {
             proceedToMainActivity();
             return;
         }
+
 
         new Handler().postDelayed(() -> {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {

@@ -53,9 +53,10 @@
             android:name=".SettingsActivity"
             android:exported="true"
             android:theme="@style/Theme.KaplandriveNEW"/>
-
-
-
+        <activity
+            android:name=".doc"
+            android:exported="true"
+            android:theme="@style/Theme.KaplandriveNEW"/>
     </application>
 
 </manifest>

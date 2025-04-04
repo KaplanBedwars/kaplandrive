@@ -5,8 +5,8 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color><!-- Cam Göbeği -->
-    <color name="background">#F2F2F7</color> <!-- Hafif gri arka plan -->
+    <color name="black">#FF000000</color>
+    <color name="background">#F2F2F7</color>
     <color name="white">#FFFFFFFF</color>
     <color name="primary">#007AFF</color>
     <color name="primary_light">#64D2FF</color>
@@ -16,4 +16,28 @@
     <color name="gray_light">#E0E0E0</color>
     <color name="gray">#9E9E9E</color>
     <color name="gray2">#333333</color>
+    <color name="dark_background">#121212</color>
+    <color name="card_background">#1E1E1E</color>
+    <color name="light_text">#FFFFFF</color>
+    <color name="gray_text">#9E9E9E</color>
+    <color name="accent_color">#BB86FC</color>
+    <color name="search_bar_stroke">#424242</color>
+    <color name="chip_background">@android:color/transparent</color>
+    <color name="chip_stroke">#424242</color>
+
+
+
+        <color name="card_stroke">#252525</color>
+
+        <color name="dark_text">#000000</color>
+
+        <color name="accent_ripple">#BB86FC30</color>
+        <color name="divider_color">#252525</color>
+        <color name="button_background">#333333</color>
+
+        <!-- Switch renkleri -->
+        <color name="switch_thumb">@color/accent_color</color>
+        <color name="switch_track">@color/card_stroke</color>
+        <color name="switch_track_checked">#BB86FC30</color>
+
 </resources>

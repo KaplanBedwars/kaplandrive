@@ -1,178 +1,253 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:background="@drawable/bg_dynamic_gradient">
+    android:background="@color/dark_background">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingVertical="16dp">
+        android:background="@android:color/transparent"
+        android:elevation="0dp">
 
-        <!-- Başlık -->
-        <TextView
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Ayarlar"
-            android:textColor="#E0E0E0"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:paddingStart="24dp"
-            android:paddingEnd="24dp"
-            android:paddingBottom="8dp"
-            android:letterSpacing="0.02"/>
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/transparent"
+            app:navigationIcon="@drawable/arrow_back_24px"
+            app:titleTextColor="@color/light_text"
+            app:title="Ayarlar"/>
 
-        <!-- Sunucu URL Alanı -->
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@drawable/bg_dynamic_gradient"
-            android:padding="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginHorizontal="16dp"
-            android:outlineAmbientShadowColor="#BB86FC30"
-            android:outlineSpotShadowColor="#BB86FC30"
-            android:elevation="1dp">
+            android:paddingTop="8dp"
+            android:paddingBottom="24dp">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <!-- Sunucu URL Alanı -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Sunucu Adresi"
-                android:textColor="#BB86FC"
-                android:textSize="12sp"
-                android:textAllCaps="true"
-                android:letterSpacing="0.05"
-                android:layout_marginBottom="4dp"/>
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="8dp"
+                app:cardBackgroundColor="@color/card_background"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                app:strokeColor="@color/card_stroke"
+                app:strokeWidth="1dp">
 
-            <EditText
-                android:id="@+id/editTextServerUrl"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Sunucu Adresi"
+                        app:hintTextColor="@color/accent_color"
+                        app:boxStrokeColor="@color/accent_color"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editTextServerUrl"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textUri|textNoSuggestions"
+                            android:imeOptions="actionDone"
+                            android:hint="https://ornek.sunucu.com"
+                            android:textColor="@color/light_text"
+                            android:textColorHint="@color/gray_text"
+                            android:textSize="16sp"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Bildirim Ayarları Kartı -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                app:cardBackgroundColor="@color/card_background"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                app:strokeColor="@color/card_stroke"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- İpucu Bildirimleri -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/lightbulb_24px"
+                            app:tint="@color/accent_color"/>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="16dp"
+                            android:text="İpucu Bildirimleri"
+                            android:textColor="@color/light_text"
+                            android:textSize="16sp"/>
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switchTips"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            app:thumbTint="@color/switch_thumb"
+                            app:trackTint="@color/switch_track"/>
+                    </LinearLayout>
+
+                    <!-- Bölücü Çizgi -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="56dp"
+                        android:background="@color/divider_color"/>
+
+                    <!-- Hata Bildirimleri -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/error"
+                            app:tint="@color/accent_color"/>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="16dp"
+                            android:text="Hata Bildirimleri"
+                            android:textColor="@color/light_text"
+                            android:textSize="16sp"/>
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switchErrorNotifications"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            app:thumbTint="@color/switch_thumb"
+                            app:trackTint="@color/switch_track"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Diğer Ayarlar Kartı -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                app:cardBackgroundColor="@color/card_background"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                app:strokeColor="@color/card_stroke"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Tema Seçimi -->
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Kaydet Butonu -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonSaveSettings"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:inputType="textUri|textNoSuggestions"
-                android:imeOptions="actionDone"
-                android:hint="https://ornek.sunucu.com"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#666666"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="24dp"
+                android:text="Ayarları Kaydet"
+                android:textColor="@color/dark_text"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:backgroundTint="@color/accent_color"
+                app:cornerRadius="8dp"
+                app:elevation="2dp"/>
 
-                android:paddingStart="0dp"
-                android:textSize="16sp"/>
-        </LinearLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/docs"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Kullanım"
+                android:textColor="@color/dark_text"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:backgroundTint="@color/accent_color"
+                app:cornerRadius="8dp"
+                app:elevation="2dp"/>
 
-        <!-- Anahtar Ayarlar Kartı -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/bg_dynamic_gradient"
-            android:layout_marginTop="16dp"
-            android:layout_marginHorizontal="16dp"
-            android:elevation="1dp">
 
-            <!-- İpucu Bildirimleri -->
+
+            <!-- Alt Bilgi -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:paddingStart="16dp"
-                android:paddingEnd="12dp">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginTop="32dp">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="İpucu Bildirimleri"
-                    android:textColor="#E0E0E0"
-                    android:textSize="16sp"/>
-
-                <Switch
-                    android:id="@+id/switchTips"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:thumbTint="#BB86FC"
-                    android:trackTint="#333333"
-                    android:trackTintMode="multiply"/>
-            </LinearLayout>
+                    android:text="@string/version_info"
+                    android:textColor="@color/gray_text"
+                    android:textSize="12sp"/>
 
-            <!-- Bölücü Çizgi -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#252525"
-                android:layout_marginStart="16dp"/>
-
-            <!-- Hata Bildirimleri -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:paddingStart="16dp"
-                android:paddingEnd="12dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Hata Bildirimleri"
-                    android:textColor="#E0E0E0"
-                    android:textSize="16sp"/>
-
-                <Switch
-                    android:id="@+id/switchErrorNotifications"
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonCheckUpdates"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:thumbTint="#BB86FC"
-                    android:trackTint="#333333"
-                    android:trackTintMode="multiply"/>
+                    android:layout_marginTop="8dp"
+                    android:text="Güncellemeleri Kontrol Et"
+                    android:textColor="@color/accent_color"
+                    android:textSize="14sp"
+                    app:backgroundTint="@android:color/transparent"
+                    app:cornerRadius="8dp"
+                    app:rippleColor="@color/accent_ripple"/>
             </LinearLayout>
+
         </LinearLayout>
-
-        <!-- Kaydet Butonu -->
-        <Button
-            android:id="@+id/buttonSaveSettings"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:text="Ayarları Kaydet"
-            android:textColor="#0F0F0F"
-            android:backgroundTint="#BB86FC"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginTop="24dp"
-            android:layout_marginHorizontal="16dp"
-            android:elevation="2dp"
-            android:stateListAnimator="@null"/>
-
-        <!-- Alt Bilgi -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:layout_marginTop="32dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/version_info"
-                android:textColor="#666666"
-                android:textSize="12sp"/>
-
-            <TextView
-                android:id="@+id/buttonCheckUpdates"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Güncellemeleri Kontrol Et"
-                android:textColor="#BB86FC"
-                android:textSize="14sp"
-                android:layout_marginTop="8dp"
-                android:padding="8dp"
-                android:background="?attr/selectableItemBackgroundBorderless"/>
-        </LinearLayout>
-    </LinearLayout>
-</ScrollView>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
