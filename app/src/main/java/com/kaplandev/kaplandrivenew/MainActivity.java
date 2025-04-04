@@ -53,6 +53,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -661,8 +662,14 @@ public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.Q)
     private void downloadWithMediaStore(String fileName, String url) {
         try {
-            URL urlObj = new URL(url);
-            String fixedUrl = urlObj.toString();
+            // Dosya adını ve URL'yi encode et
+            String encodedFileName = URLEncoder.encode(fileName, "UTF-8");
+            String encodedUrl = url.replace(fileName, encodedFileName); // Dosya adını encoded haliyle değiştir
+
+            // Güvenli URL oluştur
+            URL urlObj = new URL(encodedUrl);
+            String fixedUrl = urlObj.toURI().normalize().toString();
+
             Log.d("DownloadFile", "Düzeltilmiş Download URL: " + fixedUrl);
 
             DownloadManager.Request request = new DownloadManager.Request(Uri.parse(fixedUrl))
@@ -674,6 +681,8 @@ public class MainActivity extends AppCompatActivity {
 
             DownloadManager manager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
             long downloadId = manager.enqueue(request);
+
+            // İndirme işlemi başlatıldı mı kontrol et
             checkDownloadStatus(downloadId);
 
         } catch (Exception e) {
@@ -682,6 +691,8 @@ public class MainActivity extends AppCompatActivity {
                     tips.show(findViewById(android.R.id.content), "Hata", "İndirme başarısız: " + e.getMessage()));
         }
     }
+
+
 
     private void checkDownloadStatus(long downloadId) {
         new Thread(() -> {
