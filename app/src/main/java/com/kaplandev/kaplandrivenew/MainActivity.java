@@ -1,9 +1,13 @@
 package com.kaplandev.kaplandrivenew;
 
+import android.Manifest;
 import android.app.DownloadManager;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -12,6 +16,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.Gravity;
@@ -28,8 +33,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -41,8 +49,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,6 +62,7 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import okio.BufferedSink;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -79,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
     private static String APK_DOWNLOAD_URL;
     private static String CURRENT_VERSION;
     private static String CURTESTV;
+    private String pendingDownloadPath;
 
     public static void init(Context context) {
         UPDATE_URL = context.getString(R.string.update_url);
@@ -466,16 +478,29 @@ public class MainActivity extends AppCompatActivity {
 
     private void uploadFile(Uri uri) {
         showLoadingPopup();
+
         new Thread(() -> {
             try {
                 InputStream inputStream = getContentResolver().openInputStream(uri);
-                byte[] fileBytes = new byte[inputStream.available()];
-                inputStream.read(fileBytes);
+                if (inputStream == null) throw new IOException("Dosya açılamadı!");
 
-                RequestBody requestFile = RequestBody.create(
-                        MediaType.parse(getContentResolver().getType(uri)),
-                        fileBytes
-                );
+                // Dosyayı parça parça okuyarak yükleme için bir RequestBody oluştur
+                RequestBody requestFile = new RequestBody() {
+                    @Override
+                    public MediaType contentType() {
+                        return MediaType.parse(getContentResolver().getType(uri));
+                    }
+
+                    @Override
+                    public void writeTo(BufferedSink sink) throws IOException {
+                        byte[] buffer = new byte[8192]; // 8KB buffer kullan
+                        int bytesRead;
+                        while ((bytesRead = inputStream.read(buffer)) != -1) {
+                            sink.write(buffer, 0, bytesRead);
+                        }
+                        inputStream.close(); // InputStream'i kapat
+                    }
+                };
 
                 MultipartBody.Part part = MultipartBody.Part.createFormData(
                         "file",
@@ -483,7 +508,7 @@ public class MainActivity extends AppCompatActivity {
                         requestFile
                 );
 
-                // Değişiklik burada: createFileApi() doğrudan kullanılıyor
+                // API çağrısını gerçekleştir
                 createFileApi().uploadFile(part).enqueue(new Callback<UploadResponse>() {
                     @Override
                     public void onResponse(Call<UploadResponse> call, Response<UploadResponse> response) {
@@ -507,7 +532,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             } catch (Exception e) {
-                runOnUiThread(() -> hideLoadingPopup());
+                runOnUiThread(this::hideLoadingPopup);
                 processUploadQueue();
             }
         }).start();
@@ -516,25 +541,40 @@ public class MainActivity extends AppCompatActivity {
 
     private String getFileName(Uri uri) {
         String result = null;
-        if (uri.getScheme().equals("content")) {
-            try (Cursor cursor = getContentResolver().query(uri, null, null, null, null)) {
-                if (cursor != null && cursor.moveToFirst()) {
-                    int nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-                    if (nameIndex >= 0) {
-                        result = cursor.getString(nameIndex);
+
+        try {
+            // 1. "content://" URI'ları için
+            if ("content".equalsIgnoreCase(uri.getScheme())) {
+                try (Cursor cursor = getContentResolver().query(uri, null, null, null, null)) {
+                    if (cursor != null && cursor.moveToFirst()) {
+                        // 2. DISPLAY_NAME için alternatif yaklaşım
+                        result = cursor.getString(cursor.getColumnIndexOrThrow(OpenableColumns.DISPLAY_NAME));
+                    }
+                } catch (Exception e) {
+                    Log.w("FileNameError", "Cursor ile dosya adı alınamadı, alternatif yöntem denenecek", e);
+                }
+            }
+
+            // 3. URI'nin path'inden dosya adını al (özel karakterler için decode ederek)
+            if (result == null) {
+                String path = uri.getPath();
+                if (path != null) {
+                    try {
+                        // URI'yi decode et (özel karakterler için)
+                        path = URLDecoder.decode(path, "UTF-8");
+                        int cut = path.lastIndexOf('/');
+                        result = cut != -1 ? path.substring(cut + 1) : path;
+                    } catch (UnsupportedEncodingException e) {
+                        Log.e("FileNameError", "URI decode hatası", e);
+                        result = path.substring(path.lastIndexOf('/') + 1);
                     }
                 }
-            } catch (Exception e) {
-                Log.e("FileNameError", "Dosya adı alınamadı", e);
             }
+        } catch (Exception e) {
+            Log.e("FileNameError", "Dosya adı alınamadı", e);
         }
-        if (result == null) {
-            result = uri.getPath();
-            if (result != null) {
-                int cut = result.lastIndexOf('/');
-                result = cut != -1 ? result.substring(cut + 1) : result;
-            }
-        }
+
+        // 4. Fallback: Rastgele UUID
         return result != null ? result : UUID.randomUUID().toString();
     }
 
@@ -547,13 +587,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    try {
-                        String newPath = response.body().string();
-                        fileAdapter.updateFilePath(oldPath, newPath);
-                        Toast.makeText(MainActivity.this, "Başarılı " , Toast.LENGTH_SHORT).show();
-                    } catch (IOException e) {
-                        Log.e("RenameError", "Yanıt okunamadı", e);
-                    }
+                    new Thread(() -> { // Arka thread'de işle
+                        try {
+                            String newPath = response.body().string();
+                            runOnUiThread(() -> {
+                                fileAdapter.updateFilePath(oldPath, newPath);
+                                Toast.makeText(MainActivity.this, "Başarılı", Toast.LENGTH_SHORT).show();
+                            });
+                        } catch (IOException e) {
+                            Log.e("RenameError", "Yanıt okunamadı", e);
+                        }
+                    }).start();
                 } else {
                     Toast.makeText(MainActivity.this, "Hata: " + response.code(), Toast.LENGTH_SHORT).show();
                 }
@@ -561,48 +605,158 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-              //  Toast.makeText(MainActivity.this, "Hata: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                ErrorNotificationUtils.showErrorNotification( "HATA!", "Bilinmeyen hata oluştu.");
-                tips.show(findViewById(android.R.id.content), "HATA!", "Bilinmeyen hata oluştu");
+                Toast.makeText(MainActivity.this, "Hata: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void downloadFile(String filePath) {
         try {
-            // URL'yi düzgün birleştir
+            // 1. URL construction (safe concatenation)
             String baseUrl = superman.get(this).endsWith("/") ? superman.get(this) : superman.get(this) + "/";
-            String file = filePath.startsWith("/") ? filePath.substring(1) : filePath;
-            String url = baseUrl + file;
+            String sanitizedPath = sanitizeFilePath(filePath);
+            String url = Uri.parse(baseUrl).buildUpon().appendEncodedPath(sanitizedPath).build().toString();
 
-            Log.d("DownloadFile", "Download URL: " + url); // URL'yi logla
+            Log.d("DownloadFile", "Download URL: " + url);
 
-            String fileName = filePath.substring(filePath.lastIndexOf("/") + 1);
-            String downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
-            Log.d("DownloadFile", "Dosya yolu: " + downloadsDir + "/" + fileName);
+            // 2. Get safe filename
+            String fileName = getSafeFileName(filePath);
 
-            // DownloadManager isteğini oluştur
+            // 3. Handle different Android versions
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                downloadWithMediaStore(fileName, url);
+            } else {
+                if (checkStoragePermission()) {
+                    downloadLegacy(fileName, url);
+                } else {
+                    // Request storage permission
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            STORAGE_PERMISSION_CODE);
+                }
+            }
+        } catch (Exception e) {
+            Log.e("DownloadFile", "Error: ", e);
+            runOnUiThread(() ->
+                    tips.show(findViewById(android.R.id.content), "Error", "File download failed: " + e.getMessage()));
+        }
+    }
+
+    // Define permission request code
+    private static final int STORAGE_PERMISSION_CODE = 101;
+
+    // Handle permission result
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == STORAGE_PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, retry the download
+                if (pendingDownloadPath != null) {
+                    downloadFile(pendingDownloadPath);
+                }
+            } else {
+                tips.show(findViewById(android.R.id.content), "Error", "Storage permission denied");
+            }
+        }
+    }
+
+// Yardımcı metodlar:
+
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    private void downloadWithMediaStore(String fileName, String url) {
+        try {
+            // Çift "//" hatasını düzeltiyoruz
+            url = url.replaceAll("([^:]/)/+", "$1");
+
+            Log.d("DownloadFile", "Düzeltilmiş Download URL: " + url);
+
             DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url))
                     .setTitle(fileName)
-                    .setDescription("İndiriliyor...")
+                    .setDescription("Dosyanız indiriliyor...")
                     .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                    .setMimeType("application/octet-stream") // MIME hatalarını önlemek için
                     .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
 
-            // İndirmeyi başlat
             DownloadManager manager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
             long downloadId = manager.enqueue(request);
 
+            // İndirme işlemi başlatıldı mı kontrol et
+            checkDownloadStatus(downloadId);
+
+        } catch (Exception e) {
+            Log.e("DownloadFile", "İndirme hatası:", e);
+            runOnUiThread(() ->
+                    tips.show(findViewById(android.R.id.content), "Hata", "İndirme başarısız: " + e.getMessage()));
+        }
+    }
+
+    private void checkDownloadStatus(long downloadId) {
+        new Thread(() -> {
+            DownloadManager manager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+            boolean downloading = true;
+
+            while (downloading) {
+                DownloadManager.Query query = new DownloadManager.Query();
+                query.setFilterById(downloadId);
+                Cursor cursor = manager.query(query);
+                if (cursor.moveToFirst()) {
+                    int columnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS);
+                    int status = cursor.getInt(columnIndex);
+                    if (status == DownloadManager.STATUS_SUCCESSFUL) {
+                        downloading = false;
+                        runOnUiThread(() ->
+                                tips.show(findViewById(android.R.id.content), "Başarılı", "Dosya indirildi!"));
+                    } else if (status == DownloadManager.STATUS_FAILED) {
+                        downloading = false;
+                        runOnUiThread(() ->
+                                tips.show(findViewById(android.R.id.content), "Hata", "İndirme başarısız!"));
+                    }
+                }
+                cursor.close();
+            }
+        }).start();
+    }
+
+
+
+
+    private void downloadLegacy(String fileName, String url) {
+        // Eski versiyonlar için DownloadManager kullanımı
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url))
+                .setTitle(fileName)
+                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
+
+        DownloadManager manager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+        long downloadId = manager.enqueue(request);
+        handleDownloadResult(downloadId);
+    }
+
+    private String sanitizeFilePath(String path) {
+        // Path traversal saldırılarını önle
+        return path.replaceAll("(\\/\\.\\.\\/)|(\\/\\.\\.$)", "");
+    }
+
+    private String getSafeFileName(String path) {
+        // Geçersiz karakterleri temizle
+        String name = path.substring(path.lastIndexOf("/") + 1);
+        return name.replaceAll("[\\\\/:*?\"<>|]", "_");
+    }
+
+    private boolean checkStoragePermission() {
+        return ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void handleDownloadResult(long downloadId) {
+        runOnUiThread(() -> {
             if (downloadId != -1) {
                 tips.show(findViewById(android.R.id.content), "Bilgi", "İndirme başladı!");
-                Log.d("DownloadFile", "İndirme başarılı, ID: " + downloadId);
             } else {
                 tips.show(findViewById(android.R.id.content), "Hata", "İndirme başlatılamadı!");
-                Log.e("DownloadFile", "İndirme başlatılamadı!");
             }
-        } catch (Exception e) {
-            tips.show(findViewById(android.R.id.content), "Hata", "Dosya indirilemedi: " + e.getMessage());
-            Log.e("DownloadFile", "Hata: " + e.getMessage(), e);
-        }
+        });
     }
 
     //TODO: Navigasyon çubuğu kodları burada olacak

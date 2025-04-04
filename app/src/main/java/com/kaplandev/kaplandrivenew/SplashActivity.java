@@ -25,6 +25,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash); // splash.xml layout'unuzun doğru olduğundan emin olun
+        hideActionBar();
 
         // View'ları doğru ID'lerle bağlıyoruz
         ImageView logo = findViewById(R.id.splash_logo);
@@ -59,6 +60,12 @@ public class SplashActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
             proceedToMainActivity();
+        }
+    }
+
+    private void hideActionBar() {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
         }
     }
 
