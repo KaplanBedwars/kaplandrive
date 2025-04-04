@@ -57,6 +57,10 @@
             android:name=".doc"
             android:exported="true"
             android:theme="@style/Theme.KaplandriveNEW"/>
+        <activity
+            android:name=".nointernet"
+            android:exported="true"
+            android:theme="@style/Theme.KaplandriveNEW"/>
     </application>
 
 </manifest>

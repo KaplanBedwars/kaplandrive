@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_background"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Başlık -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bağlantı Sorunu"
+        android:textColor="@color/light_text"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Açıklama -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="İnternet bağlantınız yok gibi görünüyor. Bu sayfada bazı eğlenceli içerikler bulabilirsiniz. Lütfen bağlantınızı kontrol edin."
+        android:textColor="@color/light_text"
+        android:textSize="16sp"
+        android:layout_marginBottom="24dp"/>
+
+    <!-- Kaydırılabilir Fotoğraflar -->
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/photosViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Nokta Göstergeler -->
+    <LinearLayout
+        android:id="@+id/dotsLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="24dp"/>
+
+    <!-- Butonlar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp">
+
+        <Button
+            android:id="@+id/btnRetry"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="Yeniden Dene"
+            android:textColor="@color/dark_text"
+            android:backgroundTint="@color/accent_color"
+            android:layout_marginEnd="8dp"/>
+
+        <Button
+            android:id="@+id/btnSettings"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="Ayarlar"
+            android:textColor="@color/light_text"
+            android:backgroundTint="@color/button_background"
+            android:layout_marginStart="8dp"/>
+    </LinearLayout>
+</LinearLayout>

@@ -437,6 +437,7 @@ public class MainActivity extends AppCompatActivity {
                 ErrorNotificationUtils.showErrorNotification("Hata!", "Dosyalar yüklenirken bir hata oluştu..");
                 tips.show(findViewById(android.R.id.content), "İpucu!", "2 Kere geriye basarak Sunucu ip'nizi değiştirin!");
                 hideLoadingPopup();
+                startActivity(new Intent(MainActivity.this, nointernet.class));
 
                 // Hata detayını logla (DEBUG için)
                 Log.e("API_HATA", "URL: " + superman.get(MainActivity.this) + ", Hata: " + t.getMessage());
