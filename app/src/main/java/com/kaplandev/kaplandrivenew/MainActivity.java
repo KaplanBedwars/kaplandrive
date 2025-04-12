@@ -274,7 +274,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @Override
+    /*@Override
     public void onBackPressed() {
         long currentTime = System.currentTimeMillis();
 
@@ -295,7 +295,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }, DOUBLE_BACK_PRESS_INTERVAL);
         }
-    }
+    }*/
 
 
 
@@ -332,7 +332,7 @@ public class MainActivity extends AppCompatActivity {
                     String currentVersion = CURRENT_VERSION;
 
                     if (!currentVersion.equals(latestVersion)) {
-                        runOnUiThread(() -> showUpdateSnackbar(findViewById(android.R.id.content), CURTESTV));
+                        runOnUiThread(() ->startActivity(new Intent(this, update.class)));
 
                     } else {
                         runOnUiThread(() -> tips.show(findViewById(android.R.id.content), "Bilgi!", "Sürümünüz güncel! YEHUUUUU"));

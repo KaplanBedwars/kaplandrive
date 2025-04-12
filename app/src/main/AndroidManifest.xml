@@ -61,6 +61,14 @@
             android:name=".nointernet"
             android:exported="true"
             android:theme="@style/Theme.KaplandriveNEW"/>
+        <activity
+            android:name=".update"
+            android:exported="true"
+            android:theme="@style/Theme.KaplandriveNEW"/>
+        <activity
+            android:name=".info"
+            android:exported="true"
+            android:theme="@style/Theme.KaplandriveNEW"/>
     </application>
 
 </manifest>

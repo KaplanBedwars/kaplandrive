@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="16dp">
-
+k
         <Button
             android:id="@+id/btnRetry"
             android:layout_width="0dp"
@@ -57,7 +57,7 @@
             android:text="Yeniden Dene"
             android:textColor="@color/dark_text"
             android:backgroundTint="@color/accent_color"
-            android:layout_marginEnd="8dp"/>
+            android:layout_marginEnd="7dp"/>
 
         <Button
             android:id="@+id/btnSettings"
