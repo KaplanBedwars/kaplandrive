@@ -1,1 +1,20 @@
-Access, rename and upload files to your server. 
+Kaplandrive lets you run your **own personal server** directly from your Android device — no third-party servers, no tracking, no internet dependency.
+
+With this app, you can:
+- 🔽 Download files from your own local server
+- ✏️ Rename files on your server instantly
+- 🔼 Upload files directly to your device from any browser
+
+📡 All operations are executed entirely **on your device** within your **local network**.  
+🚫 KaplanDrive does **not connect to any external servers** — your data stays with you.
+
+Whether you're a developer, power user, or someone who values privacy, Kaplandrive offers a clean, efficient solution for local file transfers.
+
+Key Highlights:
+- Fast and stable HTTP server hosted on your phone
+- Works over Wi-Fi (LAN only)
+- Full support for managing shared storage (MANAGE_EXTERNAL_STORAGE permission)
+- 100% open-source and free of ads
+
+Your server, your rules.  
+Explore the code and contribute: https://github.com/KaplanBedwars/kaplandrive
