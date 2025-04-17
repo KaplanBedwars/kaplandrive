@@ -41,6 +41,12 @@ public class SplashActivity extends AppCompatActivity {
             proceedToMainActivity();
             return;
         }
+        if (!superman.isUpdatesEnabled(this)) {
+            proceedToMainActivity();
+            return;
+        }
+
+
 
 
         new Handler().postDelayed(() -> {

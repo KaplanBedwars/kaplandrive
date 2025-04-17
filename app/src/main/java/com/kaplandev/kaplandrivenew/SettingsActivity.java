@@ -38,6 +38,8 @@ public class SettingsActivity extends AppCompatActivity {
     private static String CURTESTV;
 
 
+
+
     public static void init(Context context) {
         UPDATE_URL = context.getString(R.string.update_url);
         APK_DOWNLOAD_URL = context.getString(R.string.apk_download_url);
@@ -47,6 +49,10 @@ public class SettingsActivity extends AppCompatActivity {
 
     private EditText editTextServerUrl;
     private SwitchMaterial switchTips, switchErrorNotifications;
+    private SwitchMaterial switchupdate;
+    private SwitchMaterial switchsscreen;
+    private SwitchMaterial switchno;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +64,9 @@ public class SettingsActivity extends AppCompatActivity {
         editTextServerUrl = findViewById(R.id.editTextServerUrl);
         switchTips = findViewById(R.id.switchTips);  // 🔴 Yerel değişken TANIMLAMADAN kullan!
         switchErrorNotifications = findViewById(R.id.switchErrorNotifications);
+        switchupdate = findViewById(R.id.switchupdate);
+        switchsscreen = findViewById(R.id.switchsplashscreen);
+        switchno = findViewById(R.id.tospik);
         MaterialToolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setNavigationOnClickListener(view -> finish());
         TextView versionTextView = findViewById(R.id.versionTextView);
@@ -95,6 +104,9 @@ public class SettingsActivity extends AppCompatActivity {
         // Diğer ayarları yükle
         switchTips.setChecked(superman.isTipsEnabled(this));
         switchErrorNotifications.setChecked(superman.areErrorNotificationsEnabled(this));
+        switchupdate.setChecked(superman.isUpdatesEnabled(this));
+        switchsscreen.setChecked(superman.isSscrenEnabled(this));
+        switchno.setChecked(superman.isnoEnabled(this));
     }
     private void docs() {
         startActivity(new Intent(this, doc.class));
@@ -131,7 +143,9 @@ public class SettingsActivity extends AppCompatActivity {
         superman.set(this, newUrl);
         superman.setTipsEnabled(this, switchTips.isChecked());
         superman.setErrorNotificationsEnabled(this, switchErrorNotifications.isChecked());
-
+        superman.setUpdatesEnabled(this, switchupdate.isChecked());
+        superman.setSscreenEnabled(this, switchsscreen.isChecked());
+        superman.setnoEnabled(this, switchno.isChecked());
         showSuccess("Ayarlar kaydedildi!");
         finish();
     }
@@ -171,16 +185,25 @@ public class SettingsActivity extends AppCompatActivity {
 
                     String currentVersion = CURRENT_VERSION;
 
+                    if (!superman.isUpdatesEnabled(this)) {
+                        // Güncellemeler kapalıysa hiçbir şey yapma
+                        return;
+                    }
+
                     if (!currentVersion.equals(latestVersion)) {
                         runOnUiThread(() -> startActivity(new Intent(this, update.class)));
-
                     } else {
-                        runOnUiThread(() ->   Toast.makeText(this, "Sürümünüz güncel", Toast.LENGTH_SHORT).show());
+                        runOnUiThread(() -> showSuccess("HERŞEY GÜNCEL! YEHUUUUUUUUU"));
                     }
+
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                runOnUiThread(() ->   Toast.makeText(this, "İnternet bağlantınızı kontrol edin", Toast.LENGTH_SHORT).show());
+                if (!superman.isUpdatesEnabled(this)) {
+                    // Güncellemeler kapalıysa hiçbir şey yapma
+                    return;
+                }
+                runOnUiThread(() -> showSuccess("İnternet bağlantınızı kontrol edin"));
             }
         }).start();
     }

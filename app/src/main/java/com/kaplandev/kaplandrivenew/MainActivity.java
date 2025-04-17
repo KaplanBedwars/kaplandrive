@@ -331,12 +331,17 @@ public class MainActivity extends AppCompatActivity {
 
                     String currentVersion = CURRENT_VERSION;
 
-                    if (!currentVersion.equals(latestVersion)) {
-                        runOnUiThread(() ->startActivity(new Intent(this, update.class)));
+                    if (!superman.isUpdatesEnabled(this)) {
+                        // Güncellemeler kapalıysa hiçbir şey yapma
+                        return;
+                    }
 
+                    if (!currentVersion.equals(latestVersion)) {
+                        runOnUiThread(() -> startActivity(new Intent(this, update.class)));
                     } else {
                         runOnUiThread(() -> tips.show(findViewById(android.R.id.content), "Bilgi!", "Sürümünüz güncel! YEHUUUUU"));
                     }
+
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -345,55 +350,8 @@ public class MainActivity extends AppCompatActivity {
         }).start();
     }
 
-    public void showUpdateSnackbar(View view, String latestVersion) {
-        if (view == null) return;
 
-        // Snackbar oluştur
-        Snackbar snackbar = Snackbar.make(view, "📢 Yeni sürüm (" + latestVersion + ") mevcut. İndirmek ister misiniz?", Snackbar.LENGTH_INDEFINITE);
 
-        // Snackbar görünümünü al
-        View snackbarView = snackbar.getView();
-        snackbarView.setPadding(40, 30, 40, 30); // Kenar boşlukları artır
-        snackbarView.setMinimumHeight(200); // Yüksekliği artır
-
-        // Snackbar'daki metni büyüt
-        TextView snackbarText = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
-        snackbarText.setTextSize(18);
-        snackbarText.setGravity(Gravity.CENTER_VERTICAL);
-        snackbarText.setMaxLines(3);
-
-        // Karanlık/Açık tema uyarlaması
-        int nightModeFlags = view.getContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
-        if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
-            snackbarView.setBackgroundColor(Color.DKGRAY);
-            snackbarText.setTextColor(Color.WHITE);
-        } else {
-            snackbarView.setBackgroundColor(Color.WHITE);
-            snackbarText.setTextColor(Color.BLACK);
-        }
-
-        // "İndir" butonunu ekle ve MAVİ renkte yap
-        snackbar.setAction("📥 İndir", v -> downloadUpdate());
-        snackbar.setActionTextColor(Color.BLUE); // MAVİ Renk
-
-        // Snackbar'ın otomatik kapanma süresini ayarla (örneğin 10 saniye)
-        snackbar.setDuration(10000); // 10 saniye sonra otomatik kapanır
-
-        snackbar.show(); // Snackbar'ı göster
-    }
-    private void downloadUpdate() {
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(APK_DOWNLOAD_URL))
-                .setTitle("KaplanDrive Güncelleme")
-                .setDescription("Yeni sürüm indiriliyor...")
-                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-                .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "KaplanDrive.apk");
-
-        DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-        manager.enqueue(request);
-
-        tips.show(findViewById(android.R.id.content), "Bilgi!", "Yeni sürüm indiriliyor!");
-        //tips.show(findViewById(android.R.id.content), "", "");
-    }
 
 
     private void hideSystemUI() {
@@ -437,7 +395,14 @@ public class MainActivity extends AppCompatActivity {
                 ErrorNotificationUtils.showErrorNotification("Hata!", "Dosyalar yüklenirken bir hata oluştu..");
                 tips.show(findViewById(android.R.id.content), "İpucu!", "2 Kere geriye basarak Sunucu ip'nizi değiştirin!");
                 hideLoadingPopup();
-                startActivity(new Intent(MainActivity.this, nointernet.class));
+
+                    if (superman.isnoEnabled(MainActivity.this)) {
+                        // isNoEnabled true ise bu komut çalışır
+                        startActivity(new Intent(MainActivity.this, nointernet.class));
+                    } else {
+                        // isNoEnabled false ise hiçbir şey yapılmaz
+                    }
+
 
                 // Hata detayını logla (DEBUG için)
                 Log.e("API_HATA", "URL: " + superman.get(MainActivity.this) + ", Hata: " + t.getMessage());

@@ -21,7 +21,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="İnternet bağlantınız yok gibi görünüyor. Bu sayfada bazı eğlenceli içerikler bulabilirsiniz. Lütfen bağlantınızı kontrol edin."
+        android:text="İnternet bağlantınız yok gibi görünüyor. Yada sunucunuz çalışmıyor (: Bu sayfada bazı eğlenceli içerikler bulabilirsiniz. Lütfen bağlantınızı kontrol edin."
         android:textColor="@color/light_text"
         android:textSize="16sp"
         android:layout_marginBottom="24dp"/>

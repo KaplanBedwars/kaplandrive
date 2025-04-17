@@ -209,7 +209,7 @@
                         android:id="@+id/foreground_chip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="android.permission.FOREGROUND_SERVICE"
+                        android:text="Arka pilanda çalışma "
                         app:chipBackgroundColor="#FF980020"
                         android:textColor="#FF9800"
                         android:layout_marginStart="8dp"/>
@@ -218,7 +218,7 @@
                         android:id="@+id/network_chip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="android.permission.ACCESS_NETWORK_STATE"
+                        android:text="İnternet okuma"
                         app:chipBackgroundColor="#FF980020"
                         android:textColor="#FF9800"
                         android:layout_marginStart="8dp"/>
