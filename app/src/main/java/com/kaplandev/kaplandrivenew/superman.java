@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 //kurtarıcı SUPERMAAAANANANAFHNHJGKFJGFGF
+
 public class superman {
     private static final String PREFS_NAME = "AppSettings";
     private static final String KEY_SERVER_URL = "server_url";
@@ -60,7 +61,7 @@ public class superman {
 
     public static boolean isSscrenEnabled(Context context) {
         return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-                .getBoolean(KEY_UPDATES_ENABLED, true);
+                .getBoolean(KEY_sSCREEN_ENABLED, true);
     }
 
     public static void setSscreenEnabled(Context context, boolean enabled) {
@@ -71,7 +72,7 @@ public class superman {
 
     public static boolean isUpdatesEnabled(Context context) {
         return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-                .getBoolean(KEY_sSCREEN_ENABLED, true);
+                .getBoolean(KEY_UPDATES_ENABLED, true);
     }
 
     public static boolean isnoEnabled(Context context) {

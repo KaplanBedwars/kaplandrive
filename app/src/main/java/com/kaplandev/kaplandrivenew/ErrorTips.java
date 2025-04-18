@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 
+
 public class ErrorTips {
 
     public static void show(View view, String errorTitle, String errorMessage) {
