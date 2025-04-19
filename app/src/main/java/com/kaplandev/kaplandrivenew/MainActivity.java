@@ -129,6 +129,8 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         }
 
+
+
         ErrorNotificationUtils.initialize(this);
         // Uygulama başlangıcında (Application sınıfında veya ilk Activity'de):
         SettingsActivity.init(getApplicationContext());
@@ -247,6 +249,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 //ne bu yav? yeniomu
+
+    //La la la lava ch ch ch chicken. steves lava chicken yeah its a hell
     private FileApi createFileApi() {
         return new Retrofit.Builder()
                 .baseUrl(superman.get(this)) // Güncel URL'yi al

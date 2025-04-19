@@ -41,7 +41,7 @@ public class SplashActivity extends AppCompatActivity {
             proceedToMainActivity();
             return;
         }
-        if (!superman.isUpdatesEnabled(this)) {
+        if (!superman.isSscrenEnabled(this)) {
             proceedToMainActivity();
             return;
         }
@@ -103,6 +103,7 @@ public class SplashActivity extends AppCompatActivity {
                 proceedToMainActivity();
             } else {
                 Toast.makeText(this, "Bildirim izni reddedildi", Toast.LENGTH_SHORT).show();
+                ErrorNotificationUtils.showErrorNotification("Hata!","Bildirim izni reddedildi");
                 proceedToMainActivity(); // Yine de devam et
             }
         }
