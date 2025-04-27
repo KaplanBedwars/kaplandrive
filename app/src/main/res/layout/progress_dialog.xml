@@ -53,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Lütfen bekleyiniz..."
-                android:textColor="#E0E0E0"
+                android:textColor="#666666"
                 android:textSize="14sp"
                 android:layout_marginTop="8dp"/>
 
@@ -63,7 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/version_info"
-                android:textColor="#666666"
+                android:textColor="#E0E0E0"
                 android:textSize="10sp"
                 android:layout_marginTop="16dp"/>
         </LinearLayout>

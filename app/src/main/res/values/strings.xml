@@ -2,10 +2,10 @@
     <string name="app_name">KaplanDrive</string>
     <string name="logo">assets/logo.webp</string>
     <string name="loading">Lütfen Bekleyiniz...</string>
-    <string name="version_info">KaplanDrive 19.8  KaplanUI 2.2 LAVA CHİCKEN</string>
-    <string name="version_info2">KaplanUI 2.2 LAVA CHİCKEN</string>
+    <string name="version_info">KaplanDrive 19.9  KaplanUI 2.2 LAVA CHİCKEN</string>
+    <string name="version_info2">KaplanUI 2.2 Steves lava chicken</string>
     <string name="update_url">https://api.github.com/repos/KaplanBedwars/kaplandrive/releases/latest</string>
-    <string name="apk_download_url">https://github.com/KaplanBedwars/kaplandrive/releases/download/19.9/kaplandrive.apk</string>
-    <string name="current_version">19.8</string>
-    <string name="current_test_version">v19.9</string>
+    <string name="apk_download_url">https://github.com/KaplanBedwars/kaplandrive/releases/download/20/kaplandrive.apk</string>
+    <string name="current_version">19.9</string>
+    <string name="current_test_version">v20</string>
 </resources>

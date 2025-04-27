@@ -23,6 +23,8 @@ public class SplashActivity extends AppCompatActivity {
     private static final int SPLASH_DURATION = 1000;
     private static final int NOTIFICATION_PERMISSION_REQUEST_CODE = 1001;
 
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +44,7 @@ public class SplashActivity extends AppCompatActivity {
             return;
         }
         if (!superman.isSscrenEnabled(this)) {
+            PermissionHelper.checkNotificationPermission(this);
             proceedToMainActivity();
             return;
         }
@@ -102,8 +105,8 @@ public class SplashActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 proceedToMainActivity();
             } else {
-                Toast.makeText(this, "Bildirim izni reddedildi", Toast.LENGTH_SHORT).show();
-                ErrorNotificationUtils.showErrorNotification("Hata!","Bildirim izni reddedildi");
+                Toast.makeText(this, "Bildirim izni reddedildi. Bildirimler gösterilmeyecek", Toast.LENGTH_SHORT).show();
+                superman.setErrorNotificationsEnabled(this, false);
                 proceedToMainActivity(); // Yine de devam et
             }
         }
@@ -111,6 +114,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private void proceedToMainActivity() {
         startActivity(new Intent(this, MainActivity.class));
+
         finish();
     }
 }

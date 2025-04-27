@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -123,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
         // --------------------------------------------------------
 
         NotificationUtils.createNotificationChannel(this);
-
+        PermissionHelper.checkNotificationPermission(this);//çalışmazsan yalarım babanneni
         // ActionBar'ı gizle
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
@@ -272,11 +273,17 @@ public class MainActivity extends AppCompatActivity {
         builder.setCancelable(false);
         loadingDialog = builder.create();
 
+        // Arkaplanı şeffaf yap
+        if (loadingDialog.getWindow() != null) {
+            loadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+
         // Aktivite hala açık mı kontrol et
         if (!isFinishing() && !isDestroyed()) {
             loadingDialog.show();
         }
     }
+
 
 
     /*@Override
