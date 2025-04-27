@@ -35,6 +35,7 @@ public class nointernet extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.no_internet_page);
+        DisplayHelper.hideCameraCutout(this);
 
         photosViewPager = findViewById(R.id.photosViewPager);
         dotsLayout = findViewById(R.id.dotsLayout);

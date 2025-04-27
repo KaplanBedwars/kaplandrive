@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ public class info extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.info); // XML dosyanızın adı burada olmalı
+        DisplayHelper.hideCameraCutout(this);
 
         // GitHub Butonu İşlevi
         MaterialButton githubButton = findViewById(R.id.github_button);
@@ -39,6 +41,7 @@ public class info extends AppCompatActivity {
             }
         });
 
+
         // Hata Bildirimi Butonu İşlevi
         MaterialButton reportButton = findViewById(R.id.report_button);
         reportButton.setOnClickListener(new View.OnClickListener() {
@@ -58,5 +61,6 @@ public class info extends AppCompatActivity {
 
 
         });
+
 }}
 

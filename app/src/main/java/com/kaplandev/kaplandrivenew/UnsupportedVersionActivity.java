@@ -21,6 +21,7 @@ public class UnsupportedVersionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_unsupported_version);
+        DisplayHelper.hideCameraCutout(this);
 
         // View tanımlamaları
         ImageView icon = findViewById(R.id.icon);

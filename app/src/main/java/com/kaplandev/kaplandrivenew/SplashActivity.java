@@ -30,6 +30,8 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash); // splash.xml layout'unuzun doğru olduğundan emin olun
         hideActionBar();
+        DisplayHelper.hideCameraCutout(this);
+
 
         // View'ları doğru ID'lerle bağlıyoruz
         ImageView logo = findViewById(R.id.splash_logo);

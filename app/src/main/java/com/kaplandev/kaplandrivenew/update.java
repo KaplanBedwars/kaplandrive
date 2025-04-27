@@ -43,6 +43,8 @@ public class update extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+        DisplayHelper.hideCameraCutout(this);
+
 
         // Bileşenleri bağlama
         progressIndicator = findViewById(R.id.updateProgress2);
