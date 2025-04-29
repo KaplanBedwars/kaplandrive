@@ -1,0 +1,17 @@
+# 🚀 Sürüm Notları - v20
+
+📅 **Yayın Tarihi:** 27.04.2025
+
+
+---
+
+## 🆕 Yeni Özellikler
+- ✨Artık kamera silüenti gizleniyor.
+
+
+
+## 🐛 Hata Düzeltmeleri
+- 🔧Çökme sorunları düzeltildi
+- 🔧 Yükleniyor popup'daki tasarım hatası düzeltildi
+
+**Full Changelog**: https://github.com/KaplanBedwars/kaplandrive/compare/19.9...20

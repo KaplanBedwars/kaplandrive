@@ -7,35 +7,33 @@
     android:background="@android:color/transparent"
     android:padding="24dp">
 
-    <!-- Mor Neon Glow Card -->
+    <!-- Responsive Card -->
     <androidx.cardview.widget.CardView
-        android:layout_width="320dp"
-        android:layout_height="240dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/bg_progress_dialog"
         app:cardCornerRadius="20dp"
         app:cardElevation="16dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.85">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center_horizontal"
             android:padding="32dp">
 
-            <!-- Custom Progress (Sistem ProgressBar'ı mor yaptık) -->
             <ProgressBar
                 android:id="@+id/progressBar"
                 style="?android:attr/progressBarStyleLarge"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:indeterminateTint="#BB86FC"
-                />
+                android:indeterminateTint="#BB86FC" />
 
-            <!-- Başlık -->
             <TextView
                 android:id="@+id/titleText"
                 android:layout_width="wrap_content"
@@ -47,7 +45,6 @@
                 android:letterSpacing="0.03"
                 android:layout_marginTop="24dp"/>
 
-            <!-- Detay Mesaj -->
             <TextView
                 android:id="@+id/messageText"
                 android:layout_width="wrap_content"
@@ -57,7 +54,6 @@
                 android:textSize="14sp"
                 android:layout_marginTop="8dp"/>
 
-            <!-- Versiyon Bilgisi -->
             <TextView
                 android:id="@+id/versionText"
                 android:layout_width="wrap_content"
@@ -68,4 +64,5 @@
                 android:layout_marginTop="16dp"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

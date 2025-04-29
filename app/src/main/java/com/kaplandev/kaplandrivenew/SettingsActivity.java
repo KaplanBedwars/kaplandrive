@@ -1,5 +1,6 @@
 package com.kaplandev.kaplandrivenew;
 
+import android.annotation.SuppressLint;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
@@ -86,7 +87,7 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         Button buttonSave = findViewById(R.id.buttonSaveSettings);
-        Button doc = findViewById(R.id.docs);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) Button doc = findViewById(R.id.doc);
         View btnCheckUpdate2 = findViewById(R.id.buttonCheckUpdates);
 
         btnCheckUpdate2.setOnClickListener(v -> checkForUpdate());
