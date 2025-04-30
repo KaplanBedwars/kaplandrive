@@ -69,7 +69,7 @@ public class UnsupportedVersionActivity extends AppCompatActivity {
             }
         } catch (Exception e) {
             icon.setImageResource(android.R.drawable.ic_dialog_alert);
-            Toast.makeText(this, "Animasyon yüklenemedi", Toast.LENGTH_SHORT).show();
+            cow.show(this, "Animasyon yüklenemedi");
         }
     }
 
@@ -178,9 +178,9 @@ public class UnsupportedVersionActivity extends AppCompatActivity {
     }
 
     private void showSystemWarning() {
-        Toast.makeText(this,
-                "⚠ Cihaz uyumsuzluğu tespit edildi",
-                Toast.LENGTH_LONG).show();
+       cow.show(this,
+                "⚠ Cihaz uyumsuzluğu tespit edildi"
+               );
     }
 
     @Override

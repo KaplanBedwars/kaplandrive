@@ -33,7 +33,7 @@ public class info extends AppCompatActivity {
                             Uri.parse("https://github.com/KaplanBedwars/kaplandrive"));
                     startActivity(browserIntent);
                 } catch (Exception e) {
-                    Toast.makeText(info.this, "GitHub sayfası açılamadı", Toast.LENGTH_SHORT).show();
+                    cow.show(info.this, "GitHub sayfası açılamadı");
                 }
 
                 // Butona tıklama animasyonu
@@ -52,7 +52,7 @@ public class info extends AppCompatActivity {
                             Uri.parse("https://github.com/KaplanBedwars/kaplandrive/issues/new"));
                     startActivity(browserIntent);
                 } catch (Exception e) {
-                    Toast.makeText(info.this, "sayfa açılamadı", Toast.LENGTH_SHORT).show();
+                    cow.show(info.this, "sayfa açılamadı");
                 }
 
             }

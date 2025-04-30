@@ -54,8 +54,10 @@ public class SettingsActivity extends AppCompatActivity {
     private SwitchMaterial switchupdate;
     private SwitchMaterial switchsscreen;
     private SwitchMaterial switchno;
+    private SwitchMaterial bm;
 
 
+    //@SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +73,7 @@ public class SettingsActivity extends AppCompatActivity {
         switchupdate = findViewById(R.id.switchupdate);
         switchsscreen = findViewById(R.id.switchsplashscreen);
         switchno = findViewById(R.id.tospik);
+        bm = findViewById(R.id.bm);
         MaterialToolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setNavigationOnClickListener(view -> finish());
         TextView versionTextView = findViewById(R.id.versionTextView);
@@ -85,6 +88,8 @@ public class SettingsActivity extends AppCompatActivity {
                 // startActivity(new Intent(MainActivity.this, OtherActivity.class));
             }
         });
+
+
 
         Button buttonSave = findViewById(R.id.buttonSaveSettings);
         @SuppressLint({"MissingInflatedId", "LocalSuppress"}) Button doc = findViewById(R.id.doc);
@@ -111,6 +116,7 @@ public class SettingsActivity extends AppCompatActivity {
         switchupdate.setChecked(superman.isUpdatesEnabled(this));
         switchsscreen.setChecked(superman.isSscrenEnabled(this));
         switchno.setChecked(superman.isnoEnabled(this));
+        bm.setChecked(superman.isbmEnabled(this));
     }
     private void docs() {
         startActivity(new Intent(this, doc.class));
@@ -150,19 +156,20 @@ public class SettingsActivity extends AppCompatActivity {
         superman.setUpdatesEnabled(this, switchupdate.isChecked());
         superman.setSscreenEnabled(this, switchsscreen.isChecked());
         superman.setnoEnabled(this, switchno.isChecked());
+        superman.setbmEnabled(this, bm.isChecked());
         showSuccess("Ayarlar kaydedildi!");
         finish();
     }
 
     // Yardımcı metodlar
     private void showError(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        cow.show(this, message);
         editTextServerUrl.setError(message);
         editTextServerUrl.requestFocus();
     }
 
     private void showSuccess(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        cow.show(this, message);
     }
 
     private void checkForUpdate() {

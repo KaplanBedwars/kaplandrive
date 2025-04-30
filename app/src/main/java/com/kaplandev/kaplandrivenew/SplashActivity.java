@@ -1,17 +1,24 @@
 package com.kaplandev.kaplandrivenew;
 
+
 import android.Manifest;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -31,6 +38,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.splash); // splash.xml layout'unuzun doğru olduğundan emin olun
         hideActionBar();
         DisplayHelper.hideCameraCutout(this);
+
 
 
         // View'ları doğru ID'lerle bağlıyoruz
@@ -107,12 +115,21 @@ public class SplashActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 proceedToMainActivity();
             } else {
-                Toast.makeText(this, "Bildirim izni reddedildi. Bildirimler gösterilmeyecek", Toast.LENGTH_SHORT).show();
+                cow.show(this, "Bildirim izni reddedildi. Bildirimler gösterilmeyecek");
                 superman.setErrorNotificationsEnabled(this, false);
                 proceedToMainActivity(); // Yine de devam et
             }
         }
     }
+
+
+
+
+
+
+
+
+
 
     private void proceedToMainActivity() {
         startActivity(new Intent(this, MainActivity.class));

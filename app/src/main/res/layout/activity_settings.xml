@@ -273,6 +273,42 @@
                             app:thumbTint="@color/switch_thumb"
                             app:trackTint="@color/switch_track"/>
                     </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="56dp"
+                        android:background="@color/divider_color"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/info_24px"
+                            app:tint="@color/accent_color"/>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="16dp"
+                            android:text="Uygulama içindeki yeni bilgilendirme mesajları"
+                            android:textColor="@color/light_text"
+                            android:textSize="16sp"/>
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/bm"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            app:thumbTint="@color/switch_thumb"
+                            app:trackTint="@color/switch_track"/>
+                    </LinearLayout>
+
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>

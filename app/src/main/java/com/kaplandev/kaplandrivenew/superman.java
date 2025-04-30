@@ -15,6 +15,7 @@ public class superman {
     private static final String KEY_ERROR_NOTIFICATIONS = "error_notifications";
     private static final String KEY_NO_ENABLED = "no_enabled";
     private static final String DEFAULT_URL = "http://192.168.1.38:8080";
+    private static final String BM_ENABLED = "bm_enabled";
 
     // URL İşlemleri
     public static void set(Context context, String url) {
@@ -78,6 +79,16 @@ public class superman {
     public static boolean isnoEnabled(Context context) {
         return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
                 .getBoolean(KEY_NO_ENABLED, true);
+    }
+
+    public static void setbmEnabled(Context context, boolean enabled) {
+        SharedPreferences.Editor editor = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit();
+        editor.putBoolean(BM_ENABLED, enabled);
+        editor.apply();
+    }
+    public static boolean isbmEnabled(Context context) {
+        return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                .getBoolean(BM_ENABLED, true);
     }
 
     public static void setnoEnabled(Context context, boolean enabled) {

@@ -1,6 +1,7 @@
 package com.kaplandev.kaplandrivenew;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -19,6 +20,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -102,6 +104,8 @@ public class MainActivity extends AppCompatActivity {
         CURRENT_VERSION = context.getString(R.string.current_version);
         CURTESTV = context.getString(R.string.current_test_version);
     }
+
+    private static final int REQUEST_OVERLAY_PERMISSION = 1000;
     //base url
 
    // private static String BASE_URL = "http://192.168.1.38:8080";
@@ -131,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         }
         hideCameraCutout();
+        checkOverlayPermission(this); // örneğin onCreate() içinde çağır // örneğin onCreate() içinde çağır
 
 
 
@@ -426,6 +431,7 @@ public class MainActivity extends AppCompatActivity {
                 tips.show(findViewById(android.R.id.content), "İpucu!", "2 Kere geriye basarak Sunucu ip'nizi değiştirin!");
                 hideLoadingPopup();
 
+
                     if (superman.isnoEnabled(MainActivity.this)) {
                         // isNoEnabled true ise bu komut çalışır
                         startActivity(new Intent(MainActivity.this, nointernet.class));
@@ -584,20 +590,20 @@ public class MainActivity extends AppCompatActivity {
                             String newPath = response.body().string();
                             runOnUiThread(() -> {
                                 fileAdapter.updateFilePath(oldPath, newPath);
-                                Toast.makeText(MainActivity.this, "Başarılı", Toast.LENGTH_SHORT).show();
+                                cow.show(MainActivity.this, "Başarılı");
                             });
                         } catch (IOException e) {
                             Log.e("RenameError", "Yanıt okunamadı", e);
                         }
                     }).start();
                 } else {
-                    Toast.makeText(MainActivity.this, "Hata: " + response.code(), Toast.LENGTH_SHORT).show();
+                    cow.show(MainActivity.this, "Hata: " + response.code());
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "Hata: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                cow.show(MainActivity.this, "Hata: " + t.getMessage());
             }
         });
     }
@@ -688,6 +694,28 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    public void checkOverlayPermission(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!Settings.canDrawOverlays(context)) {
+                // Kullanıcıya açıklama ve yönlendirme göster
+                new AlertDialog.Builder(context)
+                        .setTitle("İzin Gerekli")
+                        .setMessage("Uygulamanın çalışabilmesi için diğer uygulamaların üstüne çizim izni vermeniz gerekiyor. Uygulama içi ayarlardan bu özelliği kapata bilirsiniz (:")
+                        .setPositiveButton("İzni Ver", (dialog, which) -> {
+                            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                                    Uri.parse("package:" + context.getPackageName()));
+                            ((Activity) context).startActivityForResult(intent, REQUEST_OVERLAY_PERMISSION);
+                        })
+                        .setNegativeButton("Reddet", (dialog, which) -> {
+                            cow.show(context, "İzin verilmedi. Uygulama içinde bilgi gösterilemez.");
+                            superman.setbmEnabled(this, false);
+                        })
+                        .setCancelable(false)
+                        .show();
+            }
+        }
+    }
 
 
     private void checkDownloadStatus(long downloadId) {
