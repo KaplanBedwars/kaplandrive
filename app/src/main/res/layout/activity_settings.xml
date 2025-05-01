@@ -450,7 +450,7 @@
                     android:id="@+id/versionTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/version_info"
+                    android:text="Sürüm bilgisi için tıklayın"
                     android:clickable="true"
                     android:textColor="@color/gray_text"
                     android:textSize="12sp"/>

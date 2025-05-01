@@ -50,10 +50,42 @@
                     android:textColor="@android:color/white"/>
 
                 <TextView
-                    android:id="@+id/version_text"
+                    android:id="@+id/k_version_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/version_info"
+                    android:text="@string/k_version_info"
+                    android:textSize="16sp"
+                    android:textColor="#AAAAAA"
+                    android:layout_marginTop="4dp"/>
+                <TextView
+                    android:id="@+id/ui_version_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ui_version_info"
+                    android:textSize="16sp"
+                    android:textColor="#AAAAAA"
+                    android:layout_marginTop="4dp"/>
+                <TextView
+                    android:id="@+id/superman_version_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/superman_version_info"
+                    android:textSize="16sp"
+                    android:textColor="#AAAAAA"
+                    android:layout_marginTop="4dp"/>
+                <TextView
+                    android:id="@+id/cow_version_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cow_version_info"
+                    android:textSize="16sp"
+                    android:textColor="#AAAAAA"
+                    android:layout_marginTop="4dp"/>
+                <TextView
+                    android:id="@+id/up_version_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/current_version"
                     android:textSize="16sp"
                     android:textColor="#AAAAAA"
                     android:layout_marginTop="4dp"/>
@@ -219,6 +251,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="İnternet okuma"
+                        app:chipBackgroundColor="#FF980020"
+                        android:textColor="#FF9800"
+                        android:layout_marginStart="8dp"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/cow_chip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Uygulamaların üstünde gösterme"
                         app:chipBackgroundColor="#FF980020"
                         android:textColor="#FF9800"
                         android:layout_marginStart="8dp"/>
