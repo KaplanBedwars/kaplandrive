@@ -140,7 +140,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
 
 #### /rename:
 
-```
+```js
 app.post('/rename', (req, res) => {
   const { oldPath, newName } = req.body;
 
