@@ -1,4 +1,3 @@
-Here is the **English version** of your text, kept in the **exact same structure and formatting**:
 
 ---
 
@@ -173,4 +172,3 @@ app.post('/rename', (req, res) => {
 
 ---
 
-Would you like a downloadable version of this in Markdown or PDF format?
