@@ -172,10 +172,16 @@ public class MainActivity extends AppCompatActivity {
         checkForUpdate();
 
 
+        if (superman.isFirstRun(this)) {
+            // 🔥 Bu kod sadece ilk açılışta çalışır
+            superman.setIfirstrun(this, false);
+            superman.setnoEnabled(this, false);
+            startActivity(new Intent(this, firstRunActiivty.class));
+        }
 
 
 
-    //tudey yurugit
+        //tudey yurugit
 
         fileApi = retrofitInstance().create(FileApi.class);
 

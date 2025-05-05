@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/dark_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- Logo Alanı -->
+        <ImageView
+            android:id="@+id/logoImageView"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/logo"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:contentDescription="logo" />
+
+        <!-- Hoşgeldiniz Başlığı -->
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Merhaba!"
+            android:textSize="24sp"
+            android:textColor="@color/accent_color"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginTop="24dp" />
+
+        <!-- Açıklama Metni -->
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="KaplanDrive'a hoşgeldiniz. Hızlı başlamak için otomatik ayar yapabilir veya gizlilik politikamızı okuyabilirsiniz."
+            android:textSize="16sp"
+            android:textColor="@android:color/white"
+            android:gravity="center"
+            android:layout_marginTop="16dp" />
+
+        <!-- Gizlilik Politikası Kartı -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            app:cardBackgroundColor="@color/dark_surface"
+            app:cardCornerRadius="12dp"
+            app:strokeColor="@color/accent_color"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Gizlilik Politikası Özeti"
+                    android:textColor="@color/accent_color"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="• Hiçbir veriniz kaydedilmez\n• Tüm işlemler cihazınızda kalır\n• Açık kaynak kodlu"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:layout_marginTop="8dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnPrivacyDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Detaylı İncele"
+                    android:layout_marginTop="16dp"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:textColor="@color/accent_color"
+                    app:icon="@drawable/info_24px"
+                    app:iconTint="@color/accent_color" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- GitHub Bağlantısı -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnGithub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="GitHub'da Kaynak Kodunu Görüntüle"
+            android:layout_marginTop="16dp"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:textColor="@color/accent_color"
+            app:strokeColor="@color/accent_color"
+
+            app:iconTint="@color/accent_color" />
+
+        <!-- Otomatik Ayarlar Butonu -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/autoSetupButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Benim için en iyi ayarları yap"
+            android:layout_marginTop="32dp"
+            android:textSize="16sp"
+            app:icon="@drawable/ic_file"
+            app:backgroundTint="@color/accent_color"
+            android:textColor="@android:color/white"
+            app:cornerRadius="8dp"
+            android:elevation="4dp"
+            android:paddingVertical="14dp" />
+
+        <!-- Manuel Ayarlar Butonu -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/manualSetupButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ayarları kendim yapılandıracağım"
+            android:layout_marginTop="16dp"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:textColor="@color/accent_color"
+            app:icon="@drawable/settings"
+            app:iconTint="@color/accent_color" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=" Lütfen GitHub sayfasına gidip nasıl sunucu kuracağınızı öğrenin!"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"
+            android:gravity="center"
+            android:layout_marginTop="16dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnserver"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sunucu dokümasyonu"
+            android:layout_marginTop="16dp"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:textColor="@color/accent_color"
+            app:strokeColor="@color/accent_color"
+
+            app:iconTint="@color/accent_color" />
+
+
+    </LinearLayout>
+</ScrollView>

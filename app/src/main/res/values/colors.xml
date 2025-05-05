@@ -24,6 +24,8 @@
     <color name="search_bar_stroke">#424242</color>
     <color name="chip_background">@android:color/transparent</color>
     <color name="chip_stroke">#424242</color>
+    <color name="secondary_text_dark">#B3FFFFFF</color>
+    <color name="dark_surface">#1E1E1E</color>
 
 
 

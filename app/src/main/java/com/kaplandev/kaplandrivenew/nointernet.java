@@ -37,6 +37,11 @@ public class nointernet extends AppCompatActivity {
         setContentView(R.layout.no_internet_page);
         DisplayHelper.hideCameraCutout(this);
 
+        if (!superman.isnoEnabled(this)) {
+
+           finish();
+        }
+
         photosViewPager = findViewById(R.id.photosViewPager);
         dotsLayout = findViewById(R.id.dotsLayout);
 

@@ -83,6 +83,10 @@
             android:name=".info"
             android:exported="true"
             android:theme="@style/Theme.KaplandriveNEW"/>
+        <activity
+            android:name=".firstRunActiivty"
+            android:exported="true"
+            android:theme="@style/Theme.KaplandriveNEW"/>
     </application>
 
 </manifest>

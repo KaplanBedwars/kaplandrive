@@ -16,6 +16,7 @@ public class superman {
     private static final String KEY_NO_ENABLED = "no_enabled";
     private static final String DEFAULT_URL = "http://192.168.1.38:8080";
     private static final String BM_ENABLED = "bm_enabled";
+    private static final String ISFIRST = "isfirstrun";
 
     // URL İşlemleri
     public static void set(Context context, String url) {
@@ -88,12 +89,25 @@ public class superman {
     }
     public static boolean isbmEnabled(Context context) {
         return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-                .getBoolean(BM_ENABLED, true);
+                .getBoolean(BM_ENABLED, false);
     }
 
     public static void setnoEnabled(Context context, boolean enabled) {
         SharedPreferences.Editor editor = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit();
         editor.putBoolean(KEY_NO_ENABLED, enabled);
+        editor.apply();
+    }
+       //Uygulamanın ilk kez açıldığını bunlar sayesinde anlayacağız
+       //uygulama ilk açıldığında bunu ture yaparız. varsayılan falsedır
+    public static boolean isFirstRun(Context context) {
+        return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                .getBoolean(ISFIRST, true);
+
+    }
+
+    public static void setIfirstrun(Context context, boolean enabled) {
+        SharedPreferences.Editor editor = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit();
+        editor.putBoolean(ISFIRST, enabled);
         editor.apply();
     }
 }
