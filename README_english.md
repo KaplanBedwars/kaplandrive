@@ -28,7 +28,7 @@ With this app, you can:
 
 * 🔽 Download files from your own local server
 * ✏️ Instantly rename files on your server
-* 🔼 Upload files directly from any browser to your device
+* 🔼 Download the files from your server to your device
 
 📡 All operations are performed **entirely on your device** within your **local network**.
 🚫 KaplanDrive **does not connect to any external servers** – your data stays with you.
