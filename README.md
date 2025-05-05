@@ -30,7 +30,7 @@
 Bu uygulama ile şunları yapabilirsiniz:
 - 🔽 Dosyaları kendi yerel sunucunuzdan indirin
 - ✏️ Sunucunuzdaki dosyaları anında yeniden adlandırın
-- 🔼 Dosyaları herhangi bir tarayıcıdan doğrudan cihazınıza yükleyin
+- 🔼 Dosyaları sunucunuzdan cihazınıza yükleyin
 
 📡 Tüm işlemler **yerel ağınız** içinde tamamen **cihazınızda** gerçekleştirilir.  
 🚫 KaplanDrive **herhangi bir harici sunucuya bağlanmaz** - verileriniz sizde kalır.
@@ -50,7 +50,7 @@ Bu uygulama ile şunları yapabilirsiniz:
 
 *"**KaplanDrive**" veya *"A KaplanBedwars Original Team*" herhangi bir sunucu sağlamaz.*
 
- Ama [Bu adresden]() Örnek sunucu koduna ulaşa bilirsiniz.
+ Ama [Bu adresden](https://github.com/KaplanBedwars/kaplandrive/tree/main/kaplandrive-example-server) Örnek sunucu koduna ulaşa bilirsiniz.
 
  Uygulama'nın şu anda sadece "192.168.1.38" adresi için http desteği varıdr. Yani ***HTTPS*** sunucusu kurmanız gerekir. 
  

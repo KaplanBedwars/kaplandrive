@@ -1,4 +1,4 @@
-Here is the **English version** of your text with the **same structure and formatting preserved**:
+
 
 ---
 
