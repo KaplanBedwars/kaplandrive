@@ -1,5 +1,5 @@
 
-# A KaplanBedwars Orginal team: KaplanDrive
+# A KaplanBedwars Original team: KaplanDrive
 
 #### Yoltaşı:
 - [Gizlilik Politikası](https://github.com/KaplanBedwars/kaplandrive/blob/main/TERMS.md)
@@ -48,7 +48,9 @@ Bu uygulama ile şunları yapabilirsiniz:
 
 ## Sunucu Kurulumu*
 
-*"**KaplanDrive**" veya *"A KaplanBedwars Orginal Team*" herhangi bir sunucu sağlamaz.*
+*"**KaplanDrive**" veya *"A KaplanBedwars Original Team*" herhangi bir sunucu sağlamaz.*
+
+ Ama [Bu adresden]() Örnek sunucu koduna ulaşa bilirsiniz.
 
  Uygulama'nın şu anda sadece "192.168.1.38" adresi için http desteği varıdr. Yani ***HTTPS*** sunucusu kurmanız gerekir. 
  
