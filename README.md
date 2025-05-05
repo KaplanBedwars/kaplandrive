@@ -30,7 +30,7 @@
 Bu uygulama ile şunları yapabilirsiniz:
 - 🔽 Dosyaları kendi yerel sunucunuzdan indirin
 - ✏️ Sunucunuzdaki dosyaları anında yeniden adlandırın
-- 🔼 Dosyaları herhangi bir tarayıcıdan doğrudan cihazınıza yükleyin
+- 🔼 Dosyaları sunucunuzdan cihazınıza yükleyin
 
 📡 Tüm işlemler **yerel ağınız** içinde tamamen **cihazınızda** gerçekleştirilir.  
 🚫 KaplanDrive **herhangi bir harici sunucuya bağlanmaz** - verileriniz sizde kalır.
