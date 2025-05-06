@@ -3,8 +3,8 @@
 #### Yoltaşı:
 - [Gizlilik Politikası](https://github.com/KaplanBedwars/kaplandrive/blob/main/TERMS.md)
 
-- [README English](https://github.com/KaplanBedwars/kaplandrive/blob/main/README_english.md)
-  - [README](https://github.com/KaplanBedwars/kaplandrive/blob/main/README_english.md)
+- [README](https://github.com/KaplanBedwars/kaplandrive/blob/main/README.md)
+  - [README English](https://github.com/KaplanBedwars/kaplandrive/blob/main/README_english.md)
 
 - [ENGLISH](https://github.com/KaplanBedwars/kaplandrive/blob/main/kaplandrive-example-server/README_ENGL%C4%B0SH.md)
 ### Rozetler:
