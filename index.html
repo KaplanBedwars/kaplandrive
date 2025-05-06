@@ -330,7 +330,7 @@
             transition: background-color 0.3s;
         }
         
-        .tab.active {
+        .tab.active {         kes.html
             background-color: white;
             border-bottom: 1px solid white;
         }
@@ -381,6 +381,7 @@
             
             <a href="https://github.com/KaplanBedwars/kaplandrive/blob/main/README_english.md" class="link">English</a>
             <a href="p.html" class="link">Gizlilik Politikası</a>
+             <a href="kes.html" class="link">KaplanDrive example server</a>
         </div>
         
         <div class="badges">
@@ -484,21 +485,21 @@
                 <div class="tab" onclick="openTab(event, 'rename-tab')">/rename</div>
             </div>
             
-            <div id="files-tab" class="tab-content active">
-                <div class="code-block" data-lang="JavaScript">
-// /files endpoint örneği
+          <div id="files-tab" class="tab-content active">
+  <div class="code-block" data-lang="JavaScript">
+    <pre><code>// /files endpoint örneği
 app.get('/files', (req, res) => {
   fs.readdir('uploads', (err, files) => {
     if (err) return res.status(500).send('Dosyalar okunamadı');
     res.json({ files: files.map(filename => `/uploads/${filename}`) });
   });
-});
-                </div>
-                
-                <p>Çıktısı Böyle Olmalıdır:</p>
-                
-                <div class="code-block" data-lang="JSON">
-{
+});</code></pre>
+  </div>
+
+  <p>Çıktısı Böyle Olmalıdır:</p>
+
+  <div class="code-block" data-lang="JSON">
+    <pre><code>{
   "files": [
     "/uploads/file_01.jpg",
     "/uploads/file_02.jpg",
@@ -540,25 +541,26 @@ app.get('/files', (req, res) => {
     "/uploads/file_38.png",
     "/uploads/file_39.jpg"
   ]
-}
-                </div>
-            </div>
-            
+}</code></pre>
+  </div>
+</div>
+
             <div id="upload-tab" class="tab-content">
-                <div class="code-block" data-lang="JavaScript">
-// /upload endpoint örneği
+  <div class="code-block" data-lang="JavaScript">
+    <pre><code>// /upload endpoint örneği
 app.post('/upload', upload.single('file'), (req, res) => {
   if (!req.file) {
     return res.status(400).send({ error: 'Dosya seçilmedi.' });
   }
   res.status(200).json({ url: `/uploads/${req.file.filename}` });
-});
-                </div>
-            </div>
+});</code></pre>
+  </div>
+</div>
+
             
-            <div id="rename-tab" class="tab-content">
-                <div class="code-block" data-lang="JavaScript">
-// /rename endpoint örneği
+           <div id="rename-tab" class="tab-content">
+  <div class="code-block" data-lang="JavaScript">
+    <pre><code>// /rename endpoint örneği
 app.post('/rename', (req, res) => {
   const { oldPath, newName } = req.body;
 
@@ -588,9 +590,10 @@ app.post('/rename', (req, res) => {
     }
     res.json(newName);
   });
-});
-                </div>
-            </div>
+});</code></pre>
+  </div>
+</div>
+
         </section>
         
         <section class="section">
