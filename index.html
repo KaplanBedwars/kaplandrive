@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KaplanDrive | A KaplanBedwars Original</title>
+    <style>
+        :root {
+            --primary: #ff6b35;
+            --secondary: #004e89;
+            --dark: #292929;
+            --light: #f7f7f7;
+            --accent: #ffbe0b;
+            --success: #2ecc71;
+            --info: #3498db;
+            --warning: #f39c12;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(30deg);
+            z-index: 1;
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 2;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        header h2 {
+            font-size: 1.5rem;
+            font-weight: 300;
+            position: relative;
+            z-index: 2;
+            opacity: 0.9;
+        }
+        
+        .badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin: 1.5rem 0;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: white;
+            background-color: var(--secondary);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .badge-orange { background-color: var(--primary); }
+        .badge-yellow { background-color: var(--accent); color: var(--dark); }
+        .badge-green { background-color: var(--success); }
+        .badge-blue { background-color: var(--info); }
+        .badge-red { background-color: #e74c3c; }
+        
+        .links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 1rem 0;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.2);
+            transition: background-color 0.3s;
+        }
+        
+        .link:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section-title {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 1.5rem;
+        }
+        
+        .feature {
+            background-color: rgba(0, 78, 137, 0.05);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+            transition: transform 0.3s, background-color 0.3s;
+        }
+        
+        .feature:hover {
+            transform: translateY(-3px);
+            background-color: rgba(0, 78, 137, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+        }
+        
+        .highlight {
+            background-color: rgba(255, 107, 53, 0.1);
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: 500;
+            color: var(--primary);
+        }
+        
+        .code-block {
+            background-color: #282c34;
+            color: #abb2bf;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 1rem 0;
+            position: relative;
+        }
+        
+        .code-block::before {
+            content: attr(data-lang);
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.7);
+            padding: 2px 10px;
+            border-radius: 0 8px 0 5px;
+            font-size: 0.8rem;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background-color: rgba(0, 78, 137, 0.05);
+        }
+        
+        tr:hover {
+            background-color: rgba(0, 78, 137, 0.1);
+        }
+        
+        .note {
+            background-color: rgba(255, 190, 11, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .note-title {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            background-color: var(--dark);
+            color: white;
+            border-radius: 20px 20px 0 0;
+            margin-top: 2rem;
+        }
+        
+        .author {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+        
+        .author:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            header h2 {
+                font-size: 1.2rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            .section {
+                padding: 1.5rem;
+            }
+        }
+        
+        /* Animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            margin-bottom: -1px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            background-color: #f1f1f1;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            border-radius: 5px 5px 0 0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .tab.active {         kes.html
+            background-color: white;
+            border-bottom: 1px solid white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Scroll to top button */
+        .scroll-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 100;
+        }
+        
+        .scroll-top.visible {
+            opacity: 1;
+        }
+        
+        .scroll-top:hover {
+            background-color: var(--secondary);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>KaplanDrive</h1>
+        <h2>A KaplanBedwars Original Team</h2>
+        
+        <div class="links">
+            
+            <a href="https://github.com/KaplanBedwars/kaplandrive/blob/main/README_english.md" class="link">English</a>
+            <a href="p.html" class="link">Gizlilik Politikası</a>
+             <a href="kes.html" class="link">KaplanDrive example server</a>
+        </div>
+        
+        <div class="badges">
+            <span class="badge badge-orange">Orginal</span>
+            <span class="badge badge-yellow">GPLv3 License</span>
+            <span class="badge badge-blue">Language-Java</span>
+            <span class="badge badge-green">Platform-Android</span>
+            <span class="badge badge-orange">A KaplanBedwars Original</span>
+            <span class="badge badge-green">status-stable</span>
+            <span class="badge badge-red">type-Android_App</span>
+            <span class="badge badge-red">Made_with-KaplanBedwars❤</span>
+            <span class="badge badge-orange">100% Original</span>
+            <span class="badge badge-green">No Ads</span>
+        </div>
+    </header>
+    
+    <div class="container">
+        <section class="section">
+            <h2 class="section-title">Hakkında</h2>
+            <p>Bu uygulama ile şunları yapabilirsiniz:</p>
+            
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">🔽</div>
+                    <h3 class="feature-title">Dosya İndirme</h3>
+                    <p>Dosyaları kendi yerel sunucunuzdan indirin</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">✏️</div>
+                    <h3 class="feature-title">Yeniden Adlandırma</h3>
+                    <p>Sunucunuzdaki dosyaları anında yeniden adlandırın</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">🔼</div>
+                    <h3 class="feature-title">Dosya Yükleme</h3>
+                    <p>Dosyaları sunucunuzdan cihazınıza yükleyin</p>
+                </div>
+            </div>
+            
+            <div class="note">
+                <p class="note-title">📡 Yerel Ağ İçinde Güvenli</p>
+                <p>Tüm işlemler <span class="highlight">yerel ağınız</span> içinde tamamen <span class="highlight">cihazınızda</span> gerçekleştirilir.</p>
+                <p>🚫 KaplanDrive <span class="highlight">herhangi bir harici sunucuya bağlanmaz</span> - verileriniz sizde kalır.</p>
+            </div>
+            
+            <p>İster bir geliştirici, ister güçlü bir kullanıcı veya gizliliğe önem veren biri olun, Kaplandrive yerel dosya aktarımları için temiz ve verimli bir çözüm sunar.</p>
+            
+            <h3 style="margin-top: 1.5rem; color: var(--secondary);">Önemli Noktalar:</h3>
+            <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                <li>Bilgisayarınızda barındırılan hızlı ve kararlı HTTP/HTTPS sunucusu</li>
+                <li>Paylaşılan depolamayı yönetmek için tam destek (MANAGE_EXTERNAL_STORAGE izni)</li>
+                <li>100% açık kaynaklı ve reklamsız</li>
+            </ul>
+        </section>
+        
+        <section class="section">
+            <h2 class="section-title">Sunucu Kurulumu</h2>
+            
+            <div class="note">
+                <p><strong>*Not:</strong> "KaplanDrive" veya "A KaplanBedwars Original Team" herhangi bir sunucu sağlamaz.</p>
+            </div>
+            
+            <p>Ama <a href="https://github.com/KaplanBedwars/kaplandrive/tree/main/kaplandrive-example-server" style="color: var(--primary); text-decoration: none; font-weight: 500;">bu adresten</a> örnek sunucu koduna ulaşabilirsiniz.</p>
+            
+            <p>Uygulama'nın şu anda sadece "192.168.1.38" adresi için http desteği vardır. Yani <span class="highlight">HTTPS</span> sunucusu kurmanız gerekir.</p>
+            
+            <p>Uygulama dosyaları; <strong>Yeniden adlandırma, Karşıya dosya yükleme, Karşıdaki dosyayı indirme</strong> işlemleri için sunucunuzda bazı yollar olmalıdır.</p>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Yol</th>
+                            <th>İşlev</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>/files</code></td>
+                            <td>Dosyaların JSON listesi</td>
+                        </tr>
+                        <tr>
+                            <td><code>/upload</code></td>
+                            <td>Sunucuya dosya yüklemek için</td>
+                        </tr>
+                        <tr>
+                            <td><code>/rename</code></td>
+                            <td>Sunucudan dosya yeniden isimlendirmek için</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <h3 style="margin-top: 2rem; color: var(--secondary);">Örnek yol kodları</h3>
+            
+            <div class="tabs">
+                <div class="tab active" onclick="openTab(event, 'files-tab')">/files</div>
+                <div class="tab" onclick="openTab(event, 'upload-tab')">/upload</div>
+                <div class="tab" onclick="openTab(event, 'rename-tab')">/rename</div>
+            </div>
+            
+          <div id="files-tab" class="tab-content active">
+  <div class="code-block" data-lang="JavaScript">
+    <pre><code>// /files endpoint örneği
+app.get('/files', (req, res) => {
+  fs.readdir('uploads', (err, files) => {
+    if (err) return res.status(500).send('Dosyalar okunamadı');
+    res.json({ files: files.map(filename => `/uploads/${filename}`) });
+  });
+});</code></pre>
+  </div>
+
+  <p>Çıktısı Böyle Olmalıdır:</p>
+
+  <div class="code-block" data-lang="JSON">
+    <pre><code>{
+  "files": [
+    "/uploads/file_01.jpg",
+    "/uploads/file_02.jpg",
+    "/uploads/file_03.jpg",
+    "/uploads/file_04.jpg",
+    "/uploads/file_05.zip",
+    "/uploads/file_06.apk",
+    "/uploads/file_07.apk",
+    "/uploads/file_08.jpg",
+    "/uploads/file_09.jpg",
+    "/uploads/file_10.jpg",
+    "/uploads/file_11.mp4",
+    "/uploads/file_12.mp4",
+    "/uploads/file_13.docx",
+    "/uploads/file_14.jpg",
+    "/uploads/file_15.mp4",
+    "/uploads/file_16.jpg",
+    "/uploads/file_17.apk",
+    "/uploads/file_18.jpg",
+    "/uploads/file_19.jpg",
+    "/uploads/file_20.jpg",
+    "/uploads/file_21.jpg",
+    "/uploads/file_22.png",
+    "/uploads/file_23.png",
+    "/uploads/file_24.png",
+    "/uploads/file_25.png",
+    "/uploads/file_26.png",
+    "/uploads/file_27.png",
+    "/uploads/file_28.png",
+    "/uploads/file_29.mp4",
+    "/uploads/file_30.mp4",
+    "/uploads/file_31.docx",
+    "/uploads/file_32.txt",
+    "/uploads/file_33.webp",
+    "/uploads/file_34.jpg",
+    "/uploads/file_35.jpg",
+    "/uploads/file_36.jpg",
+    "/uploads/file_37.mp4",
+    "/uploads/file_38.png",
+    "/uploads/file_39.jpg"
+  ]
+}</code></pre>
+  </div>
+</div>
+
+            <div id="upload-tab" class="tab-content">
+  <div class="code-block" data-lang="JavaScript">
+    <pre><code>// /upload endpoint örneği
+app.post('/upload', upload.single('file'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).send({ error: 'Dosya seçilmedi.' });
+  }
+  res.status(200).json({ url: `/uploads/${req.file.filename}` });
+});</code></pre>
+  </div>
+</div>
+
+            
+           <div id="rename-tab" class="tab-content">
+  <div class="code-block" data-lang="JavaScript">
+    <pre><code>// /rename endpoint örneği
+app.post('/rename', (req, res) => {
+  const { oldPath, newName } = req.body;
+
+  // 1. Gelen oldPath'den "uploads/" kısmını çıkar (eğer varsa)
+  const sanitizedOldPath = oldPath.replace(/^\/?uploads\//, ''); // "uploads/ilk.apk" → "ilk.apk"
+
+  // 2. Güvenlik kontrolü (../ karakterlerini engelle)
+  if (sanitizedOldPath.includes('..') || newName.includes('..')) {
+    return res.status(400).json({ error: "Geçersiz dosya yolu!" });
+  }
+
+  // 3. Dosya yollarını oluştur
+  const baseDir = path.join(__dirname, 'uploads');
+  const absoluteOldPath = path.join(baseDir, sanitizedOldPath); // /proje_dizini/uploads/ilk.apk
+  const absoluteNewPath = path.join(baseDir, path.dirname(sanitizedOldPath), newName);
+
+  // 4. Dosya varlık kontrolü
+  if (!fs.existsSync(absoluteOldPath)) {
+    return res.status(404).json({ error: "Dosya bulunamadı!" });
+  }
+
+  // 5. Yeniden adlandırma işlemi
+  fs.rename(absoluteOldPath, absoluteNewPath, (err) => {
+    if (err) {
+      console.error("Hata:", err);
+      return res.status(500).json({ error: "Dosya işlenemedi!" });
+    }
+    res.json(newName);
+  });
+});</code></pre>
+  </div>
+</div>
+
+        </section>
+        
+        <section class="section">
+            <h2 class="section-title">Yazarlar ve Teşekkür</h2>
+            <p>Tasarım ve geliştirme için:</p>
+            <a href="https://github.com/KaplanBedwars" class="author">
+                <span>@KaplanBedwars</span>
+            </a>
+        </section>
+    </div>
+    
+    <footer>
+        <p>© 2023 KaplanDrive | A KaplanBedwars Original Team</p>
+    </footer>
+    
+    <div class="scroll-top" onclick="scrollToTop()" id="scrollTopBtn">↑</div>
+    
+    <script>
+        // Tab functionality
+        function openTab(evt, tabName) {
+            const tabContents = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove("active");
+            }
+            
+            const tabs = document.getElementsByClassName("tab");
+            for (let i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove("active");
+            }
+            
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+        
+        // Scroll to top button
+        window.onscroll = function() {
+            const scrollTopBtn = document.getElementById("scrollTopBtn");
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                scrollTopBtn.classList.add("visible");
+            } else {
+                scrollTopBtn.classList.remove("visible");
+            }
+        };
+        
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+        
+        // Add floating animation to features
+        const features = document.querySelectorAll('.feature');
+        features.forEach((feature, index) => {
+            feature.style.animationDelay = `${index * 0.1}s`;
+            feature.classList.add('floating');
+        });
+    </script>
+</body>
+</html>

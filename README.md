@@ -6,6 +6,8 @@
 
 - [English](https://github.com/KaplanBedwars/kaplandrive/blob/main/README_english.md)
 
+-  [Site](https://kaplanbedwars.github.io/kaplandrive/)
+
 ### Rozetler:
 
 [![Orginal](https://github.com/KaplanBedwars/KaplanBedwars/blob/main/q(1).png)](https://choosealicense.com/licenses/mit/)
