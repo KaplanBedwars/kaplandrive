@@ -16,70 +16,93 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import androidx.annotation.LayoutRes;
-import androidx.annotation.RequiresApi;
-import androidx.core.content.ContextCompat;
 
-/**
- * ----------------------------------------------------------------------------------------------------
- * KaplanBedwars tarafından  https://github.com/Garakrral/Cow/tree/main adresinden alınmıştır.
- *
- * KaplanBedwars tarafından geliştirilmeye devam edilecektir
- *                                                                 A KaplanBedwars orginal 2025
- *-----------------------------------------------------------------------------------------------------
- */
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class cow {
 
     private static View toastView;
     private static final Handler handler = new Handler(Looper.getMainLooper());
-    private static boolean isSupermanControlEnabled = true;  // opsiyonel hale getirildi
-    private static @LayoutRes int defaultLayout = R.layout.custom_toast_layout; // Değiştirilebilir varsayılan layout
+    private static boolean isSupermanControlEnabled = true;
+    private static @LayoutRes int defaultLayout = R.layout.custom_toast_layout;
 
-    /**
-     * Tek satırdan özel toast göstermek için kısayol
-     */
+    private static final Queue<ToastData> toastQueue = new LinkedList<>();
+    private static final int MAX_QUEUE = 5;
+
+    private static class ToastData {
+        Context context;
+        String message;
+        int duration;
+        int layoutRes;
+
+        ToastData(Context context, String message, int duration, int layoutRes) {
+            this.context = context.getApplicationContext();
+            this.message = message;
+            this.duration = duration;
+            this.layoutRes = layoutRes;
+        }
+    }
+
     public static void show(Context context, String message) {
         show(context, message, 3000, defaultLayout);
     }
 
-    /**
-     * Tam kontrol ile gösterim
-     */
     public static void show(Context context, String message, int durationMillis, @LayoutRes int layoutResId) {
         if (context == null || message == null) return;
 
         Context appContext = context.getApplicationContext();
 
-        // Overlay izni kontrolü
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(appContext)) {
             requestOverlayPermission(appContext);
             return;
         }
 
-        // Opsiyonel ayar kontrolü
         if (isSupermanControlEnabled && !superman.isbmEnabled(appContext)) {
             return;
         }
 
-        try {
-            // Mevcut view varsa kaldır
-            if (toastView != null) {
-                removeView(appContext);
-            }
+        ToastData toastData = new ToastData(appContext, message, durationMillis, layoutResId);
 
-            LayoutInflater inflater = LayoutInflater.from(appContext);
-            View view = inflater.inflate(layoutResId, null);
+        if (toastView != null) {
+            if (toastQueue.size() >= MAX_QUEUE) {
+                android.util.Log.w("Cow", "⚠️ Toast kuyruğu dolu, yeni mesaj eklenmedi.");
+                return;
+            }
+            toastQueue.add(toastData);
+            updateQueueIndicator(); // gösteriliyorsa güncelle
+        } else {
+            showToast(toastData);
+        }
+    }
+
+    private static void showToast(ToastData data) {
+        try {
+            LayoutInflater inflater = LayoutInflater.from(data.context);
+            View view = inflater.inflate(data.layoutRes, null);
 
             TextView textView = view.findViewById(R.id.toast_text);
             if (textView != null) {
-                textView.setText(message);
+                textView.setText(data.message);
             }
 
-            WindowManager windowManager = (WindowManager) appContext.getSystemService(Context.WINDOW_SERVICE);
+            TextView queueView = view.findViewById(R.id.toast_queue);
+            if (queueView != null) {
+                int remaining = toastQueue.size();
+                if (remaining > 0) {
+                    queueView.setVisibility(View.VISIBLE);
+                    queueView.setText("1/" + (remaining + 1));
+                } else {
+                    queueView.setVisibility(View.GONE);
+                }
+            }
+
+            WindowManager windowManager = (WindowManager) data.context.getSystemService(Context.WINDOW_SERVICE);
             if (windowManager == null) return;
 
-            int layoutType = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) ?
-                    WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY :
-                    WindowManager.LayoutParams.TYPE_PHONE;
+            int layoutType = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                    ? WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+                    : WindowManager.LayoutParams.TYPE_PHONE;
 
             WindowManager.LayoutParams params = new WindowManager.LayoutParams(
                     WindowManager.LayoutParams.WRAP_CONTENT,
@@ -97,8 +120,12 @@ public class cow {
             windowManager.addView(view, params);
             toastView = view;
 
-            // Otomatik kaldırma
-            handler.postDelayed(() -> removeView(appContext), durationMillis);
+            handler.postDelayed(() -> {
+                removeView(data.context);
+                if (!toastQueue.isEmpty()) {
+                    showToast(toastQueue.poll());
+                }
+            }, data.duration);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -106,9 +133,6 @@ public class cow {
         }
     }
 
-    /**
-     * Görüntüyü güvenli şekilde kaldır
-     */
     private static void removeView(Context context) {
         try {
             if (toastView != null) {
@@ -123,9 +147,6 @@ public class cow {
         }
     }
 
-    /**
-     * Overlay izni istenirse kullanıcı yönlendirilir
-     */
     private static void requestOverlayPermission(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
@@ -135,17 +156,21 @@ public class cow {
         }
     }
 
-    /**
-     * Layout'u dışarıdan ayarlamak için
-     */
     public static void setDefaultLayout(@LayoutRes int layoutResId) {
         defaultLayout = layoutResId;
     }
 
-    /**
-     * Ayar kontrolü aç/kapa
-     */
     public static void setSupermanControlEnabled(boolean enabled) {
         isSupermanControlEnabled = enabled;
+    }
+
+    private static void updateQueueIndicator() {
+        if (toastView == null) return;
+        TextView queueText = toastView.findViewById(R.id.toast_queue);
+        if (queueText != null) {
+            int remaining = toastQueue.size();
+            queueText.setVisibility(View.VISIBLE);
+            queueText.setText("1/" + (remaining + 1));
+        }
     }
 }

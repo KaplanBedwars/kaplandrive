@@ -1,6 +1,6 @@
-package com.kaplandev.kaplandrivenew;
+package com.kaplandev.kaplandrivenew.noUsage;
 
-import android.content.Context;
+/*import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.view.Gravity;
@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.kaplandev.kaplandrivenew.superman;
 
 
 public class ErrorTips {
@@ -45,3 +46,4 @@ public class ErrorTips {
         snackbar.show(); // Snackbar'ı göster
     }
 }
+*/

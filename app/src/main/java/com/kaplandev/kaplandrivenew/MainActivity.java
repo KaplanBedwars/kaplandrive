@@ -3,13 +3,9 @@ package com.kaplandev.kaplandrivenew;
 import android.Manifest;
 import android.app.Activity;
 import android.app.DownloadManager;
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -17,12 +13,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
-import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +28,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
@@ -45,7 +38,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+import com.kaplandev.kaplandrivenew.tipsSheep.tips;
 
 
 import org.json.JSONObject;
@@ -173,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (superman.isFirstRun(this)) {
-            // 🔥 Bu kod sadece ilk açılışta çalışır
+
             superman.setIfirstrun(this, false);
             superman.setnoEnabled(this, false);
             startActivity(new Intent(this, firstRunActiivty.class));
@@ -181,13 +174,12 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        //tudey yurugit
 
         fileApi = retrofitInstance().create(FileApi.class);
 
 
         // Dosyaları yükle
-        loadFiles();
+
         hideSystemUI();
 
 
@@ -238,49 +230,22 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         // URL değişmiş mi diye kontrol et, Retrofit'i yenile
         fileApi = retrofitInstance().create(FileApi.class);
-        loadFiles(); // Dosyaları yeniden yükle
+        tips.show(findViewById(android.R.id.content),
+                "Dosyalar", "Dosyaları yüklemek için tıklayın.",
+                () -> {
+                    loadFiles();
+                }, 6000);
+
     }
 
 
 
     private void showUrlChangeDialog() {
-        /*AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Yeni Server URL Girin");
-
-        final EditText input = new EditText(this);
-        input.setText(superman.get(this)); // Superman.get() ile mevcut URL'yi göster
-        builder.setView(input);
-
-        builder.setPositiveButton("Kaydet", (dialog, which) -> {
-            String newUrl = input.getText().toString().trim();
-
-            if (newUrl.isEmpty()) {
-                tips.show(findViewById(android.R.id.content), "Uyarı", "URL Boş olamaz!");
-                return;
-            }
-
-            if (!newUrl.startsWith("http://") && !newUrl.startsWith("https://")) {
-                newUrl = "https://" + newUrl;
-            }
-
-            superman.set(this ,newUrl); // Superman.set() ile yeni URL'yi kaydet
-            fileApi = retrofitInstance().create(FileApi.class);
-            tips.show(findViewById(android.R.id.content), "Bilgi", "Sunucu ip'niz değişti!");
-            fileAdapter.clearFiles();
-            loadFiles();
-        });
-
-        builder.setNegativeButton("İptal", (dialog, which) -> dialog.dismiss());
-        builder.show();
-
-         */
 
         startActivity(new Intent(this, SettingsActivity.class));
     }
 
-//ne bu yav? yeniomu
 
-    //La la la lava ch ch ch chicken. steves lava chicken yeah its a hell
     private FileApi createFileApi() {
         return new Retrofit.Builder()
                 .baseUrl(superman.get(this)) // Güncel URL'yi al
@@ -315,28 +280,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    /*@Override
-    public void onBackPressed() {
-        long currentTime = System.currentTimeMillis();
-
-        if (backPressedTime != 0 && currentTime - backPressedTime <= DOUBLE_BACK_PRESS_INTERVAL) {
-            // Çift tıklama algılandı → Dialog göster
-
-            backPressedTime = 0; // Zamanı sıfırla
-        } else {
-            // İlk tıklama → Toast göster ve zamanı kaydet
-            tips.show(findViewById(android.R.id.content), "Bilgi!", "Bir kez daha basarak Sunucu ip'nizi değiştirin. 2 sn içinde basmazsınız uygulama kapanacak!");
-            backPressedTime = currentTime;
-
-            // 2 saniye sonra otomatik çıkış için Handler
-            new Handler().postDelayed(() -> {
-                if (backPressedTime != 0) { // Hâlâ çift tıklama yapılmadıysa
-                    super.onBackPressed(); // Uygulamadan çık
-                    backPressedTime = 0; // Resetle
-                }
-            }, DOUBLE_BACK_PRESS_INTERVAL);
-        }
-    }*/
 
 
 
@@ -380,7 +323,7 @@ public class MainActivity extends AppCompatActivity {
                     if (!currentVersion.equals(latestVersion)) {
                         runOnUiThread(() -> startActivity(new Intent(this, update.class)));
                     } else {
-                        runOnUiThread(() -> tips.show(findViewById(android.R.id.content), "Bilgi!", "Sürümünüz güncel! YEHUUUUU"));
+                        runOnUiThread(() -> tips.show(findViewById(android.R.id.content), "Bilgi!", "Sürümünüz güncel! YEHUUUUU", null, 800));
                     }
 
                 }
@@ -434,7 +377,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<FilesResponse> call, Throwable t) {
                 ErrorNotificationUtils.showErrorNotification("Hata!", "Dosyalar yüklenirken bir hata oluştu..");
-                tips.show(findViewById(android.R.id.content), "İpucu!", "2 Kere geriye basarak Sunucu ip'nizi değiştirin!");
+                tips.show(
+                        findViewById(android.R.id.content),
+                        "İpucu!",
+                        "Sunucu adresini değiştirmek için tıklayın!",
+                        () -> {
+                            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                        }
+                );
+
                 hideLoadingPopup();
 
 

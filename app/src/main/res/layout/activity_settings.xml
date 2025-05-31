@@ -238,41 +238,7 @@
                             app:trackTint="@color/switch_track"/>
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginStart="56dp"
-                        android:background="@color/divider_color"/>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:padding="16dp">
 
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@drawable/smartphone_24px"
-                            app:tint="@color/accent_color"/>
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_marginStart="16dp"
-                            android:text="Dosyalar yüklenemedi sayfası(deneysel)"
-                            android:textColor="@color/light_text"
-                            android:textSize="16sp"/>
-
-                        <com.google.android.material.switchmaterial.SwitchMaterial
-                            android:id="@+id/tospik"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="true"
-                            app:thumbTint="@color/switch_thumb"
-                            app:trackTint="@color/switch_track"/>
-                    </LinearLayout>
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
@@ -333,6 +299,7 @@
 
 
                 </LinearLayout>
+
             </com.google.android.material.card.MaterialCardView>
 
             <!-- Geliştirici Navigasyonu Kartı -->
@@ -347,6 +314,7 @@
                 app:strokeColor="@color/card_stroke"
                 app:strokeWidth="1dp">
 
+                <!-- Tüm içeriği saran dikey LinearLayout -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -386,7 +354,7 @@
                         android:layout_marginEnd="16dp"
                         android:background="@color/divider_color"/>
 
-                    <!-- Butonlar -->
+                    <!-- Buton -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/doc"
                         android:layout_width="match_parent"
@@ -399,10 +367,37 @@
                         app:strokeColor="@color/accent_color"
                         app:strokeWidth="1dp"/>
 
+                    <!-- İkinci Satır -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp">
 
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/smartphone_24px"
+                            app:tint="@color/accent_color"/>
 
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="16dp"
+                            android:text="Dosyalar yüklenemedi sayfası(deneysel)"
+                            android:textColor="@color/light_text"
+                            android:textSize="16sp"/>
 
-
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/tospik"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            app:thumbTint="@color/switch_thumb"
+                            app:trackTint="@color/switch_track"/>
+                    </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 

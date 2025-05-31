@@ -1,6 +1,6 @@
-package com.kaplandev.kaplandrivenew;
-  //Burası artık sessiz ve sakin. Evet beceremedik (: Daha doğrusu üşendik ve bu class terk edildi. silmeyede üşeniyom. :D
-/*import android.os.Handler;
+package com.kaplandev.kaplandrivenew.noUsage;
+ /*
+import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
