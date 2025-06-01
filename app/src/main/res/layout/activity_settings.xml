@@ -367,6 +367,18 @@
                         app:strokeColor="@color/accent_color"
                         app:strokeWidth="1dp"/>
 
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/crash"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:text="Uygulamayı Kasıtlı olarak çöktür"
+                        android:textColor="@color/light_text"
+                        app:backgroundTint="@color/card_background"
+                        app:cornerRadius="8dp"
+                        app:strokeColor="@color/accent_color"
+                        app:strokeWidth="1dp"/>
+
                     <!-- İkinci Satır -->
                     <LinearLayout
                         android:layout_width="match_parent"

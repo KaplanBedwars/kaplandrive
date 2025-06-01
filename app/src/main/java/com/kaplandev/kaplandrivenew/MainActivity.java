@@ -38,6 +38,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.kaplandev.kaplandrivenew.crashHandlers.CrashHandler;
 import com.kaplandev.kaplandrivenew.tipsSheep.tips;
 
 
@@ -119,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
          //bu tospikler artık ayarlar butonu
         btnCheckUpdate = findViewById(R.id.btn_check_update);
         btnCheckUpdate.setOnClickListener(v -> showUrlChangeDialog());
-        // --------------------------------------------------------
+        // ------ --------------------------------------------------
 
         NotificationUtils.createNotificationChannel(this);
         PermissionHelper.checkNotificationPermission(this);//çalışmazsan yalarım babanneni
@@ -141,13 +142,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        //todo: sıkıkntı çıkarsa bu eski retrofit
-        // eski retrıfit bb ):
-       // Retrofit retrofit = new Retrofit.Builder()
-                //.baseUrl("http://192.168.1.38:8080/") // IP'Yİ GÜNCELLE!
-                //.addConverterFactory(MoshiConverterFactory.create())
-                //.build();
-      //  fileApi = retrofitInstance().create(FileApi.class);
+
 
 
         // UI Elements

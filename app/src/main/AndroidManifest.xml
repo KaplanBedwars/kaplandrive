@@ -20,6 +20,7 @@
     <uses-feature android:glEsVersion="0x00020000" android:required="false" />
 
     <application
+        android:name=".crashHandlers.setup"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -87,6 +88,9 @@
             android:name=".firstRunActiivty"
             android:exported="true"
             android:theme="@style/Theme.KaplandriveNEW"/>
+        <activity
+            android:name=".crashHandlers.CrashDisplayActivity"
+            android:exported="true"
+            android:theme="@style/Theme.KaplandriveNEW" />
     </application>
-
 </manifest>

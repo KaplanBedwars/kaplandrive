@@ -1,6 +1,7 @@
 package com.kaplandev.kaplandrivenew;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
@@ -93,11 +94,12 @@ public class SettingsActivity extends AppCompatActivity {
 
         Button buttonSave = findViewById(R.id.buttonSaveSettings);
         @SuppressLint({"MissingInflatedId", "LocalSuppress"}) Button doc = findViewById(R.id.doc);
+        Button crash = findViewById(R.id.crash);
         View btnCheckUpdate2 = findViewById(R.id.buttonCheckUpdates);
 
         btnCheckUpdate2.setOnClickListener(v -> checkForUpdate());
         doc.setOnClickListener(v -> docs());
-
+        crash.setOnClickListener(v -> confirmAndCrash(this));
         // Mevcut ayarları yükle
         loadCurrentSettings();
 
@@ -125,6 +127,17 @@ public class SettingsActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
+    }
+
+    public void confirmAndCrash(Context context) {
+        new AlertDialog.Builder(context)
+                .setTitle("Test: Uygulamayı Çökert")
+                .setMessage("Uygulamayı çökertmek isityormusunuz? BU İŞLEM GERİ ALINAMAZ")
+                .setPositiveButton("Evet", (dialog, which) -> {
+                    throw new RuntimeException("TestCrash");
+                })
+                .setNegativeButton("Hayır", null)
+                .show();
     }
 
     private void saveSettings() {
