@@ -10,8 +10,8 @@ android {
         applicationId = "com.kaplandev.kaplandrivenew"
         minSdk = 29
         targetSdk = 34
-        versionCode = 33
-        versionName = "build 20.4"
+        versionCode = 40
+        versionName = "build 20.6"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
