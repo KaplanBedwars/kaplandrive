@@ -18,6 +18,10 @@ public class superman {
     private static final String BM_ENABLED = "bm_enabled";
     private static final String ISFIRST = "isfirstrun";
 
+    private static final String DS = "developer_settings";
+
+    private static final String HTTP = "http";
+
     // URL İşlemleri
     public static void set(Context context, String url) {
         SharedPreferences.Editor editor = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit();
@@ -108,6 +112,33 @@ public class superman {
     public static void setIfirstrun(Context context, boolean enabled) {
         SharedPreferences.Editor editor = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit();
         editor.putBoolean(ISFIRST, enabled);
+        editor.apply();
+    }
+
+    //Geliştirici seçenekleri ayarı
+
+    public static boolean isdevsettingson(Context context) {
+        return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                .getBoolean(DS, false); //varsayılan olarak kapalı
+
+    }
+
+
+    public static void setdevsettingson(Context context, boolean enabled) {
+        SharedPreferences.Editor editor = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit();
+        editor.putBoolean(DS, enabled);
+        editor.apply();
+    }
+     //http engelleme
+    public static boolean ishttpon(Context context) {
+        return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                .getBoolean(HTTP, false); //varsayılan olarak kapalı
+
+    }
+
+    public static void sethttpon(Context context, boolean enabled) {
+        SharedPreferences.Editor editor = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit();
+        editor.putBoolean(HTTP, enabled);
         editor.apply();
     }
 }

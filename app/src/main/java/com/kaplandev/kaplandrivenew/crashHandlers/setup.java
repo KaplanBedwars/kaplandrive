@@ -9,5 +9,10 @@ public class setup extends Application {
 
         // Burada crash handler kurulumu yapılır
         Thread.setDefaultUncaughtExceptionHandler(new CrashHandler(this));
+
+
+        //--------------------------------------------------------------------------
+        // Bazı gerekli kodlar
+        //-------------------------------------------------------------------------
     }
 }

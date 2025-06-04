@@ -37,6 +37,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.color.DynamicColors;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kaplandev.kaplandrivenew.crashHandlers.CrashHandler;
 import com.kaplandev.kaplandrivenew.tipsSheep.tips;
@@ -132,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
         checkOverlayPermission(this); // örneğin onCreate() içinde çağır // örneğin onCreate() içinde çağır
 
 
+        DynamicColors.applyToActivitiesIfAvailable(this.getApplication());
 
         ErrorNotificationUtils.initialize(this);
         // Uygulama başlangıcında (Application sınıfında veya ilk Activity'de):

@@ -97,11 +97,11 @@
         android:layout_gravity="top|start"
         android:layout_marginTop="16dp"
         android:background="@null"
-    android:elevation="4dp"
+        android:elevation="4dp"
 
-    android:scaleType="centerInside"
-    android:outlineProvider="background"
-    android:stateListAnimator="@null"/>
+        android:scaleType="centerInside"
+        android:outlineProvider="background"
+        android:stateListAnimator="@null"/>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

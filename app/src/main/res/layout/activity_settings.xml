@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_background">
+    android:background="?attr/android:colorBackground">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@android:color/transparent"
             app:navigationIcon="@drawable/arrow_back_24px"
-            app:titleTextColor="@color/light_text"
+            app:titleTextColor="?attr/colorOnBackground"
             app:title="Ayarlar"/>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -43,10 +43,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="8dp"
-                app:cardBackgroundColor="@color/card_background"
+                app:cardBackgroundColor="?attr/colorSurface"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="2dp"
-                app:strokeColor="@color/card_stroke"
+                app:strokeColor="?attr/colorOutline"
                 app:strokeWidth="1dp">
 
                 <LinearLayout
@@ -59,21 +59,31 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Sunucu Adresi"
-                        app:hintTextColor="@color/accent_color"
-                        app:boxStrokeColor="@color/accent_color"
+                        app:hintTextColor="?attr/colorPrimary"
+                        app:boxStrokeColor="?attr/colorPrimary"
                         style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/editTextServerUrl"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="textUri|textNoSuggestions"
-                            android:imeOptions="actionDone"
                             android:hint="https://ornek.sunucu.com"
-                            android:textColor="@color/light_text"
-                            android:textColorHint="@color/gray_text"
-                            android:textSize="16sp"/>
+                            android:imeOptions="actionDone"
+                            android:inputType="textUri|textNoSuggestions"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textColorHint="?attr/colorOnSurfaceVariant"
+                            android:textSize="16sp" />
                     </com.google.android.material.textfield.TextInputLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Url'yi geçerli girin. Adresin sonuna / işareti ekleyin. Yazdığınız URL'den KaplanDrive sorumlu değildir."
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:textSize="12sp"
+                        android:paddingTop="4dp"
+                        android:paddingStart="4dp"
+                        android:paddingEnd="4dp" />
+
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -83,10 +93,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="16dp"
-                app:cardBackgroundColor="@color/card_background"
+                app:cardBackgroundColor="?attr/colorSurface"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="2dp"
-                app:strokeColor="@color/card_stroke"
+                app:strokeColor="?attr/colorOutline"
                 app:strokeWidth="1dp">
 
                 <LinearLayout
@@ -106,7 +116,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/lightbulb_24px"
-                            app:tint="@color/accent_color"/>
+                            app:tint="?attr/colorPrimary"/>
 
                         <TextView
                             android:layout_width="0dp"
@@ -114,7 +124,7 @@
                             android:layout_weight="1"
                             android:layout_marginStart="16dp"
                             android:text="İpucu Bildirimleri"
-                            android:textColor="@color/light_text"
+                            android:textColor="?attr/colorOnSurface"
                             android:textSize="16sp"/>
 
                         <com.google.android.material.switchmaterial.SwitchMaterial
@@ -122,8 +132,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:checked="true"
-                            app:thumbTint="@color/switch_thumb"
-                            app:trackTint="@color/switch_track"/>
+                            app:thumbTint="?attr/colorPrimary"
+                            app:trackTint="?attr/colorSurfaceVariant"/>
                     </LinearLayout>
 
                     <!-- Bölücü Çizgi -->
@@ -131,7 +141,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginStart="56dp"
-                        android:background="@color/divider_color"/>
+                        android:background="?attr/colorOutline"/>
 
                     <!-- Hata Bildirimleri -->
                     <LinearLayout
@@ -145,7 +155,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/error"
-                            app:tint="@color/accent_color"/>
+                            app:tint="?attr/colorPrimary"/>
 
                         <TextView
                             android:layout_width="0dp"
@@ -153,7 +163,7 @@
                             android:layout_weight="1"
                             android:layout_marginStart="16dp"
                             android:text="Hata Bildirimleri"
-                            android:textColor="@color/light_text"
+                            android:textColor="?attr/colorOnSurface"
                             android:textSize="16sp"/>
 
                         <com.google.android.material.switchmaterial.SwitchMaterial
@@ -161,52 +171,23 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:checked="true"
-                            app:thumbTint="@color/switch_thumb"
-                            app:trackTint="@color/switch_track"/>
+                            app:thumbTint="?attr/colorPrimary"
+                            app:trackTint="?attr/colorSurfaceVariant"/>
                     </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginStart="56dp"
-                        android:background="@color/divider_color"/>
+                        android:background="?attr/colorOutline"/>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:padding="16dp">
 
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@drawable/update_24px"
-                            app:tint="@color/accent_color"/>
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_marginStart="16dp"
-                            android:text="Güncelleme Özellikleri "
-                            android:textColor="@color/light_text"
-                            android:textSize="16sp"/>
-
-                        <com.google.android.material.switchmaterial.SwitchMaterial
-                            android:id="@+id/switchupdate"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="true"
-                            app:thumbTint="@color/switch_thumb"
-                            app:trackTint="@color/switch_track"/>
-                    </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginStart="56dp"
-                        android:background="@color/divider_color"/>
+                        android:background="?attr/colorOutline"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -218,7 +199,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/smartphone_24px"
-                            app:tint="@color/accent_color"/>
+                            app:tint="?attr/colorPrimary"/>
 
                         <TextView
                             android:layout_width="0dp"
@@ -226,7 +207,7 @@
                             android:layout_weight="1"
                             android:layout_marginStart="16dp"
                             android:text="Açılış ekranı"
-                            android:textColor="@color/light_text"
+                            android:textColor="?attr/colorOnSurface"
                             android:textSize="16sp"/>
 
                         <com.google.android.material.switchmaterial.SwitchMaterial
@@ -234,16 +215,15 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:checked="true"
-                            app:thumbTint="@color/switch_thumb"
-                            app:trackTint="@color/switch_track"/>
+                            app:thumbTint="?attr/colorPrimary"
+                            app:trackTint="?attr/colorSurfaceVariant"/>
                     </LinearLayout>
-
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginStart="56dp"
-                        android:background="@color/divider_color"/>
+                        android:background="?attr/colorOutline"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -255,7 +235,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/info_24px"
-                            app:tint="@color/accent_color"/>
+                            app:tint="?attr/colorPrimary"/>
 
                         <TextView
                             android:layout_width="0dp"
@@ -263,7 +243,7 @@
                             android:layout_weight="1"
                             android:layout_marginStart="16dp"
                             android:text="Uygulama içindeki yeni bilgilendirme mesajları"
-                            android:textColor="@color/light_text"
+                            android:textColor="?attr/colorOnSurface"
                             android:textSize="16sp"/>
 
                         <com.google.android.material.switchmaterial.SwitchMaterial
@@ -271,11 +251,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:checked="true"
-                            app:thumbTint="@color/switch_thumb"
-                            app:trackTint="@color/switch_track"/>
+                            app:thumbTint="?attr/colorPrimary"
+                            app:trackTint="?attr/colorSurfaceVariant"/>
                     </LinearLayout>
-
-
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -285,21 +263,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="16dp"
-                app:cardBackgroundColor="@color/card_background"
+                app:cardBackgroundColor="?attr/colorSurface"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="2dp"
-                app:strokeColor="@color/card_stroke"
+                app:strokeColor="?attr/colorOutline"
                 app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-
-
-
                 </LinearLayout>
-
             </com.google.android.material.card.MaterialCardView>
 
             <!-- Geliştirici Navigasyonu Kartı -->
@@ -308,14 +282,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="16dp"
-                app:cardBackgroundColor="@color/card_background"
+                app:cardBackgroundColor="?attr/colorSurface"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="2dp"
-                app:strokeColor="@color/card_stroke"
+                app:strokeColor="?attr/colorOutline"
                 app:strokeWidth="1dp">
 
-                <!-- Tüm içeriği saran dikey LinearLayout -->
                 <LinearLayout
+                    android:id="@+id/DeveloperSettings"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -333,7 +307,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/code_24px"
-                            app:tint="@color/accent_color"/>
+                            app:tint="?attr/colorPrimary"/>
 
                         <TextView
                             android:layout_width="0dp"
@@ -341,10 +315,19 @@
                             android:layout_weight="1"
                             android:layout_marginStart="16dp"
                             android:text="Geliştirici Navigasyonu"
-                            android:textColor="@color/accent_color"
+                            android:textColor="?attr/colorPrimary"
                             android:textSize="16sp"
                             android:textStyle="bold"/>
                     </LinearLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Bu ayarlar yalnızca test amaçlıdır. Stabil bir kullanım için bu ayarları değiştirmeyin."
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:textSize="12sp"
+                        android:paddingTop="4dp"
+                        android:paddingStart="4dp"
+                        android:paddingEnd="4dp" />
 
                     <!-- Bölücü Çizgi -->
                     <View
@@ -352,7 +335,7 @@
                         android:layout_height="1dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
-                        android:background="@color/divider_color"/>
+                        android:background="?attr/colorOutline"/>
 
                     <!-- Buton -->
                     <com.google.android.material.button.MaterialButton
@@ -361,11 +344,17 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
                         android:text=" 'doc' sayfası"
-                        android:textColor="@color/light_text"
-                        app:backgroundTint="@color/card_background"
+                        android:textColor="?attr/colorOnSurface"
+                        app:backgroundTint="?attr/colorSurface"
                         app:cornerRadius="8dp"
-                        app:strokeColor="@color/accent_color"
+                        app:strokeColor="?attr/colorPrimary"
                         app:strokeWidth="1dp"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="?attr/colorOutline"/>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/crash"
@@ -373,11 +362,17 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
                         android:text="Uygulamayı Kasıtlı olarak çöktür"
-                        android:textColor="@color/light_text"
-                        app:backgroundTint="@color/card_background"
+                        android:textColor="?attr/colorOnSurface"
+                        app:backgroundTint="?attr/colorSurface"
                         app:cornerRadius="8dp"
-                        app:strokeColor="@color/accent_color"
+                        app:strokeColor="?attr/colorPrimary"
                         app:strokeWidth="1dp"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="?attr/colorOutline"/>
 
                     <!-- İkinci Satır -->
                     <LinearLayout
@@ -391,7 +386,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/smartphone_24px"
-                            app:tint="@color/accent_color"/>
+                            app:tint="?attr/colorPrimary"/>
 
                         <TextView
                             android:layout_width="0dp"
@@ -399,7 +394,7 @@
                             android:layout_weight="1"
                             android:layout_marginStart="16dp"
                             android:text="Dosyalar yüklenemedi sayfası(deneysel)"
-                            android:textColor="@color/light_text"
+                            android:textColor="?attr/colorOnSurface"
                             android:textSize="16sp"/>
 
                         <com.google.android.material.switchmaterial.SwitchMaterial
@@ -407,12 +402,288 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:checked="true"
-                            app:thumbTint="@color/switch_thumb"
-                            app:trackTint="@color/switch_track"/>
+                            app:thumbTint="?attr/colorPrimary"
+                            app:trackTint="?attr/colorSurfaceVariant"/>
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="?attr/colorOutline"/>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/bootClassDropdownLayout"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:hint="Başlangıç Sayfası">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/bootClassDropdown"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            android:focusable="false" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="BU AYARI GEREKMEDİKÇE DEĞİŞTİRMEYİN. BU AYAR UYGULAMA BAŞLARKEN HANGİ SINIFIN AÇILACAĞINI BELİRLER. VERİ KAYBINDA KaplanDrive SORUMLU DEĞİLDİR."
+                            android:textColor="@android:color/holo_red_dark"
+                            android:textSize="15sp"
+                            android:paddingTop="4dp"
+                            android:paddingStart="4dp"
+                            android:paddingEnd="4dp" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:background="?attr/colorOutline"/>
+
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/startMainActivty"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:text="com.kaplandev.kaplandrivenew.MainActivity'yi başlat"
+                            android:textColor="?attr/colorOnSurface"
+                            app:backgroundTint="?attr/colorSurface"
+                            app:cornerRadius="8dp"
+                            app:strokeColor="?attr/colorPrimary"
+                            app:strokeWidth="1dp"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- KaplanGuard ayarları -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                app:cardBackgroundColor="?attr/colorSurface"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                app:strokeColor="?attr/colorOutline"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <!-- Başlık -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="12dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/kaplanguard"
+                            app:tint="?attr/colorPrimary"/>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="16dp"
+                            android:text="KaplanGuard ayarları"
+                            android:textColor="?attr/colorPrimary"
+                            android:textSize="16sp"
+                            android:textStyle="bold"/>
+
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="KaplanGuard, sizin güvenliğinizi sağlar. Aşağıda ayarlarınızın güvenlik durumunu göre bilirsiniz. Eğer hata veriyorsa, ayarlarınız deneyiminizi CİDDİ şekilde etkiler."
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:textSize="12sp"
+                        android:paddingTop="4dp"
+                        android:paddingStart="15dp"
+                        android:paddingEnd="8dp" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="?attr/colorOutline"/>
+
+
+                    <TextView
+                        android:id="@+id/textStatusMessage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="Eğer bu yazıyı görüyorsan bir şeyler ters gitmiştir (:"
+                        android:textColor="#4CAF50"
+                       android:textSize="14sp"/>
+
+
+
+
+                    <!-- Bölücü Çizgi -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="?attr/colorOutline"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/update_24px"
+                            app:tint="?attr/colorPrimary"/>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="16dp"
+                            android:text="Güncelleme Özellikleri "
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="16sp"/>
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switchupdate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            app:thumbTint="?attr/colorPrimary"
+                            app:trackTint="?attr/colorSurfaceVariant"/>
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="?attr/colorOutline"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/code_24px"
+                            app:tint="?attr/colorPrimary"/>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="16dp"
+                            android:text="Ayarlar ekranında geliştirici navigasyonunu göster"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="16sp"/>
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switchDEVSETTİNG"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            app:thumbTint="?attr/colorPrimary"
+                            app:trackTint="?attr/colorSurfaceVariant"/>
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="?attr/colorOutline"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/http"
+                            app:tint="?attr/colorPrimary"/>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="16dp"
+                            android:text="HTTP Bağlantılarını Engelle"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="16sp"/>
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/urlguard"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            app:thumbTint="?attr/colorPrimary"
+                            app:trackTint="?attr/colorSurfaceVariant"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="HTTP bağlantılarını engellerseniz, girdiğiniz sunucu url'niz http ise çalışmayacaktır. "
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:textSize="12sp"
+                        android:paddingTop="4dp"
+                        android:paddingStart="4dp"
+                        android:paddingEnd="4dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="?attr/colorOutline"/>
+
+
+
+
+
+
+                    <!-- İkinci Satır -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp">
+
+
+
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-
 
             <!-- Kaydet Butonu -->
             <com.google.android.material.button.MaterialButton
@@ -422,28 +693,12 @@
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="24dp"
                 android:text="Ayarları Kaydet"
-                android:textColor="@color/dark_text"
+                android:textColor="?attr/colorOnPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:backgroundTint="@color/accent_color"
+                app:backgroundTint="?attr/colorPrimary"
                 app:cornerRadius="8dp"
                 app:elevation="2dp"/>
-
-           <!-- <com.google.android.material.button.MaterialButton
-                android:id="@+id/docs"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="16dp"
-                android:text="Kullanım"
-                android:textColor="@color/dark_text"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:backgroundTint="@color/accent_color"
-                app:cornerRadius="8dp"
-                app:elevation="2dp"/> -->
-
-
 
             <!-- Alt Bilgi -->
             <LinearLayout
@@ -459,7 +714,7 @@
                     android:layout_height="wrap_content"
                     android:text="Sürüm bilgisi için tıklayın"
                     android:clickable="true"
-                    android:textColor="@color/gray_text"
+                    android:textColor="?attr/colorOnSurfaceVariant"
                     android:textSize="12sp"/>
 
                 <com.google.android.material.button.MaterialButton
@@ -468,14 +723,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="Güncellemeleri Kontrol Et"
-                    android:textColor="@color/accent_color"
+                    android:textColor="?attr/colorPrimary"
                     android:textSize="14sp"
                     app:backgroundTint="@android:color/transparent"
                     app:cornerRadius="8dp"
-                    app:rippleColor="@color/accent_ripple"/>
+                    app:rippleColor="?attr/colorPrimary"/>
             </LinearLayout>
-
-
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

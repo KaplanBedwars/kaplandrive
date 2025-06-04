@@ -1,20 +1,27 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme with Material 3 -->
-    <style name="Theme.KaplandriveNEW" parent="Theme.Material3.DayNight.NoActionBar">
+    <!-- Base application dark theme with Material 3 -->
+    <style name="Theme.KaplandriveNEW.Dark" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Primary brand color -->
-        <item name="colorPrimary">@color/black</item>
-        <item name="colorOnPrimary">@color/white</item>
-
-        <!-- Secondary brand color -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorPrimary">#BB86FC</item>  <!-- accent_color -->
+        <item name="colorSecondary">#03DAC6</item>
+        <item name="android:colorBackground">@color/dark_background</item>  <!-- #121212 -->
+        <item name="colorSurface">@color/dark_surface</item>  <!-- #1E1E1E -->
+        <item name="colorOnSurface">@color/light_text</item>  <!-- #FFFFFF -->
 
         <!-- Status bar color -->
-        <item name="android:statusBarColor">@color/black</item>
-        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor">@color/dark_surface</item>  <!-- #1E1E1E -->
+        <item name="android:windowLightStatusBar">false</item>  <!-- Karanlık tema için false -->
 
         <!-- Material 3'ü aktif hale getir -->
-        <item name="materialThemeOverlay">@style/ThemeOverlay.Material3</item>
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Material3.Dark</item>
+
+        <!-- Ek karanlık tema özelleştirmeleri -->
+        <item name="colorPrimaryContainer">@color/card_background</item>  <!-- #1E1E1E -->
+        <item name="colorOnPrimaryContainer">@color/light_text</item>  <!-- #FFFFFF -->
+        <item name="colorErrorContainer">@color/card_background</item>
+        <item name="colorOnErrorContainer">@color/light_text</item>
+        <item name="android:textColorPrimary">@color/light_text</item>
+        <item name="android:textColorSecondary">@color/gray_text</item>  <!-- #9E9E9E -->
     </style>
 
     <!-- Splash Screen Teması (Eski API'ler İçin Uyumluluk) -->

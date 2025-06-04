@@ -6,11 +6,13 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -132,8 +134,21 @@ public class SplashActivity extends AppCompatActivity {
 
 
     private void proceedToMainActivity() {
-        startActivity(new Intent(this, MainActivity.class));
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String className = prefs.getString("boot_class", null); // kullanıcı daha önce bir şey seçti mi?
 
+        Class<?> activityClass = MainActivity.class; // varsayılan
+
+        if (className != null) {
+            try {
+                activityClass = Class.forName(className);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException("ERROR_BOOTCLASS_NOT_FOUND");
+            }
+        }
+
+        startActivity(new Intent(this, activityClass));
         finish();
     }
+
 }

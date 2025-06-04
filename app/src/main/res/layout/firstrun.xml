@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="@color/dark_background">
+    android:background="?attr/android:colorBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:text="Merhaba!"
             android:textSize="24sp"
-            android:textColor="@color/accent_color"
+            android:textColor="?attr/colorPrimary"
             android:textStyle="bold"
             android:gravity="center"
             android:layout_marginTop="24dp" />
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:text="KaplanDrive'a hoşgeldiniz. Hızlı başlamak için otomatik ayar yapabilir veya gizlilik politikamızı okuyabilirsiniz."
             android:textSize="16sp"
-            android:textColor="@android:color/white"
+            android:textColor="?attr/colorOnBackground"
             android:gravity="center"
             android:layout_marginTop="16dp" />
 
@@ -48,9 +48,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            app:cardBackgroundColor="@color/dark_surface"
+            app:cardBackgroundColor="?attr/colorSurface"
             app:cardCornerRadius="12dp"
-            app:strokeColor="@color/accent_color"
+            app:strokeColor="?attr/colorPrimary"
             app:strokeWidth="1dp">
 
             <LinearLayout
@@ -63,7 +63,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Gizlilik Politikası Özeti"
-                    android:textColor="@color/accent_color"
+                    android:textColor="?attr/colorPrimary"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -71,7 +71,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="• Hiçbir veriniz kaydedilmez\n• Tüm işlemler cihazınızda kalır\n• Açık kaynak kodlu"
-                    android:textColor="@android:color/white"
+                    android:textColor="?attr/colorOnSurface"
                     android:textSize="14sp"
                     android:layout_marginTop="8dp" />
 
@@ -82,9 +82,9 @@
                     android:text="Detaylı İncele"
                     android:layout_marginTop="16dp"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:textColor="@color/accent_color"
+                    android:textColor="?attr/colorPrimary"
                     app:icon="@drawable/info_24px"
-                    app:iconTint="@color/accent_color" />
+                    app:iconTint="?attr/colorPrimary" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -96,10 +96,9 @@
             android:text="GitHub'da Kaynak Kodunu Görüntüle"
             android:layout_marginTop="16dp"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:textColor="@color/accent_color"
-            app:strokeColor="@color/accent_color"
-
-            app:iconTint="@color/accent_color" />
+            android:textColor="?attr/colorPrimary"
+            app:strokeColor="?attr/colorPrimary"
+            app:iconTint="?attr/colorPrimary" />
 
         <!-- Otomatik Ayarlar Butonu -->
         <com.google.android.material.button.MaterialButton
@@ -110,8 +109,8 @@
             android:layout_marginTop="32dp"
             android:textSize="16sp"
             app:icon="@drawable/ic_file"
-            app:backgroundTint="@color/accent_color"
-            android:textColor="@android:color/white"
+            app:backgroundTint="?attr/colorPrimary"
+            android:textColor="?attr/colorOnPrimary"
             app:cornerRadius="8dp"
             android:elevation="4dp"
             android:paddingVertical="14dp" />
@@ -124,16 +123,16 @@
             android:text="Ayarları kendim yapılandıracağım"
             android:layout_marginTop="16dp"
             style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:textColor="@color/accent_color"
+            android:textColor="?attr/colorPrimary"
             app:icon="@drawable/settings"
-            app:iconTint="@color/accent_color" />
+            app:iconTint="?attr/colorPrimary" />
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text=" Lütfen GitHub sayfasına gidip nasıl sunucu kuracağınızı öğrenin!"
             android:textSize="16sp"
-            android:textColor="@android:color/white"
+            android:textColor="?attr/colorOnBackground"
             android:gravity="center"
             android:layout_marginTop="16dp" />
 
@@ -144,11 +143,9 @@
             android:text="Sunucu dokümasyonu"
             android:layout_marginTop="16dp"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:textColor="@color/accent_color"
-            app:strokeColor="@color/accent_color"
-
-            app:iconTint="@color/accent_color" />
-
+            android:textColor="?attr/colorPrimary"
+            app:strokeColor="?attr/colorPrimary"
+            app:iconTint="?attr/colorPrimary" />
 
     </LinearLayout>
 </ScrollView>
